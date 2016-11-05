@@ -4,7 +4,7 @@ import jinja2
 
 import main
 # from main import JINJA_ENVIRONMENT as JINJA_ENVIRONMENT
-# from google.appengine.api import users
+from google.appengine.api import users
 # from datetime import datetime
 
 __author__ = 'Daria'
