@@ -1,0 +1,22 @@
+{% extends 'templates/tmmosc/base/AuthUserHeader.html' %}
+   {% block title %}Список соревнований{% endblock %}
+   {% block styles %}
+       <style>
+           body, .mdl-card__title{
+               color: #ffffff;
+           }
+           .competition-card:hover{
+               background: #64B5F6;
+           }
+       </style>
+   {% endblock %}
+   {% block menu_nav %}
+      <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title"></span>
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="/">Список соревнований</a>
+          <a class="mdl-navigation__link" href="/reg/leaderTeam">Моя команда</a>
+          <a class="mdl-navigation__link" href="/reg/leaderAddMember">Добавить участника</a>
+        </nav>
+      </div>
+   {% endblock %}

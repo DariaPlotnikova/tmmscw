@@ -16,21 +16,24 @@ class AddMembersByDays(webapp2.RequestHandler):
     Add team members to days of competition
     """
     def get(self):
-        pass
+        temp_values = {}
+        template = main.jinja_env.get_template('/tmmscw/leader/MembersToCompetition.html')
+        self.response.write(template.render(temp_values))
 
     def post(self):
-        pass
+        temp_values = {}
+        template = main.jinja_env.get_template('/tmmscw/leader/MembersToDays.html')
+        self.response.write(template.render(temp_values))
 
 
 class AddMembersByClasses(webapp2.RequestHandler):
     """
     Add team members to class for each day in competition
     """
-    def get(self):
-        pass
-
     def post(self):
-        pass
+        temp_values = {}
+        template = main.jinja_env.get_template('/tmmscw/leader/CertainCompetition.html')
+        self.response.write(template.render(temp_values))
 
 
 

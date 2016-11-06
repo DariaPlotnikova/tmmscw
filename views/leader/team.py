@@ -16,10 +16,14 @@ class Team(webapp2.RequestHandler):
     Displays and saves team of leader
     """
     def get(self):
-        pass
+        temp_values = {}
+        template = main.jinja_env.get_template('/tmmscw/leader/Team.html')
+        self.response.write(template.render(temp_values))
 
     def post(self):
-        pass
+        temp_values = {}
+        template = main.jinja_env.get_template('/tmmscw/leader/Team.html')
+        self.response.write(template.render(temp_values))
 
 
 class AddToTeam(webapp2.RequestHandler):
@@ -27,10 +31,14 @@ class AddToTeam(webapp2.RequestHandler):
     Displays and saves new or changed member to team
     """
     def get(self):
-        pass
+        temp_values = {}
+        template = main.jinja_env.get_template('/tmmscw/leader/Member.html')
+        self.response.write(template.render(temp_values))
 
     def post(self):
-        pass
+        temp_values = {}
+        template = main.jinja_env.get_template('/tmmscw/leader/Team.html')
+        self.response.write(template.render(temp_values))
 
 
 

@@ -1,0 +1,15 @@
+{% extends 'templates/tmmosc/base/AuthUserHeader.html' %}
+   {% block title %}{{ name }}{% endblock %}
+   {% block menu_nav %}
+      <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title"></span>
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="/">Список соревнований</a>
+          <a class="mdl-navigation__link" href="/reg/leaderTeam">Моя команда</a>
+          <a class="mdl-navigation__link" href="/reg/leaderAddMember">Добавить участника</a>
+        </nav>
+      </div>
+   {% endblock %}
+   {% block main_content %}
+      {% include "/templates/tmmosc/base/CompetitionContent.html" %}    {# also includes blocks STYLES and SCRIPTS #}
+   {% endblock %}
