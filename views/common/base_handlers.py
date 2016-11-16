@@ -1,11 +1,8 @@
-import os
 import webapp2
-import jinja2
+from webapp2_extras import sessions
 
 import main
-# from main import JINJA_ENVIRONMENT as JINJA_ENVIRONMENT
-from google.appengine.api import users
-# from datetime import datetime
+
 
 __author__ = 'Daria'
 
@@ -16,3 +13,17 @@ class Test(webapp2.RequestHandler):
         temp_values = {}
         template = main.jinja_env.get_template('/tmmscw/test.html')
         self.response.write(template.render(temp_values))
+
+
+class BaseHandler(webapp2.RequestHandler):
+
+    def dispatch(self):
+        self.session_store = sessions.get_store(request=self.request)
+        try:
+            webapp2.RequestHandler.dispatch(self)
+        finally:
+            self.session_store.save_sessions(self.response)
+
+    @webapp2.cached_property
+    def session(self):
+        return self.session_store.get_session()
