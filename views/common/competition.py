@@ -12,6 +12,7 @@ from views.utils import info_from_db, diz_from_db, membs_from_db, format_date, f
     format_date_list
 from models.competition import MemInfo, DistInfo, Competition, Distance, Info, CompMemb
 
+
 __author__ = 'Daria'
 
 

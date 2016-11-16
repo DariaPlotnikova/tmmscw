@@ -18,6 +18,7 @@ import os
 import webapp2
 import jinja2
 from views import test
+from views.common import roles
 from views.common import competition as com_competition, members
 from views.leader import competition as lead_competition, team
 from views.organizer import competition as org_competition, lists
@@ -43,6 +44,8 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/', com_competition.Competitions, name='comps'),
     webapp2.Route('/competition/(comp_id:\d+)', com_competition.CertainCompetition, name='comp'),
     webapp2.Route('/members', members.MemberList, name='members'),
+    webapp2.Route('/postSignIn', roles.PostSignIn, name='post-singin'),
+    webapp2.Route('/reg/nullToRole', roles.BeforeSignOut, name='before-singout'),
     # leader routes
     webapp2.Route('/reg/lead/add_day', lead_competition.AddMembersByDays, name='add-by-day'),
     webapp2.Route('/reg/lead/add_class', lead_competition.AddMembersByClasses, name='add-by-class'),

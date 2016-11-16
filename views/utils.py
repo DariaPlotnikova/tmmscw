@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import hashlib
 from google.appengine.api import users
 from datetime import date, datetime
 from google.appengine.ext import db
@@ -9,6 +10,14 @@ from models.visitor import Organizer, Leader, Member
 
 
 __author__ = 'Daria'
+
+
+def salt_pass(paswd):
+    """Salts user's password"""
+    md = hashlib.md5()
+    md.update(paswd)
+    md.update('dado')       # This is salt
+    return md.hexdigest()
 
 
 def show_unauth_page(self):
@@ -274,12 +283,6 @@ def membs_from_db(comp):
         members_by_day.append(membs_of_day)
     temp_values = {'membs_by_days': members_by_day, 'membs_count': membs_count}
     return temp_values
-
-
-
-
-
-
 
 
 def find_user(keyword):
