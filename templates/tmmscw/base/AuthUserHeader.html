@@ -44,15 +44,15 @@
         <span class="mdl-layout-title"></span>
         <nav class="mdl-navigation">
           <a class="mdl-navigation__link" href="/">Список соревнований</a>
-          <a class="mdl-navigation__link" href="/reg/newCompetition">Новое соревнование</a>
-          <a class="mdl-navigation__link" href="/reg/memberList">Список участников</a>
-          <a class="mdl-navigation__link" href="/reg/leaderList">Список руководителей</a>
-          <a class="mdl-navigation__link" href="/reg/organizerList">Список организаторов</a>
+          <a class="mdl-navigation__link" href="/reg/org/fill_info">Новое соревнование</a>
+          <a class="mdl-navigation__link" href="/reg/org/list/?kind=member">Список участников</a>
+          <a class="mdl-navigation__link" href="/reg/org/list/?kind=leader">Список руководителей</a>
+          <a class="mdl-navigation__link" href="/reg/org/list/?kind=organizer">Список организаторов</a>
         </nav>
       </div>
     {% endblock %}
     {% block main_content %}            {# Default content is competition list #}
-        <main class="mdl-layout__content">
+            <main class="mdl-layout__content">
             <div class="page-content">
             <h1>{{ test }}</h1>
               <div style="height: 20px;"></div>

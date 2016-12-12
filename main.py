@@ -34,6 +34,12 @@ config = dict()
 config['webapp2_extras.sessions'] = {
     'secret_key': 'dadodorototo',
 }
+config['webapp2_extras.jinja2'] = {
+    'template_path': 'templates',
+    'globals': {
+        'url': webapp2.uri_for,
+    },
+}
 
 
 app = webapp2.WSGIApplication([

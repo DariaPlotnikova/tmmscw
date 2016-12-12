@@ -1,5 +1,5 @@
-{% extends 'templates/tmmosc/base/AuthUserHeader.html' %}
-   {% block title %}Список соревнований{% endblock %}
+{% extends '/tmmscw/base/AuthUserHeader.html' %}
+{% block title %}Список соревнований{% endblock %}
    {% block styles %}
       <style>
            body, .mdl-card__title{
@@ -32,7 +32,22 @@
                text-align: center;
            }
       </style>
-   {% endblock %}
+
+
+
+
+    <link rel="stylesheet" href="static/css/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="static/css/materialIcons.css">
+    <link rel="stylesheet" href="static/css/material.min.css">
+    <link rel="stylesheet" href="static/css/BaseStyle.css">
+
+    <script src="static/js/jquery.min.js"></script>
+    <script type = "text/javascript" src="static/js/material.min.js"></script>
+    <script type = "text/javascript" src="static/js/ajax.js"></script>
+    {% endblock %}
+
+
+
    {% block scripts %}
         <script type="application/javascript" src="static/js/toAddCometition.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
