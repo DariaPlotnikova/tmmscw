@@ -1,0 +1,22 @@
+/**
+* @version   $Id: template-webkit.css 1058 2012-06-01 15:28:45Z kevin $
+* @author    RocketTheme http://www.rockettheme.com
+* @copyright Copyright (C) 2007 - 2013 RocketTheme, LLC
+* @license   http://www.rockettheme.com/legal/license.php RocketTheme Proprietary Use License
+*/
+
+/* Core */
+body, h1, h2, h3, h4, h5 {-webkit-text-rendering: optimizeLegibility;}
+
+/* Transitions */
+
+/* Additional Fixes */
+input:-webkit-autofill {background-color: transparent !important;}
+
+/* Transitions */
+a {-webkit-transition: color 0.1s ease-in;}
+.menutop a {-webkit-transition: none;}
+.horizmenu ul.menu li a, .horizmenu ul.menu li .item, .horizmenu ul.menu li .separator {-webkit-transition: background-color 0.1s ease-out;}
+.sprocket-tabs-nav li {-webkit-transition: background-color 0.1s ease-out, color 0.1s ease-out;}
+#rt-transition.rt-hidden {opacity: 0;}
+#rt-transition.rt-visible {opacity: 1;-webkit-transition: opacity 0.4s ease-in;}
