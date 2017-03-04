@@ -46,6 +46,7 @@ app = webapp2.WSGIApplication([
     # development routes
     webapp2.Route('/db', test.Db, name='test-db'),
     webapp2.Route('/test', test.Test, name='test'),
+    webapp2.Route('/layout', test.Layout, name='layout'),
     # common routes
     webapp2.Route('/', com_competition.Competitions, name='comps'),
     webapp2.Route('/competition/(comp_id:\d+)', com_competition.CertainCompetition, name='comp'),
