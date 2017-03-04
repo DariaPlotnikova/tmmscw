@@ -29,8 +29,643 @@
     <script src="static/css/layout/rt_fresco_responsive/js/gantry-topop.js"></script>
     <script src="static/css/layout/rt_fresco_responsive/js/load-transition.js"></script>
 
+    <script type="text/javascript">
+        if (typeof RokBoxSettings == 'undefined') RokBoxSettings = {pc: '100'};
+            window.addEvent('domready', function() {
+                new Fusion('ul.menutop', {
+                    effect: 'slide and fade',
+                    opacity:  1,
+                    hideDelay:  500,
+                    centered:  0,
+                    tweakInitial: {'x': -9, 'y': -12},
+                    tweakSubsequent: {'x':  -8, 'y':  -11},
+                    tweakSizes: {'width': 18, 'height': 20},
+                    menuFx: {duration:  300, transition: Fx.Transitions.Circ.easeOut}
+                });
+            });
+
+
+        window.addEvent('domready', function(){
+            document.getElements('[data-rt-menu-mobile]').addEvent('change', function(){
+                window.location.href = this.value;
+            });
+        });
+
+
+        window.addEvent((window.webkit) ? 'load' : 'domready', function() {
+            window.rokajaxsearch = new RokAjaxSearch({
+                'results': 'Results',
+                'close': '',
+                'websearch': 0,
+                'blogsearch': 0,
+                'imagesearch': 0,
+                'videosearch': 0,
+                'imagesize': 'MEDIUM',
+                'safesearch': 'MODERATE',
+                'search': 'Search...',
+                'readmore': 'Read more...',
+                'noresults': 'No results',
+                'advsearch': 'Advanced search',
+                'page': 'Page',
+                'page_of': 'of',
+                'searchlink': 'http://orient.sphere-software.org/index.php?option=com_search&amp;view=search&amp;tmpl=component',
+                'advsearchlink': 'http://orient.sphere-software.org/index.php?option=com_search&amp;view=search',
+                'uribase': 'http://orient.sphere-software.org/',
+                'limit': '10',
+                'perpage': '3',
+                'ordering': 'newest',
+                'phrase': 'any',
+                'hidedivs': '',
+                'includelink': 1,
+                'viewall': 'View all results',
+                'estimated': 'estimated',
+                'showestimated': 1,
+                'showpagination': 1,
+                'showcategory': 1,
+                'showreadmore': 1,
+                'showdescription': 1
+            });
+        });
+        jQuery(function($){ $(".hasTooltip").tooltip({"html": true,"container": "body"}); });
+    </script>
 </head>
-<body>
-    <h1>LOLOLO</h1>
-</body>
+
+	<body  class="mainstyle-community-a backgroundlevel-high font-family-trebuchet font-size-is-default logo-type-fresco menu-type-fusionmenu layout-mode-responsive typography-style-light col12 option-com-content menu-home " id="orient-nsk">
+		<div id="rt-page-surround">
+			<div class="main-bg">
+				<div class="rt-container">
+																				<div id="rt-navigation">
+
+<div class="rt-grid-12 rt-alpha rt-omega">
+    <div class="rt-menubar fusionmenu">
+    <ul class="menutop level1 " >
+                        <li class="item232 root" >
+                            <a class="orphan item bullet" href="/"  >
+                        <span>
+                                <span>
+                                        Главная                                                            </span>
+
+                                </span>
+                                </a>
+
+                    </li>
+                                <li class="item233 parent root" >
+                            <a class="daddy item bullet" href="/competitions"  >
+                        <span>
+                                <span>
+                                        Соревнования                                                            <span class="daddyicon"></span>
+                                        </span>
+
+                                </span>
+                                </a>
+
+                                                <div class="fusion-submenu-wrapper level2 " style="width:180px;">
+                                                <ul class="level2" style="width:180px;">
+                                                                                                        <li class="item234" >
+                            <a class="orphan item bullet" href="/competitions/announcement"  >
+                                <span>
+                                        Анонсы                                                            </span>
+
+                                </a>
+
+                    </li>
+                                                                                                                                                <li class="item235" >
+                            <a class="orphan item bullet" href="/competitions/results"  >
+                                <span>
+                                        Результаты                                                            </span>
+
+                                </a>
+
+                    </li>
+                                                                                                                                                <li class="item246" >
+                            <a class="orphan item bullet" href="/competitions/maps-and-routes"  >
+                                <span>
+                                        Карты и пути                                                            </span>
+
+                                </a>
+
+                    </li>
+                                                                                                                                                <li class="item272" >
+                            <a class="orphan item bullet" href="/competitions/reports"  >
+                                <span>
+                                        Отчёты                                                            </span>
+
+                                </a>
+
+                    </li>
+                                                                                            </ul>
+                                                <div class="drop-bot"></div>
+                    </div>
+                                    </li>
+                                <li class="item277 parent root" >
+                            <a class="daddy item bullet" href="/trainings"  >
+                        <span>
+                                <span>
+                                        Тренировки                                                            <span class="daddyicon"></span>
+                                        </span>
+
+                                </span>
+                                </a>
+
+                                                <div class="fusion-submenu-wrapper level2 " style="width:180px;">
+                                                <ul class="level2" style="width:180px;">
+                                                                                                        <li class="item278" >
+                            <a class="orphan item bullet" href="/trainings/sections"  >
+                                <span>
+                                        Спортивные секции                                                            </span>
+
+                                </a>
+
+                    </li>
+                                                                                                                                                <li class="item288" >
+                            <a class="orphan item bullet" href="/trainings/open"  >
+                                <span>
+                                        Открытые тренировки                                                            </span>
+
+                                </a>
+
+                    </li>
+                                                                                            </ul>
+                                                <div class="drop-bot"></div>
+                    </div>
+                                    </li>
+                                <li class="item268 parent root" >
+                            <a class="daddy item bullet" href="/articles"  >
+                        <span>
+                                <span>
+                                        Статьи                                                            <span class="daddyicon"></span>
+                                        </span>
+
+                                </span>
+                                </a>
+
+                                                <div class="fusion-submenu-wrapper level2 " style="width:180px;">
+                                                <ul class="level2" style="width:180px;">
+                                                                                                        <li class="item273" >
+                            <a class="orphan item bullet" href="/articles/novice"  >
+                                <span>
+                                        Новичкам                                                            </span>
+
+                                </a>
+
+                    </li>
+                                                                                                                                                <li class="item286" >
+                            <a class="orphan item bullet" href="/articles/advanced"  >
+                                <span>
+                                        Продолжающим                                                            </span>
+
+                                </a>
+
+                    </li>
+                                                                                                                                                <li class="item274" >
+                            <a class="orphan item bullet" href="/articles/press"  >
+                                <span>
+                                        Пресса о нас                                                            </span>
+
+                                </a>
+
+                    </li>
+                                                                                            </ul>
+                                                <div class="drop-bot"></div>
+                    </div>
+                                    </li>
+                                <li class="item244 parent root" >
+                            <a class="daddy item bullet" href="/clubs"  >
+                        <span>
+                                <span>
+                                        Клубы                                                            <span class="daddyicon"></span>
+                                        </span>
+
+                                </span>
+                                </a>
+
+                                                <div class="fusion-submenu-wrapper level2 " style="width:180px;">
+                                                <ul class="level2" style="width:180px;">
+                                                                                                        <li class="item281" >
+                            <a class="orphan item bullet" href="/clubs/orient-nsk"  >
+                                <span>
+                                        Секция СО Академгородка                                                            </span>
+
+                                </a>
+
+                    </li>
+                                                                                                                                                <li class="item282" >
+                            <a class="orphan item bullet" href="/clubs/ci-team"  >
+                                <span>
+                                        Creatiff Inside Team                                                            </span>
+
+                                </a>
+
+                    </li>
+                                                                                            </ul>
+                                                <div class="drop-bot"></div>
+                    </div>
+                                    </li>
+                                <li class="item258 root" >
+                            <a class="orphan item bullet" href="/guestbook"  >
+                        <span>
+                                <span>
+                                        Гостевая                                                            </span>
+
+                                </span>
+                                </a>
+
+                    </li>
+                                <li class="item238 root profile" >
+                            <a class="orphan item bullet" href="/login"  >
+                        <span>
+                                <span>
+                                        Войти                                                            </span>
+
+                                </span>
+                                </a>
+
+                    </li>
+                    </ul>
+</div><div class="rt-menu-mobile">
+    <select data-rt-menu-mobile>
+                                    <option value="/"> Главная</option>
+
+                                                                <option value="/competitions"> Соревнования</option>
+
+                                <option value="/competitions/announcement">&mdash; Анонсы</option>
+
+                                                <option value="/competitions/results">&mdash; Результаты</option>
+
+                                                <option value="/competitions/maps-and-routes">&mdash; Карты и пути</option>
+
+                                                <option value="/competitions/reports">&mdash; Отчёты</option>
+
+                                                                                <option value="/trainings"> Тренировки</option>
+
+                                <option value="/trainings/sections">&mdash; Спортивные секции</option>
+
+                                                <option value="/trainings/open">&mdash; Открытые тренировки</option>
+
+                                                                                <option value="/articles"> Статьи</option>
+
+                                <option value="/articles/novice">&mdash; Новичкам</option>
+
+                                                <option value="/articles/advanced">&mdash; Продолжающим</option>
+
+                                                <option value="/articles/press">&mdash; Пресса о нас</option>
+
+                                                                                <option value="/clubs"> Клубы</option>
+
+                                <option value="/clubs/orient-nsk">&mdash; Секция СО Академгородка</option>
+
+                                                <option value="/clubs/ci-team">&mdash; Creatiff Inside Team</option>
+
+                                                                                <option value="/guestbook"> Гостевая</option>
+
+                                                                <option value="/login"> Войти</option>
+
+                                        </select>
+</div>
+</div>
+						<div class="clear"></div>
+					</div>
+															<div id="rt-header" class="rt-transparent-bg">
+						<div class="rt-grid-12 rt-alpha rt-omega">
+
+
+<div class="custom hidden-phone"  >
+	<div class="orient-logo-wrapper">
+<div class="orient-logo">&nbsp;</div>
+</div></div>
+
+</div>
+						<div class="clear"></div>
+					</div>
+										<div id="rt-transition" class="rt-hidden">
+																														<div id="rt-maintop">
+							<div class="rt-grid-9 rt-alpha">
+    		        <div class="moduleblock breadcrumbs">
+
+<ul itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb breadcrumbs">
+
+				<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="active">
+				<span itemprop="name">
+					Главная				</span>
+				<meta itemprop="position" content="1">
+			</li>
+		</ul>
+		        </div>
+
+</div>
+<div class="rt-grid-3 rt-omega">
+    		        <div class="moduleblock-search hidden-phone">
+        			<form name="rokajaxsearch" id="rokajaxsearch" class="light" action="http://orient.sphere-software.org/" method="get">
+<div class="rokajaxsearch -search hidden-phone">
+	<div class="roksearch-wrapper">
+		<input id="roksearch_search_str" name="searchword" type="text" class="inputbox roksearch_search_str" placeholder="Search..." />
+	</div>
+	<input type="hidden" name="searchphrase" value="any"/>
+	<input type="hidden" name="limit" value="20" />
+	<input type="hidden" name="ordering" value="newest" />
+	<input type="hidden" name="view" value="search" />
+	<input type="hidden" name="option" value="com_search" />
+
+
+	<div id="roksearch_results"></div>
+</div>
+<div id="rokajaxsearch_tmp" style="visibility:hidden;display:none;"></div>
+</form>
+		        </div>
+
+</div>
+							<div class="clear"></div>
+						</div>
+
+<div id="rt-main" class="mb9-sa3">
+	<div class="rt-container">
+		<div class="rt-grid-9">
+									<div class="rt-block component-block">
+				<div class="component-content">
+					<div class="blog-featured">
+	<div class="custom-header" >
+		<span class="custom-header-text">
+		Спортивное ориентирование в Новосибирске		</span>
+	</div>
+
+<div class="items-leading">
+			<div class="leading-0">
+
+
+<div class="custom-subheader">
+	<h2>
+					<a href="/clubs/orient-nsk/19-19-fevralya-otkrytye-sorevnovaniya-pamyati-a-i-kononova">
+			19 февраля — Открытые соревнования памяти А. И. Кононова</a>
+			</h2>
+
+
+
+
+
+ <dl class="article-info blog-layout">
+    <dt class="article-info-term">Подробности</dt>
+        <dd class="published">03 марта 2017</dd>
+
+    	<dd class="createdby">
+
+							                Секция СО Академгородка				</dd>
+
+
+            <dd class="category-name">
+										<a href="/clubs/orient-nsk">Секция спортивного ориентирования Академгородка</a>                </dd>
+
+
+ </dl>
+
+ </div>
+
+<h1>Открытые соревнования по спортивному ориентированию, посвященные памяти Героя России подполковника А. И. Кононова</h1>
+<h2>11-й этап Кубка «NSki-O-Tour-2017»</h2>
+<p>Соревнования проводятся на л/б им. А.Тульского (ул. Ионосферная, 3). Группы МЖ14, МЖ17, МЖ21, МЖ45 и М60 соревнуются на дистанции лыжная гонка-классика-общий старт; открытая группа и Дети соревнуются на дистанции по выбору.</p>
+<p>Регистрация участников с 10:00 до 10:40. Открытие соревнований в 11:00. Старт по группам с 11:20.</p>
+<p>Вас ждут интересные дистанции на качественной лыжной сетке. После финиша - полевая кухня. Приглашено телевидение. Награждение ценными призами и закрытие соревнований в 13:30.</p>
+<p>Приглашаем участников из других городов!</p>
+<p><img style="vertical-align: middle;" src="http://orient.nsk.ru/2017/02/kononov_a_i.jpg" /></p>
+
+
+<div class="item-separator"></div>
+		</div>
+					<div class="leading-1">
+
+
+<div class="custom-subheader">
+	<h2>
+					<a href="/clubs/orient-nsk/7-school-section">
+			Секция спортивного ориентирования Академгородка</a>
+			</h2>
+
+
+
+
+
+ <dl class="article-info blog-layout">
+    <dt class="article-info-term">Подробности</dt>
+        <dd class="published">11 ноября 2016</dd>
+
+    	<dd class="createdby">
+
+							                Артем Павлов				</dd>
+
+    <dd class="tags">
+        		            																<a href="/trainings/sections" class="label label-info">
+						Спортивные секции					</a>
+            					    </dd>
+
+            <dd class="category-name">
+										<a href="/clubs/orient-nsk">Секция спортивного ориентирования Академгородка</a>                </dd>
+
+
+ </dl>
+
+ </div>
+
+<p>Набор школьников в ведущую секцию спортивного ориентирования Академгородка</p>
+<p>Проводится набор школьников 8-14 лет в детские секции спортивного ориентирования при Центре Детского Творчества Советского района, Гимназии №6 и при Детском Центре Туризма &laquo;Юность&raquo; г. Бердска. Спортивное ориентирование &mdash; это 3-й по массовости вид спорта в мире после бега и бега на лыжах.</p>
+<p>Занятия в секции &mdash; это :</p>
+<ul>
+<li>Дружный коллектив.</li>
+<li>Общая физическая подготовка.</li>
+<li>Лыжные тренировки зимой и беговые летом, футбол круглый год, велосипед, отдельные занятия в гимнастическом зале зимой.</li>
+<li>Круглогодичная возможность достойно состязаться со сверстниками за медали на соревнованиях.</li>
+<li>Обучающие и развивающие игры на тренировку мышления, памяти и внимания.</li>
+<li>Участие в походах на природу и других культурно-массовых мероприятиях секции.</li>
+</ul>
+<p>Приглашаем на тренировки всех желающих !!! Все тренировки бесплатны.</p>
+
+
+<div class="item-separator"></div>
+		</div>
+					<div class="leading-2">
+
+
+<div class="custom-subheader">
+	<h2>
+					<a href="/clubs/orient-nsk/6-novosibirskij-marafon-2009">
+			«Новосибирский марафон 2009»</a>
+			</h2>
+
+
+
+
+
+ <dl class="article-info blog-layout">
+    <dt class="article-info-term">Подробности</dt>
+        <dd class="published">29 сентября 2009</dd>
+
+    	<dd class="createdby">
+
+							                Администратор				</dd>
+
+    <dd class="tags">
+        		            																<a href="/competitions/reports" class="label label-info">
+						Отчёты					</a>
+            					    </dd>
+
+            <dd class="category-name">
+										<a href="/clubs/orient-nsk">Секция спортивного ориентирования Академгородка</a>                </dd>
+
+
+ </dl>
+
+ </div>
+
+<p>Григорий:</p>
+<p>Пока все отсыхают после сегодняшних бегов, отмечу — насколько погода улучшилась со вчерашнего! Вряд-ли из двух часов выбежали сегодняшнюю дистанцию, если с дождем (я много вариантов напрямую через овраги выбирал)... Перегон в середине 2-го круга: КП46-47, время 1:34:41-1:42:22, скорость 5мин\км... в середине перегона почти асфальтовая (укатанный гравий) дорога разделилась, и правым рукавом завернула в овраг (овраг по форме, не по содержанию), дистанция в основном весьма беговая, приходится много вламывать, а тут — пологий спуск до самого моря — хорошо, можно отдохнуть, воздух осенний свежий, дышать легко; возникает ощущение, что бегу в искусственном парке, хотя лес вокруг точно обычный, странно... так, вот наверху оврага замок стоит, ничего так, и дорога к нему симпатично поднимается, но это не то... а, вот сосны в два раза выше! как в туннель попал... хотя света по центру много. Спускаюсь точно на юг, солнце так лупит, что загорать можно, все листья насквозь просвечены, желто-красные гирлянды, ярче нашей маркировки... ага, ясно, почему сосны такие, это не мутация, а оптический обман — склон оврага высокий и крутой, вот верхушки в небо и дотянулись... так, все блестит впереди — это уже море, где-там КП на карте?.. перед пляжем нарисована небольшая застроенная территория, подбегаю — это площадка для отдыха! Блин, вот бы здесь финиш сделать! Шикарный залив, все залито солнцем, бархатный сезон, но пляж пуст... площадка симпатичная — оформлена камнем под старинную крепость, кусок форта обращен бойницами к морю, от него лестница спускается к оврагу, там мостик... увлекся, побежал по нему, а он идет на другую сторону оврага и дальше лестница куда-то наверх, посмотрел на карту — мне не туда, нужно на пляж — немного вернулся и побежал по песку к воде — там проход на соседний пляж... на этом пляже вновь засмотрелся на пейзаж и не сразу заметил, что бежать надо выше по склону, на втором уровне тянется площадка, от которой несколько лестниц с фонарями поднимаются от пляжа в лес... беру КП и оставшиеся 20 мин дистанции прикидываю, хватит ли у меня сил после финиша с фотиком сюда вернуться и запечатлеть увиденное... Силы вроде остались, но нужно было помочь снять дистанцию, а потом осталось только ПОЖРАТЬ! и ПОСПАТЬ! :)</p>
+<div class="jcomments-links"> <a class="comments-link" href="/clubs/orient-nsk/6-novosibirskij-marafon-2009#comments" title="1 комментарий">1 комментарий</a> </div>
+
+
+
+<div class="item-separator"></div>
+		</div>
+					<div class="leading-3">
+
+
+<div class="custom-subheader">
+	<h2>
+					<a href="/clubs/orient-nsk/1-lignaya-estafeta">
+			29 марта 2014 — Лыжная семейная эстафета</a>
+			</h2>
+
+
+
+
+
+ <dl class="article-info blog-layout">
+    <dt class="article-info-term">Подробности</dt>
+        <dd class="published">11 апреля 2014</dd>
+
+    	<dd class="createdby">
+
+							                Администратор				</dd>
+
+    <dd class="tags">
+        		            																<a href="/competitions/announcement" class="label label-info">
+						Анонсы					</a>
+            					             ,																<a href="/competitions/results" class="label label-info">
+						Результаты					</a>
+            					    </dd>
+
+            <dd class="category-name">
+										<a href="/clubs/orient-nsk">Секция спортивного ориентирования Академгородка</a>                </dd>
+
+
+ </dl>
+
+ </div>
+
+<p>29 марта 2014 г. Лыжная семейная эстафета на Первенство Советского района</p>
+<p>Размещение на л/б им. А. Тульского, регистрация с 11:00 до 11:40. Старт в 12:00.</p>
+<p>1-й этап, дистанцию 2 км, бегут папы и другие родственники;</p>
+<p>2-й этап, дистанцию 1 км, бегут мамы, тёти, бабушки и т.д.</p>
+<p>3-й этап, для детей младше 6 лет - дистанция 500 м; с 7 до 12 лет - 1 км.</p>
+<p>Также в программе чаепитие&nbsp;и весёлые конкурсы. Приглашаются все желающие.</p>
+<ul>
+<li><a href="/images/all/2014/03/20140329res.htm" target="_blank">Результаты</a></li>
+</ul>
+
+
+<div class="item-separator"></div>
+		</div>
+			</div>
+
+
+
+</div>
+
+				</div>
+				<div class="clear"></div>
+			</div>
+								</div>
+
+        <div class="rt-grid-3 sidebar-right">
+            <div id="rt-sidebar-a">
+                                <div class="moduleblock-cup">
+                    <div class="rt-block">
+            	<div class="module-surround">
+            														<div class="module-title">
+							<h2 class="title">Кубок</h2>
+						</div>
+		                		            					<div class="module-content">
+
+
+<div class="custom-cup"  >
+	<ul class="orient-list">
+<li><a href="#">Ski-O-Tour 2017</a></li>
+<li><a href="#">Run-O-Tour 2017</a></li>
+<li><a href="#">MTB-O-Tour 2017</a></li>
+</ul>
+<p class="cup-archive"><a href="#">Архив</a></p></div>
+						<div class="clear"></div>
+					</div>
+				</div>
+            </div>
+                </div>
+			                <div class="moduleblock-old">
+                    <div class="rt-block">
+            	<div class="module-surround">
+            														<div class="module-title">
+							<h2 class="title">Старый сайт</h2>
+						</div>
+		                		            					<div class="module-content">
+
+
+<div class="custom-old"  >
+	<p style="padding-left: 30px;"><a href="http://old.orient.nsk.ru/news.php" target="_blank">Новости</a><br /> <a href="http://old.orient.nsk.ru/poleznovsem.php" target="_blank">Новичкам </a><br /> <a href="http://old.orient.nsk.ru/junior.php" target="_blank">Школьная секция</a><br /> <a href="http://old.orient.nsk.ru/sorevnovaniya.php" target="_blank">Календарь</a><br /> <a href="http://old.orient.nsk.ru/competition.php" target="_blank">Результаты</a><br /> <a href="http://old.orient.nsk.ru/routegadget.php" target="_blank">Карты и Пути</a><br /> <a href="http://old.orient.nsk.ru/photo.php" target="_blank">Фото</a> / <a href="http://old.orient.nsk.ru/video.php" target="_blank">Видео</a><br /> <a href="http://old.orient.nsk.ru/publications.php" target="_blank">Статьи и Отчёты</a><br /> <a href="http://old.orient.nsk.ru/tren.php" target="_blank">Тренировки</a><br /> <a href="http://old.orient.nsk.ru/contacts.php" target="_blank">Контакты</a><br /> <a href="http://old.orient.nsk.ru/humour/humour.php" target="_blank">Юмор и Лирика</a><br /> <a href="http://old.orient.nsk.ru/links.php" target="_blank">О-Сайты</a><br /> <a href="http://old.orient.nsk.ru/transport.php" target="_blank">Транспорт</a><br /> <a href="http://old.orient.nsk.ru/gbk.php" target="_blank">Гостевая книга</a></p></div>
+						<div class="clear"></div>
+					</div>
+				</div>
+            </div>
+                </div>
+			                <div class="moduleblock-vk">
+                    <div class="rt-block">
+            	<div class="module-surround">
+            										            					<div class="module-content">
+
+
+<div class="custom-vk"  >
+	<div id="vk_groups">&nbsp;</div></div>
+						<div class="clear"></div>
+					</div>
+				</div>
+            </div>
+                </div>
+
+            </div>
+        </div>
+
+    		<div class="clear"></div>
+	</div>
+</div>
+																							</div>
+									</div>
+			</div>
+			<div class="rt-footer-surround">
+				<div class="rt-container">
+					<div class="rt-footer-inner">
+																		<div id="rt-copyright">
+							<div class="rt-grid-9 rt-alpha">
+    	    <div class="rt-block">
+			<span class="copytext">&copy; 2016 Федерация Спортивного Ориентирования Новосибирской Области</span>
+		</div>
+
+</div>
+<div class="rt-grid-3 rt-omega">
+    		<a href="#" class="rt-totop"></a>
+
+</div>
+							<div class="clear"></div>
+						</div>
+											</div>
+				</div>
+			</div>
+					</div>
+
+                <script type="text/javascript" src="//vk.com/js/api/openapi.js?117"></script>
+        <script type="text/javascript">VK.Widgets.Group("vk_groups", {mode: 2, width: "auto", height: "470"}, 31587700);</script>
+	</body>
 </html>
