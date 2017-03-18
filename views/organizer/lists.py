@@ -21,7 +21,7 @@ class AllEntries(webapp2.RequestHandler):
             template = main.jinja_env.get_template('/tmmscw/organizer/OrganizerList.html')
             self.response.write(template.render(temp_values))
 
-    def post(self):     # TODO create handler as kanban in Brama (if kind='')
+    def post(self):
         temp_values = {}
         if True:
             template = main.jinja_env.get_template('/tmmscw/organizer/MemberList.html')

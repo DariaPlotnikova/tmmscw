@@ -298,19 +298,19 @@ def create_roles_head(self, is_org, is_lead, is_memb):
     roles = []
     if is_org:
         if self.session.get('role') == 'organizer':
-            roles.append(u'<b>Организатор</b>')
+            roles.append(u'<b>ORG</b>')
         else:
-            roles.append(u'Организатор')
+            roles.append(u'ORG')
     if is_lead:
         if self.session.get('role') == 'leader':
-            roles.append(u'<b>Руководитель</b>')
+            roles.append(u'<b>LEAD</b>')
         else:
-            roles.append(u'Руководитель')
+            roles.append(u'LEAD')
     if is_memb:
         if self.session.get('role') == 'member':
-            roles.append(u'<b>Участник</b>')
+            roles.append(u'<b>MEM</b>')
         else:
-            roles.append(u'Участник')
+            roles.append(u'MEM')
     return roles
 
 
@@ -319,12 +319,12 @@ def create_roles(is_org, is_lead, is_memb):
     roles = []
     cur_role_local = 'anonim'
     if is_org:
-        roles.append(u'Организатор соревнований')
+        roles.append(u'ORG')
         cur_role_local = 'organizer'
     if is_lead:
-        roles.append(u'Руководитель команды')
+        roles.append(u'LEAD')
         cur_role_local = 'leader'
     if is_memb:
-        roles.append(u'Участник соревнований')
+        roles.append(u'MEM')
         cur_role_local = 'member'
     return [roles, cur_role_local]

@@ -70,19 +70,19 @@
                           <div class="mdl-cell--5-col"></div>
                           <div class="mdl-cell--4-col">
                             <form id="formCurRole" action="/postSignIn" method="post" name="formCurRole">
-                              {% if 'Участник соревнований' in roles %}
+                              {% if 'MEM' in roles %}
                                   <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="memb">
                                       <input type="radio" id="memb" class="mdl-radio__button" name="curRole" value="member">
                                       <span class="mdl-radio__label">Участник соревнований</span>
                                   </label>
                               {% endif %}
-                              {% if 'Руководитель команды' in roles %}
+                              {% if 'LEAD' in roles %}
                                   <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="lead">
                                       <input type="radio" id="lead" class="mdl-radio__button" name="curRole" value="leader" checked>
                                       <span class="mdl-radio__label">Руководитель команды</span>
                                   </label>
                               {% endif %}
-                              {% if 'Организатор соревнований' in roles %}
+                              {% if 'ORG' in roles %}
                                   <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="org">
                                       <input type="radio" id="org" class="mdl-radio__button" name="curRole" value="organizer" >
                                       <span class="mdl-radio__label">Организатор соревнований</span>
