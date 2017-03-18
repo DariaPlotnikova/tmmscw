@@ -10,6 +10,7 @@ import main
 from models.competition import MemInfo, DistInfo, Competition, Distance, Info
 from models.visitor import Organizer, Leader, Member, Command
 from views.utils import salt_pass
+from views.common.base_handlers import BaseHandler
 
 
 class Db(webapp2.RequestHandler):
@@ -80,3 +81,11 @@ class Test(webapp2.RequestHandler):
 
     def post(self):
         pass
+
+
+class CleanUp(BaseHandler):
+    """
+    Cleans up all session data
+    """
+    def get(self):
+        self.session['role'] = 'anonim'

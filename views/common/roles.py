@@ -31,13 +31,13 @@ class PostSignIn(BaseHandler):
                     self.session['role'] = cur_role_local
                     self.redirect('/')
             except Exception as e:                                     # If user hasn't roles in system (anonim)
+                print 'Error at roles.PostSignIn: ' + str(e)
                 self.session['role'] = 'anonim'
                 self.redirect('/')
 
     def post(self):
         """Saves current user role"""
         cur_role_local = self.request.POST.get('curRole', 'anonim')
-        print 'CRU ROLE ------ ' + cur_role_local
         self.session['role'] = cur_role_local
         self.redirect('/')
 

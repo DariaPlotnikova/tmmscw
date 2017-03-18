@@ -325,12 +325,12 @@ def create_roles(is_org, is_lead, is_memb):
     roles = []
     cur_role_local = 'anonim'
     if is_org:
-        roles.append(u'Организатор соревнований')
+        roles.append(u'ORG')
         cur_role_local = 'organizer'
     if is_lead:
-        roles.append(u'Руководитель команды')
+        roles.append(u'LEAD')
         cur_role_local = 'leader'
     if is_memb:
-        roles.append(u'Участник соревнований')
+        roles.append(u'MEM')
         cur_role_local = 'member'
     return [roles, cur_role_local]
