@@ -68,37 +68,37 @@ app = webapp2.WSGIApplication([
 
 def handle_401(request, response, exception):
     response.set_status(401)
-    temp_values = {'img_src':'../../static/img/er401.png', 'er_name':'401', 'back_redir':request.referer}
+    temp_values = {'img_src': '../../../static/img/er401.png', 'er_name': '401', 'request': request}
     response.write(jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
 
 
 def handle_403(request, response, exception):
     response.set_status(403)
-    temp_values = {'img_src':'../../static/img/er403.png', 'er_name':'403', 'back_redir':request.referer}
+    temp_values = {'img_src': '../../../static/img/er403.png', 'er_name': '403', 'request': request}
     response.write(jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
 
 
 def handle_404(request, response, exception):
     response.set_status(404)
-    temp_values = {'img_src':'../../static/img/er404.png', 'er_name':'404', 'back_redir':request.referer}
+    temp_values = {'img_src': '../../../static/img/er404.png', 'er_name': '404', 'request': request}
     response.write(jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
 
 
 def handle_405(request, response, exception):
     response.set_status(405)
-    temp_values = {'img_src':'../../static/img/er405.png', 'er_name':'405'}
+    temp_values = {'img_src': '../../../static/img/er405.png', 'er_name': '405', 'request': request}
     response.write(jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
 
 
 def handle_500(request, response, exception):
     response.set_status(500)
-    temp_values = {'img_src':'../../static/img/er500.png', 'er_name':'500', 'back_redir':request.referer}
+    temp_values = {'img_src': '../../../static/img/er500.png', 'er_name': '500', 'request': request}
     response.write(jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
 
 
 def handle_503(request, response, exception):
     response.set_status(503)
-    temp_values = {'img_src':'../../static/img/er503.png', 'er_name':'503', 'back_redir':request.referer}
+    temp_values = {'img_src': '../../../static/img/er503.png', 'er_name': '503', 'request': request}
     response.write(jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
 
 
