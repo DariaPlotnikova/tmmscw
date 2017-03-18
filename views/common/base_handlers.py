@@ -1,4 +1,5 @@
 import webapp2
+import logging
 from webapp2_extras import sessions
 
 import main
@@ -16,6 +17,19 @@ class Test(webapp2.RequestHandler):
 
 
 class BaseHandler(webapp2.RequestHandler):
+    """
+    This is the base class for views which enables
+    working with sessions and logging server errors.
+    """
+
+    def handle_exception(self, exception, debug):
+        logging.exception(exception)
+        self.response.write('An error occurred.')
+
+        if isinstance(exception, webapp2.HTTPException):
+            self.response.set_status(exception.code)
+        else:
+            self.response.set_status(500)
 
     def dispatch(self):
         self.session_store = sessions.get_store(request=self.request)

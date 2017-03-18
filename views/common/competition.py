@@ -22,51 +22,51 @@ class Competitions(BaseHandler):
     """
     def get(self):
 
-        try:
-            """Displays list of competition"""
-            loc_role = self.session.get('role', 'anonim')
-            comps = Competition.all().order('d_start')
-            comps_count = comps.count()
-            d_start = []
-            d_finish = []
-            pzs = []
-            is_open_pz = []
-            for c in comps:
-                d_start.append(str(c.d_start))
-                d_finish.append(str(c.d_finish))
-                infos_of_comp = c.info_set.run(batch_size=1000)
-                is_open = False
-                for info_of_day in infos_of_comp:
-                    is_open = is_open or (info_of_day.pz_is_open and (datetime.today().date() < info_of_day.pz_add_end))
-                is_open_pz.append(is_open)
-            d_start = format_date_list(d_start)
-            d_finish = format_date_list(d_finish)
-            user = users.get_current_user()
-            temp_values = {'comps': comps, 'c_count': comps_count, 'd_start': d_start, 'd_finish': d_finish, 'pzs': pzs,
-                           'is_open_pz': is_open_pz}
-            if not user:        # user is anonim
-                login = users.create_login_url(dest_url='/postSignIn')
-                temp_values.update({'login': login, 'is_user': False})
-                template = main.jinja_env.get_template('/tmmscw/CompetitionList.html')
-            else:
-                email = user.email()
-                [is_org, is_lead, is_memb] = find_user(email)
-                roles = create_roles_head(self, is_org, is_lead, is_memb)
-                temp_values.update({'user_email': email, 'roles': roles, 'logout': users.create_logout_url('/'),
-                                    'is_user': True})
+        #try:
+        """Displays list of competition"""
+        loc_role = self.session.get('role', 'anonim')
+        comps = Competition.all().order('d_start')
+        comps_count = comps.count()
+        d_start = []
+        d_finish = []
+        pzs = []
+        is_open_pz = []
+        for c in comps:
+            d_start.append(str(c.d_start))
+            d_finish.append(str(c.d_finish))
+            infos_of_comp = c.info_set.run(batch_size=1000)
+            is_open = False
+            for info_of_day in infos_of_comp:
+                is_open = is_open or (info_of_day.pz_is_open and (datetime.today().date() < info_of_day.pz_add_end))
+            is_open_pz.append(is_open)
+        d_start = format_date_list(d_start)
+        d_finish = format_date_list(d_finish)
+        user = users.get_current_user()
+        temp_values = {'comps': comps, 'c_count': comps_count, 'd_start': d_start, 'd_finish': d_finish, 'pzs': pzs,
+                       'is_open_pz': is_open_pz}
+        if not user:        # user is anonim
+            login = users.create_login_url(dest_url='/postSignIn')
+            temp_values.update({'login': login, 'is_user': False})
+            template = main.jinja_env.get_template('/tmmscw/CompetitionList.html')
+        else:
+            email = user.email()
+            [is_org, is_lead, is_memb] = find_user(email)
+            roles = create_roles_head(self, is_org, is_lead, is_memb)
+            temp_values.update({'user_email': email, 'roles': roles, 'logout': users.create_logout_url('/'),
+                                'is_user': True})
 
-                print 'Current local role: ' + str(loc_role)
-                if loc_role in ['organizer', 'leader', 'member']:          # show compList corresponding to user's role
-                    template_path = u'/tmmscw/%s/CompetitionList.html' % loc_role
-                    template = main.jinja_env.get_template(template_path)
-                else:         # user is anonim
-                    login = users.create_login_url(dest_url='/postSignIn')
-                    temp_values = {'login': login, 'comps': comps, 'c_count': comps_count, 'd_start': d_start, 'd_finish':
-                                d_finish, 'pzs': pzs, 'is_open_pz': is_open_pz, 'logout': users.create_logout_url('/')}
-                    template = main.jinja_env.get_template('/tmmscw/CompetitionList.html')
-            self.response.write(template.render(temp_values))
-        except Exception as e:
-            print '--------------------------\nError: ' + str(e)
+            print 'Current local role: ' + str(loc_role)
+            if loc_role in ['organizer', 'leader', 'member']:          # show compList corresponding to user's role
+                template_path = '/tmmscw/%s/CompetitionList.html' % loc_role
+                template = main.jinja_env.get_template(template_path)
+            else:         # user is anonim
+                login = users.create_login_url(dest_url='/postSignIn')
+                temp_values = {'login': login, 'comps': comps, 'c_count': comps_count, 'd_start': d_start, 'd_finish':
+                            d_finish, 'pzs': pzs, 'is_open_pz': is_open_pz, 'logout': users.create_logout_url('/')}
+                template = main.jinja_env.get_template('/tmmscw/CompetitionList.html')
+        self.response.write(template.render(temp_values))
+        #except Exception as e:
+        #    print '--------------------------\nError: ' + str(e)
 
 
         '''
