@@ -298,19 +298,25 @@ def create_roles_head(self, is_org, is_lead, is_memb):
     roles = []
     if is_org:
         if self.session.get('role') == 'organizer':
-            roles.append(u'<b>Организатор</b>')
+            #roles.append(u'<b>Организатор</b>')
+            roles.append(u'<b>ORG</b>')
         else:
-            roles.append(u'Организатор')
+            #roles.append(u'Организатор')
+            roles.append(u'ORG')
     if is_lead:
         if self.session.get('role') == 'leader':
-            roles.append(u'<b>Руководитель</b>')
+            #roles.append(u'<b>Руководитель</b>')
+            roles.append(u'<b>LEAD</b>')
         else:
-            roles.append(u'Руководитель')
+            #roles.append(u'Руководитель')
+            roles.append(u'LEAD')
     if is_memb:
         if self.session.get('role') == 'member':
-            roles.append(u'<b>Участник</b>')
+            #roles.append(u'<b>Участник</b>')
+            roles.append(u'<b>MEM</b>')
         else:
-            roles.append(u'Участник')
+            #roles.append(u'Участник')
+            roles.append(u'MEM')
     return roles
 
 

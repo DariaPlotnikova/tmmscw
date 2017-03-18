@@ -36,7 +36,8 @@ class PostSignIn(BaseHandler):
 
     def post(self):
         """Saves current user role"""
-        cur_role_local = self.request.POST.get('curRole')
+        cur_role_local = self.request.POST.get('curRole', 'anonim')
+        print 'CRU ROLE ------ ' + cur_role_local
         self.session['role'] = cur_role_local
         self.redirect('/')
 
