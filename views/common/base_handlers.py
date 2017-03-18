@@ -24,7 +24,8 @@ class BaseHandler(webapp2.RequestHandler):
 
     def handle_exception(self, exception, debug):
         logging.exception(exception)
-        self.response.write('An error occurred.')
+        self.response.write('An error occurred.</br>')
+        self.response.write(exception)
 
         if isinstance(exception, webapp2.HTTPException):
             self.response.set_status(exception.code)

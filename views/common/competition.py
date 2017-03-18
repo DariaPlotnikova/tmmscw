@@ -21,8 +21,6 @@ class Competitions(BaseHandler):
     Displays list of competitions
     """
     def get(self):
-
-        #try:
         """Displays list of competition"""
         loc_role = self.session.get('role', 'anonim')
         comps = Competition.all().order('d_start')
@@ -56,43 +54,19 @@ class Competitions(BaseHandler):
                                 'is_user': True})
 
             print 'Current local role: ' + str(loc_role)
-            if loc_role in ['organizer', 'leader', 'member']:          # show compList corresponding to user's role
-                template_path = '/tmmscw/%s/CompetitionList.html' % loc_role
-                template = main.jinja_env.get_template(template_path)
+            if loc_role == 'organizer':          # show compList corresponding to user's role
+                template_path = '/tmmscw/organizer/CompetitionList.html'
+            elif loc_role == 'leader':
+                template_path = '/tmmscw/leader/CompetitionList.html'
+            elif loc_role == 'member':
+                template_path = '/tmmscw/member/CompetitionList.html'
             else:         # user is anonim
                 login = users.create_login_url(dest_url='/postSignIn')
                 temp_values = {'login': login, 'comps': comps, 'c_count': comps_count, 'd_start': d_start, 'd_finish':
                             d_finish, 'pzs': pzs, 'is_open_pz': is_open_pz, 'logout': users.create_logout_url('/')}
-                template = main.jinja_env.get_template('/tmmscw/CompetitionList.html')
+                template_path = '/tmmscw/CompetitionList.html'
+            template = main.jinja_env.get_template(template_path)
         self.response.write(template.render(temp_values))
-        #except Exception as e:
-        #    print '--------------------------\nError: ' + str(e)
-
-
-        '''
-        user = users.get_current_user()
-        login = 'LOGIN'
-        comps = []
-        d_start = []
-        d_finish = []
-        pzs = []
-        is_open_pz = []
-        member = leader = organizer = False
-
-        temp_values = {'login': login, 'comps': comps, 'c_count': 0, 'd_start': d_start, 'd_finish':
-            d_finish, 'pzs': pzs, 'is_open_pz': is_open_pz, 'logout': users.create_logout_url('/login')}
-
-        if member:
-            template = main.jinja_env.get_template('/tmmscw/member/CompetitionList.html')
-        elif leader:
-            template = main.jinja_env.get_template('/tmmscw/leader/CompetitionList.html')
-        elif organizer:
-            template = main.jinja_env.get_template('/tmmscw/organizer/CompetitionList.html')
-        else:
-            template = main.jinja_env.get_template('/tmmscw/CompetitionList.html')
-
-        self.response.write(template.render(temp_values))
-        '''
 
 
 class CertainCompetition(BaseHandler):
