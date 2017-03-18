@@ -10,8 +10,7 @@
 </head>
 <body>
     <div class="mdl-grid" style="height: 100%;">
-        <div class="mdl-cell mdl-cell--1-col"></div>
-        {% if back_redir != request.url %}
+        <div class="mdl-cell mdl-cell--2-col"></div>
         <div class="mdl-cell mdl-cell--1-col" style="height: 100%; margin-top: 22%;">
             <a href="/">
                 <button type="button" class="mdl-button mdl-js-button mdl-button--icon" style="width: 80px; height: 80px; color: #000;">
@@ -19,8 +18,7 @@
                 </button>
             </a>
         </div>
-        {% endif %}
-        <div {% if back_redir != request.url %}class="mdl-cell mdl-cell--10-col"{% else %}class="mdl-cell mdl-cell--12-col"{% endif %}>
+        <div class="mdl-cell mdl-cell--9-col">
             <img src="{{ img_src }}" style="height: 100%; position: fixed;">
         </div>
     </div>
