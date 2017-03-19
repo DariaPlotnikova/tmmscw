@@ -40,13 +40,34 @@
         <script type="application/javascript" src="../../../static/js/toAddCompetition.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
         <script>
-           $("input").on("change", function() {
-                this.setAttribute(
-                    "data-date",
-                    moment(this.value, "YYYY-MM-DD")
-                    .format( this.getAttribute("data-date-format") )
-                )
-            }).trigger("change");
+            $(document).ready(function () {
+
+                $("input").on("change", function () {
+                    this.setAttribute(
+                        "data-date",
+                        moment(this.value, "YYYY-MM-DD")
+                            .format(this.getAttribute("data-date-format"))
+                    )
+                }).trigger("change");
+
+                function textOut() {
+                    var finishValue = moment($("#dateFinishNew").val());
+                    var startValue = moment($("#dateStartNew").val());
+                    if (finishValue.isBefore(startValue)) {
+                        alert("Финиш не может быть раньше старта!"); //todo заменить alert на выделение полей для ввода
+                    }
+                }
+                var flag = false; //нужен для того, чтобы не вызывалась ошибка до редактирования даты окончания соревнований
+                $("#dateFinishNew").blur(function () {
+                    flag = true;
+                    textOut();
+                });
+                $("#dateStartNew").blur(function () {
+                    if (flag) {
+                        textOut();
+                    }
+                });
+            });
         </script>
    {% endblock %}
    {% block main_content %}
@@ -94,7 +115,8 @@
                               </div>
                               <div class="mdl-cell--2-col">
                                   <div class="mdl-textfield mdl-js-textfield" style="width: 100%; color: #42A5F5;">
-                                    <input class="mdl-textfield__input" type="date" data-date="" data-date-format="DD MMMM YYYY" id="dateStartNew" name="dateStartNew" value="2016-01-01">
+                                      <input class="mdl-textfield__input" type="date" data-date="" data-date-format="DD MMMM YYYY" id="dateStartNew" name="dateStartNew" value="2016-01-01">
+                                      <span class="mdl-textfield__error" id="spanStartNewError"></span>
                                   </div>
                               </div>
                               <div class="mdl-cell--1-col"></div>
@@ -103,7 +125,8 @@
                               </div>
                               <div class="mdl-cell--2-col">
                                   <div class="mdl-textfield mdl-js-textfield" style="width: 100%; color: #42A5F5;">
-                                    <input class="mdl-textfield__input" type="date" data-date="" data-date-format="DD MMMM YYYY" id="dateFinishNew" name="dateFinishNew" value="2016-01-04">
+                                      <input class="mdl-textfield__input" type="date" data-date="" data-date-format="DD MMMM YYYY" id="dateFinishNew" name="dateFinishNew" value="2016-01-04">
+                                      <span class="mdl-textfield__error" id="spanFinishNewError"></span>
                                   </div>
                               </div>
                               <div class="mdl-cell--2-col"></div>
