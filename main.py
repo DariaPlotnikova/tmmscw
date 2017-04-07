@@ -68,6 +68,9 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/reg/org/list/organizer', lists.OrganizerList, name='list-orgs'),
     webapp2.Route('/reg/org/list/organizer/add', lists.OrganizerAdd, name='list-orgs-add'),
     webapp2.Route('/reg/org/list/organizer/delete', lists.OrganizerDelete, name='list-orgs-delete'),
+    webapp2.Route('/reg/org/list/leader', lists.LeaderList, name='list-leads'),
+    webapp2.Route('/reg/org/list/leader/add', lists.LeaderAdd, name='list-leads-add'),
+    webapp2.Route('/reg/org/list/leader/delete', lists.LeaderDelete, name='list-leads-delete'),
 ], config=config, debug=True)
 
 

@@ -5,7 +5,7 @@ import webapp2
 import main
 from google.appengine.api import users
 from google.appengine.ext import db
-from models.visitor import Organizer
+from models.visitor import Organizer, Leader, Command
 from ..common.base_handlers import BaseHandler
 
 # TODO change globals to something else
@@ -32,7 +32,7 @@ class OrganizerList(BaseHandler):
             self.response.write(template.render(temp_values))
         else:
             temp_values = dict(img_src='/static/img/er401.png', er_name='401',
-                               login_redir=users.create_login_url('reg/organizerList'))
+                               login_redir=users.create_login_url(webapp2.uri_for('list-orgs')))
             self.response.write(main.jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
 
 
@@ -74,6 +74,86 @@ class OrganizerDelete(BaseHandler):
         tooltip_message = u'Organizer %s deleted' % fio
         tooltip_show = 'block'
         self.redirect(webapp2.uri_for('list-orgs'))
+
+
+class LeaderList(BaseHandler):
+    """
+    Displays list of leaders
+    """
+    def get(self):
+        user = users.get_current_user()
+        if user:
+            leaders = db.Query(Leader).order('nickname')
+            keys = []
+            for lead in leaders:
+                keys.append(lead.key())
+            global tooltip_message
+            global tooltip_show
+            temp_values = dict(user_email=user.email(), logout=users.create_logout_url('/login'),
+                               disp_tool=tooltip_show, tool=tooltip_message, leads=leaders, keys=keys)
+            template = main.jinja_env.get_template('/tmmscw/organizer/LeaderList.html')
+            self.response.write(template.render(temp_values))
+        else:
+            temp_values = dict(img_src='/static/img/er401.png', er_name='401',
+                               login_redir=users.create_login_url(webapp2.uri_for('list-leads')))
+            self.response.write(main.jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
+
+
+class LeaderAdd(BaseHandler):
+    """
+    Add new leader and change existed
+    """
+    def post(self):
+        if self.request.POST.get('llKey'):              # changing existing leader
+            new_fio = self.request.POST.get('llFio')
+            new_contact = self.request.POST.get('llContact')
+            lead_key = self.request.POST.get('llKey')
+            leader = Leader.get(lead_key)
+            leader.nickname = new_fio
+            leader.contact = new_contact
+            leader.put()
+            new_command = self.request.POST.get('llComand')
+            new_terry = self.request.POST.get('llTerritory')
+            leader.command.name = new_command
+            leader.command.territory = new_terry
+            leader.command.put()
+            tooltip_message = u'Leader %s changed' % new_fio
+        else:                                           # add new leader
+            command = self.request.POST.get('llComand')
+            terry = self.request.POST.get('llTerritory')
+            command = Command(name=command, territory=terry).put()
+            fio = self.request.POST.get('llFio')
+            contact = self.request.POST.get('llContact')
+            Leader(nickname=fio, contact=contact, command=command).put()
+            global tooltip_message
+            global tooltip_show
+            tooltip_message = u'Leader %s was added to database' % fio
+        tooltip_show = 'block'
+        time.sleep(0.1)
+        self.redirect(webapp2.uri_for('list-leads'))
+
+
+class LeaderDelete(BaseHandler):
+    def post(self):
+        lead_id = self.request.POST['idToDeleteChange']
+        fio = self.request.POST['leadFio']
+        db.delete(lead_id)
+        time.sleep(0.1)
+        global tooltip_message
+        global tooltip_show
+        tooltip_message = u'Leader %s was deleted' % fio
+        tooltip_show = 'block'
+        self.redirect(webapp2.uri_for('list-leads'))
+
+
+
+
+
+
+
+
+
+
 
 
 class AllEntries(webapp2.RequestHandler):
