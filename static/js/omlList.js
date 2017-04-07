@@ -1,9 +1,9 @@
 //Organizer
 $('#addOrgan').click(function(){
+    $('#formAddOrg').toggle();
     $('#sectB').toggle();
-	$('#sect0').toggle();
+    $('#sect0').toggle();
     $('#sect1').toggle();
-	$('#formAddOrg').toggle();
 });
 $('#addOrgBack').click(function(){
     $('#sectB').toggle();

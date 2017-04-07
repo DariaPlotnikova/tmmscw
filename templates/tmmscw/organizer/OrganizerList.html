@@ -1,4 +1,4 @@
-{% extends 'templates/tmmosc/base/AuthUserHeader.html' %}
+{% extends '/tmmscw/base/AuthUserHeader.html' %}
    {% block title %}Список соревнований{% endblock %}
    {% block styles %}
        <style>
@@ -38,7 +38,7 @@
        </style>
    {% endblock %}
    {% block scripts %}
-        <script type="application/javascript" src="static/js/omlList.js"></script>
+        <script type="application/javascript" src="/static/js/omlList.js"></script>
         <script>
             function fadeMe(){
                 $("#sovDiv").fadeOut();
@@ -58,17 +58,19 @@
                               <h2 class="mdl-card__title-text">Список организаторов</h2>
                           </div>
                           <div class="mdl-cell mdl-cell--5-col">
-                            <form action="/reg/organizerList" id="formSearchL" method="post" name="formSearchL">
-                              <div class="search mdl-textfield mdl-js-textfield mdl-textfield--expandable" style="width: 100%;">
-                                <div class="mdl-textfield__expandable-holder" style="width: 70%;">
-                                  <input class="mdl-textfield__input" type="text" id="findOrganizer" name="findOrganizer">
-                                  <label class="mdl-textfield__label search" for="sample-expandable">Expandable Input</label>
-                                </div>
-                                <label class="mdl-button mdl-js-button mdl-button--icon" for="findOrganizer" style="width: 32px; height: 32px; left: 90%;">
-                                  <i class="material-icons">search</i>
-                                </label>
-                              </div>
-                            </form>     <!--  formSearchL  -->
+                            {#
+                                <form action="{{ url('list-orgs') }}" id="formSearchL" method="post" name="formSearchL">
+                                  <div class="search mdl-textfield mdl-js-textfield mdl-textfield--expandable" style="width: 100%;">
+                                    <div class="mdl-textfield__expandable-holder" style="width: 70%;">
+                                      <input class="mdl-textfield__input" type="text" id="findOrganizer" name="findOrganizer">
+                                      <label class="mdl-textfield__label search" for="sample-expandable">Expandable Input</label>
+                                    </div>
+                                    <label class="mdl-button mdl-js-button mdl-button--icon" for="findOrganizer" style="width: 32px; height: 32px; left: 90%;">
+                                      <i class="material-icons">search</i>
+                                    </label>
+                                  </div>
+                                </form>     <!--  formSearchL  -->
+                            #}
                           </div>
                           <div class="mdl-cell mdl-cell--2-col"></div>
                           <div class="mdl-cell mdl-cell--7-col"></div>
@@ -86,7 +88,7 @@
                                     <div class="mdl-cell--10-col"><p class="myP" style="padding-left: 24px;">Нового организатора:</p></div>
                                     <div class="mdl-cell--1-col"></div>
                                 </div>
-                                <form action="/reg/addOrganizer" method="post" id="formNewOrg" name="formNewOrg">
+                                <form action="{{ url('list-orgs-add') }}" method="post" id="formNewOrg" name="formNewOrg">
                                     <div class="mdl-grid" style="padding-top: 0px; margin-left: 10px; display:none;" id="sect1">
                                         <div class="mdl-layout-spacer"></div>
                                         <div class="mdl-cell--1-col">
@@ -119,32 +121,33 @@
                                     </div>   
                                     <div class="mdl-cell--1-col"></div>
                                 </div>
-                            <form action="#" id="formAddOrg" style="display: none;">
-                                <div class="mdl-grid" style="padding-top: 12px; height: 24px; padding-bottom: 0px;">
-                                    <div class="mdl-cell--1-col"></div>
-                                    <div class="mdl-cell--5-col"><p class="myP" style="padding-left: 24px;">или из списка руководителей:</p></div>
-                                    <div class="mdl-cell--5-col"><p class="myP" style="padding-left: 24px;">или из списка участников:</p></div>
-                                    <div class="mdl-cell--1-col"></div>
-                                </div>
-                                <div class="mdl-grid" style="padding-top: 0px; height: 50px; padding-bottom: 0px;">
-                                      
-                                      <div class="mdl-layout-spacer"></div>
-                                      <div class="mdl-cell--1-col"></div>
-                                      <div class="mdl-cell--5-col">
-                                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 62%;">
-                                        <input class="mdl-textfield__input myP" type="text" id="sample6">
-                                            <label class="mdl-textfield__label" for="sample6">ФИО руководителя</label>
-                                          </div>
-                                      </div>
-                                      <div class="mdl-cell--5-col">
+                            <form action="" method="post" id="formAddOrg" style="display: none;">
+                                {#
+                                    <div class="mdl-grid" style="padding-top: 12px; height: 24px; padding-bottom: 0px;">
+                                        <div class="mdl-cell--1-col"></div>
+                                        <div class="mdl-cell--5-col"><p class="myP" style="padding-left: 24px;">или из списка руководителей:</p></div>
+                                        <div class="mdl-cell--5-col"><p class="myP" style="padding-left: 24px;">или из списка участников:</p></div>
+                                        <div class="mdl-cell--1-col"></div>
+                                    </div>
+                                    <div class="mdl-grid" style="padding-top: 0px; height: 50px; padding-bottom: 0px;">
+                                          <div class="mdl-layout-spacer"></div>
+                                          <div class="mdl-cell--1-col"></div>
+                                          <div class="mdl-cell--5-col">
                                           <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 62%;">
                                             <input class="mdl-textfield__input myP" type="text" id="sample6">
-                                            <label class="mdl-textfield__label" for="sample6">ФИО участника</label>
+                                                <label class="mdl-textfield__label" for="sample6">ФИО руководителя</label>
+                                              </div>
                                           </div>
-                                      </div>
-                                      <div class="mdl-cell--1-col"></div>
-                                      <div class="mdl-layout-spacer"></div>
-                                </div>   
+                                          <div class="mdl-cell--5-col">
+                                              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 62%;">
+                                                <input class="mdl-textfield__input myP" type="text" id="sample6">
+                                                <label class="mdl-textfield__label" for="sample6">ФИО участника</label>
+                                              </div>
+                                          </div>
+                                          <div class="mdl-cell--1-col"></div>
+                                          <div class="mdl-layout-spacer"></div>
+                                    </div>
+                                #}
                                 <div class="mdl-grid">
                                     <!--  row3  -->
                                     <div class="mdl-cell--7-col"></div>
@@ -178,13 +181,13 @@
                                         <td class="myP" style="width: 55%; text-align: center;">{{ org.nickname }}</td>
                                         <td class="myP" style="width: 40%; text-align: center;">{{ org.contact }}</td>
                                         <td style="width: 1%; text-align: center; bottom: 4px;">
-                                          <form id="deleteOrg" action="/reg/deleteOrganizer" method="post" style="display: inline;">
+                                          <form id="deleteOrg" action="{{ url('list-orgs-delete') }}" method="post" style="display: inline;">
                                             <button class="mdl-button mdl-js-button mdl-button--icon changeOrgan" type="button" style="width: 32px; height: 32px;">
                                               <i class="material-icons">mode_edit</i>
                                             </button>
                                             <input type="text" style="display: none;" value="{{ org.nickname }}" name="organFio">
                                             <input type="text" style="display: none;" value="{{ keys[loop.index0] }}" name="idToDeleteChange">
-                                            <button class="mdl-button mdl-js-button mdl-button--icon" type="submit" style="width: 32px; height: 32px;">
+                                            <button class="mdl-button mdl-js-button mdl-button--icon" type="submit" style="width: 32px; height: 32px;" onclick="event.stopPropagation();">
                                               <i class="material-icons">delete</i>
                                             </button>
                                           </form>
