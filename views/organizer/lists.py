@@ -2,10 +2,11 @@ import os
 import jinja2
 import time
 import webapp2
-import main
+import main, defaults
 from google.appengine.api import users
 from google.appengine.ext import db
-from models.visitor import Organizer, Leader, Command
+from models.visitor import Organizer, Leader, Member, Command
+
 from ..common.base_handlers import BaseHandler
 
 # TODO change globals to something else
@@ -146,40 +147,80 @@ class LeaderDelete(BaseHandler):
         self.redirect(webapp2.uri_for('list-leads'))
 
 
-
-
-
-
-
-
-
-
-
-
-class AllEntries(webapp2.RequestHandler):
+class MemberList(BaseHandler):
     """
-    Displays list of members/leaders/organizers and saves changes
+    Displays list of members
     """
     def get(self):
-        temp_values = {}
-        if True:
+        user = users.get_current_user()
+        if user:
+            members = db.Query(Member).order('nickname')
+            keys = []
+            for memb in members:
+                keys.append(memb.key())
+            global tooltip_message
+            global tooltip_show
+            commands = db.Query(Command)
+            temp_values = dict(user_email=user.email(), logout=users.create_logout_url('/login'),
+                               disp_tool=tooltip_show, tool=tooltip_message, members=members, keys=keys,
+                               commands=commands, quals=defaults.DEFAULT_QUALS)
             template = main.jinja_env.get_template('/tmmscw/organizer/MemberList.html')
             self.response.write(template.render(temp_values))
-        elif 1 == 2:
-            template = main.jinja_env.get_template('/tmmscw/organizer/LeaderList.html')
-            self.response.write(template.render(temp_values))
         else:
-            template = main.jinja_env.get_template('/tmmscw/organizer/OrganizerList.html')
-            self.response.write(template.render(temp_values))
+            temp_values = dict(img_src='/static/img/er401.png', er_name='401',
+                               login_redir=users.create_login_url(webapp2.uri_for('list-membs')))
+            self.response.write(main.jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
 
+
+class MemberAdd(BaseHandler):
+    """
+    Add new member and change existed
+    """
     def post(self):
-        temp_values = {}
-        if True:
-            template = main.jinja_env.get_template('/tmmscw/organizer/MemberList.html')
-            self.response.write(template.render(temp_values))
-        elif 1 == 2:
-            template = main.jinja_env.get_template('/tmmscw/organizer/LeaderList.html')
-            self.response.write(template.render(temp_values))
+        cur_user = users.get_current_user()
+        if cur_user:
+            if self.request.POST.get('omKey'):              # change existing member
+                new_fio = self.request.POST.get('omFio')
+                new_birthdate = self.request.POST.get('omGr')
+                new_qual = self.request.POST.get('omRazr')
+                new_command_id = self.request.POST.get('omComand')
+                new_command = db.Query(Command).filter('__key__ =', db.Key(new_command_id)).get()
+                memb_key = self.request.POST.get('omKey')
+                member = Member.get(memb_key)
+                member.nickname = new_fio
+                member.command = new_command
+                member.birthdate = int(new_birthdate)
+                member.qualification = new_qual
+                member.put()
+                tooltip_message = u'Member %s was changed' % new_fio
+            else:                                           # add new member
+                comm_id = self.request.POST.get('omComand')
+                command = db.Query(Command).filter('__key__ =', db.Key(comm_id)).get()
+                fio = self.request.POST.get('omFio')
+                bdate = int(self.request.POST.get('omGr'))
+                qual = self.request.POST.get('omRazr')
+                new_member = Member(nickname=fio, birthdate=bdate, qualification=qual, command=command)
+                new_member.put()
+                global tooltip_message
+                global tooltip_show
+                tooltip_message = u'Member %s was added to database' % fio
+            tooltip_show = 'block'
+            time.sleep(0.1)
+            self.redirect(webapp2.uri_for('list-membs'))
         else:
-            template = main.jinja_env.get_template('/tmmscw/organizer/OrganizerList.html')
-            self.response.write(template.render(temp_values))
+            temp_values = dict(img_src='/static/img/er401.png', er_name='401',
+                               login_redir=users.create_login_url(webapp2.uri_for('list-membs')))
+            self.response.write(main.jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
+
+
+class MemberDelete(BaseHandler):
+    def post(self):
+        memb_id = self.request.POST.get('idToDeleteChange')
+        fio = self.request.POST.get('membFio')
+        db.delete(memb_id)
+        time.sleep(0.1)
+        global tooltip_message
+        global tooltip_show
+        tooltip_message = u'Member %s was deleted' % fio
+        tooltip_show = 'block'
+        self.redirect(webapp2.uri_for('list-membs'))
