@@ -1,0 +1,46 @@
+{% extends '/tmmscw/base/AuthUserHeader.html' %}
+{% block title %}Список соревнований{% endblock %}
+    {% block styles %}
+<style>
+    .wide-card{
+        width: 80%;
+        margin: 2% 10% 3% 10%;
+    }
+    .mdl-card__title-text{
+        color: #FFF;
+    }
+    .mdl-card__title{
+        width: 100%;
+        min-height: 100px;
+    }
+    .mdl-card__options.mdl-card--border{
+        padding:3%;
+    }
+
+    #subBut{
+        align-self: flex-start;
+    }
+</style>
+    {% endblock %}
+
+
+    {% block scripts %}
+    {% endblock %}
+    {% block main_content %}
+        <main class="mdl-layout__content">
+            <form action="/reg/addCompetition" id="formNewComp" method="get" name="formNewComp">
+                <div class="page-content">
+                    <div class="wide-card mdl-card mdl-shadow--2dp">
+                        <div class="mdl-card__title">
+                            <h2 class="mdl-card__title-text">Новое соревнование</h2>
+                            <button type="submit" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored"
+                                    form="formNewComp" data-upgraded=",MaterialButton" id="subBut"></button>
+                        </div>
+                        <div class="mdl-card__options mdl-card--border">
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    {% endblock %}

@@ -1,6 +1,7 @@
 {% extends '/tmmscw/base/AuthUserHeader.html' %}
 {% block title %}Список соревнований{% endblock %}
    {% block styles %}
+
       <style>
            body, .mdl-card__title{
                color: #ffffff;
@@ -31,6 +32,7 @@
            .mdl-data-table th{
                text-align: center;
            }
+
       </style>
     {% endblock %}
 
@@ -54,18 +56,22 @@
                     var finishValue = moment($("#dateFinishNew").val());
                     var startValue = moment($("#dateStartNew").val());
                     if (finishValue.isBefore(startValue)) {
-                        alert("Финиш не может быть раньше старта!"); //todo заменить alert на выделение полей для ввода
+                        /*$("#dateFinishNew").addClass("testtest");
+                        $("#dateStartNew").addClass("testtest");
+                        $("#spanFinishNewError").addClass("testtest2");*/
+                        $("mdl-textfield__error").css("visible", "true");
+                    } else {
+                        $("#dateFinishNew").attr("pattern", "");
+                       // $("#dateFinishNew").removeClass("testtest");
+                        //$("#dateStartNew").removeClass("testtest");
                     }
                 }
                 var flag = false; //нужен для того, чтобы не вызывалась ошибка до редактирования даты окончания соревнований
                 $("#dateFinishNew").blur(function () {
-                    flag = true;
                     textOut();
                 });
                 $("#dateStartNew").blur(function () {
-                    if (flag) {
-                        textOut();
-                    }
+                    textOut();
                 });
             });
         </script>
@@ -116,7 +122,8 @@
                               <div class="mdl-cell--2-col">
                                   <div class="mdl-textfield mdl-js-textfield" style="width: 100%; color: #42A5F5;">
                                       <input class="mdl-textfield__input" type="date" data-date="" data-date-format="DD MMMM YYYY" id="dateStartNew" name="dateStartNew" value="2016-01-01">
-                                      <span class="mdl-textfield__error" id="spanStartNewError"></span>
+                                      <label class="mdl-textfield__label" for="dateStartNew"></label>
+                                      <span class="mdl-textfield__error" id="spanStartNewError">Окончание не может быть раньше начала!</span>
                                   </div>
                               </div>
                               <div class="mdl-cell--1-col"></div>
@@ -126,7 +133,8 @@
                               <div class="mdl-cell--2-col">
                                   <div class="mdl-textfield mdl-js-textfield" style="width: 100%; color: #42A5F5;">
                                       <input class="mdl-textfield__input" type="date" data-date="" data-date-format="DD MMMM YYYY" id="dateFinishNew" name="dateFinishNew" value="2016-01-04">
-                                      <span class="mdl-textfield__error" id="spanFinishNewError"></span>
+                                      <label class="mdl-textfield__label" for="dateFinishNew"></label>
+                                      <span class="mdl-textfield__error" id="spanFinishNewError">Окончание не может быть раньше начала!</span>
                                   </div>
                               </div>
                               <div class="mdl-cell--2-col"></div>
@@ -138,8 +146,12 @@
                               </div>
                               <div class="mdl-cell--2-col">
                                   <div class="mdl-textfield mdl-js-textfield" style="width: 100%; color: #42A5F5;">
-                                    <input class="mdl-textfield__input" type="text" id="countStart" name="countStart">
-                                    <label class="mdl-textfield__label" for="sample1">Введите число стартовых дней</label>
+                                    <input class="mdl-textfield__input" type="text" id="countStart" name="countStart" pattern="-?[0-9]*(\.[0-9]+)?">
+                                    <label class="mdl-textfield__label" for="countStart">
+                                        Введите число стартовых дней
+                                        ::after
+                                    </label>
+                                      <span class="mdl-textfield__error">Введите число!</span>
                                   </div>
                               </div>
                               <div class="mdl-cell--7-col"></div>

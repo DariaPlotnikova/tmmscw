@@ -39,7 +39,7 @@ class FillCompetitionInfo(BaseHandler):
                 roles = create_roles_head(self, is_org, is_lead, is_memb)
                 if is_org and self.session.get('role') == 'organizer':
                     temp_values = {'roles': roles, 'user_email': email, 'logout': users.create_logout_url('/')}
-                    template = main.jinja_env.get_template('/tmmscw/organizer/NewCompetitionInfo.html')
+                    template = main.jinja_env.get_template('/tmmscw/organizer/NewCompetitionInfo2.html')
                     self.response.write(template.render(temp_values))
                 else:
                     show_unauth_page(self)
