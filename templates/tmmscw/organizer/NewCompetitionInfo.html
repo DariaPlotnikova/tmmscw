@@ -51,7 +51,7 @@
    {% endblock %}
    {% block main_content %}
       <main class="mdl-layout__content">
-        <form action="/reg/addCompetition" id="formNewComp" method="get" name="formNewComp">
+        <form action="{{ url('fillin-comp') }}" id="formNewComp" method="post" name="formNewComp">
           <!--  Content  -->
           <div class="page-content">
 

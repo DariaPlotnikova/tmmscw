@@ -24,9 +24,9 @@ def show_unauth_page(self):
     """
     Check is user authorized to look at some secured part of the system
     """
-    temp_values = {'img_src': '../static/img/er401.png', 'er_name': '401', 'login_redir':
+    temp_values = {'img_src': '/static/img/er401.png', 'er_name': '401', 'login_redir':
                     users.create_login_url('/postSignIn')}
-    self.response.write(main.jinja_env.get_template('templates/tmmosc/ErrorPage.html').render(temp_values))
+    self.response.write(main.jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
 
 
 def format_date(bad_date):
