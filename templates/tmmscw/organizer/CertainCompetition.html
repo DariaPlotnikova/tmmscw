@@ -1,4 +1,4 @@
-{% extends 'templates/tmmosc/base/AuthUserHeader.html' %}
+{% extends '/tmmscw/base/AuthUserHeader.html' %}
    {% block title %}Список соревнований{% endblock %}
    {% block styles %}
        <style>
@@ -33,10 +33,10 @@
        </style>
    {% endblock %}
    {%  block scripts %}
-       <script type="application/javascript" src="static/js/toCompetition.js"></script>
-       <script type="text/javascript" src="static/js/jsapi.js"></script>
-       <script type="text/javascript" src="static/js/drawStatisticCharts.js"></script>
-       <script type="text/javascript" src="static/js/loader.js"></script>
+       <script type="application/javascript" src="/static/js/toCompetition.js"></script>
+       <script type="text/javascript" src="/static/js/jsapi.js"></script>
+       <script type="text/javascript" src="/static/js/drawStatisticCharts.js"></script>
+       <script type="text/javascript" src="/static/js/loader.js"></script>
    {% endblock %}
    {% block main_content %}
       <main class="mdl-layout__content">
@@ -95,12 +95,12 @@
                                                     <!--  row1  -->
                                                     <div class="mdl-cell--1-col"><p class="myP" style="padding-top: 10px;">День {{ day_numb }} </p></div>
                                                     <div class="mdl-cell--10-col">
-                                                        <img src="static/img/line.png" style="width: 100%; margin-top: 20px;">
+                                                        <img src="/static/img/line.png" style="width: 100%; margin-top: 20px;">
                                                     </div>
                                                     <div class="mdl-cell--1-col">
                                                       <button type="button" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect swapVisInfo" style="padding: 0 0 0 0; min-height: 46px; height: 46px; min-width: 46px; width: 46px;" value="{{ day_numb }}">
-                                                        <img id="swapImgInfoUp{{ day_numb }}" src="static/img/chevron-up.png">
-                                                        <img id="swapImgInfoDown{{ day_numb }}" src="static/img/chevron-down.png" style="display: none;">
+                                                        <img id="swapImgInfoUp{{ day_numb }}" src="/static/img/chevron-up.png">
+                                                        <img id="swapImgInfoDown{{ day_numb }}" src="/static/img/chevron-down.png" style="display: none;">
                                                       </button>
                                                     </div>
                                                 </div>
@@ -254,12 +254,12 @@
                                                     <!--  row1  -->
                                                     <div class="mdl-cell--1-col"><p class="myP" style="padding-top: 10px;">День {{ day_numb }} </p></div>
                                                     <div class="mdl-cell--10-col">
-                                                        <img src="static/img/line.png" style="width: 100%; margin-top: 20px;">
+                                                        <img src="/static/img/line.png" style="width: 100%; margin-top: 20px;">
                                                     </div>
                                                     <div class="mdl-cell--1-col">
                                                       <button type="button" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect swapVisDiz" style="padding: 0 0 0 0; min-height: 46px; height: 46px; min-width: 46px; width: 46px;" value="{{ day_numb }}">
-                                                        <img id="swapImgDizUp{{ day_numb }}" src="static/img/chevron-up.png">
-                                                        <img id="swapImgDizDown{{ day_numb }}" src="static/img/chevron-down.png" style="display: none;">
+                                                        <img id="swapImgDizUp{{ day_numb }}" src="/static/img/chevron-up.png">
+                                                        <img id="swapImgDizDown{{ day_numb }}" src="/static/img/chevron-down.png" style="display: none;">
                                                       </button>
                                                     </div>
                                                 </div>
@@ -470,12 +470,12 @@
                                                 <!--  row1  -->
                                                 <div class="mdl-cell--1-col"><p class="myP" style="padding-top: 10px;">День {{ day_numb }} </p></div>
                                                 <div class="mdl-cell--10-col">
-                                                    <img src="static/img/line.png" style="width: 100%; margin-top: 20px;">
+                                                    <img src="/static/img/line.png" style="width: 100%; margin-top: 20px;">
                                                 </div>
                                                 <div class="mdl-cell--1-col">
                                                   <button type="button" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect swapVisMem" style="padding: 0 0 0 0; min-height: 46px; height: 46px; min-width: 46px; width: 46px;" value="{{ day_numb }}">
-                                                    <img id="swapImgMemUp{{ day_numb }}" src="static/img/chevron-up.png">
-                                                    <img id="swapImgMemDown{{ day_numb }}" src="static/img/chevron-down.png" style="display: none;">
+                                                    <img id="swapImgMemUp{{ day_numb }}" src="/static/img/chevron-up.png">
+                                                    <img id="swapImgMemDown{{ day_numb }}" src="/static/img/chevron-down.png" style="display: none;">
                                                   </button>
                                                 </div>
                                             </div>
