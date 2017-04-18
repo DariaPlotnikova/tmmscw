@@ -53,14 +53,14 @@
                                                 <h2 class="mdl-card__title-text" style="margin: 12px 0 12px 24px">{{ comp.name }}</h2>
                                               </div>
                                           </div>
-                                          <div class="mdl-card__actions mdl-card--border" style="height: 42px; border-top: 1px solid rgba(255, 255, 255, .5); position: absolute; bottom: 0px; display: inline;"/>
+                                          <div class="mdl-card__actions mdl-card--border" style="height: 42px; border-top: 1px solid rgba(255, 255, 255, .5); position: absolute; bottom: 0px; display: inline;">
                                               {% if is_open_pz[loop.index0] %}
                                                   <img src="static/img/good.png" style="margin-left: 20px;"> Предварительная заявка открыта</i>
                                               {% else %}
                                                   <img src="static/img/bad.png" style="margin-left: 20px;"> Предварительная заявка закрыта</i>
                                               {% endif %}
                                           </div>
-                                        </div>
+                                      </div>
                                   </a>
                               </div>
                       {% else %}
@@ -101,8 +101,7 @@
                     </div>
                 {% endif %}
               </div>  <!--   style=...  -->
-            </div>   <!--  .page-content  -->
-        </main>
+        </main> <!--  .page-content  -->
     {% endblock %}
     {% block addition %}
         <div class="mdl-card mdl-shadow--8dp" style="z-index: 5; height: 44px; min-height: 44px; opacity: 0.85; position: fixed; bottom: 30px; left: 20%; right: 20%; width: 60%; display: none;">
