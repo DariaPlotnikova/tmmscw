@@ -1,4 +1,4 @@
-{% extends 'templates/tmmosc/base/AuthUserHeader.html' %}
+{% extends '/tmmscw/base/AuthUserHeader.html' %}
    {% block title %}Список соревнований{% endblock %}
    {% block styles %}
        <style>
@@ -45,11 +45,14 @@
        </style>
    {% endblock %}
    {% block scripts %}
-       <script type="application/javascript" src="static/js/omlList.js"></script>
+       <script type="application/javascript" src="/static/js/omlList.js"></script>
        <script>
             function fadeMe(){
                 $("#sovDiv").fadeOut();
             }
+            $(document).ready(function(){
+                $('select').material_select();
+            });
        </script>
    {% endblock %}
    {% block main_content %}
@@ -92,7 +95,7 @@
                                 <div class="mdl-cell--10-col"><p class="myP" style="padding-left: 24px;">Добавить нового участника:</p></div>
                                 <div class="mdl-cell--1-col"></div>
                             </div>  
-                            <form action="/reg/addMember" method="post" id="formNewMember" name="formNewMember" style="display:none;">
+                            <form action="{{ url('list-membs-add') }}" method="post" id="formNewMember" name="formNewMember" style="display:none;">
                                 <div class="mdl-grid" style="padding-top: 0px; margin-left: 10px;">
                                     <div class="mdl-layout-spacer"></div>
                                     <div class="mdl-cell--1-col">
@@ -108,16 +111,20 @@
                                           <label class="mdl-textfield__label" for="omGr">Год рождения</label>
                                         </div>
                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 10%;">
-                                          <input class="mdl-textfield__input myP" type="text" id="omRazr" name="omRazr">
+                                          <select class="mdl-textfield__input myP" type="text" id="omRazr" name="omRazr">
+                                          {% for qual in quals %}
+                                              <option val="{{qual}}">{{ qual }}</option>
+                                          {% endfor %}
+                                          </select>
                                           <label class="mdl-textfield__label" for="omRazr">Разряд</label>
                                         </div>
-                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 20%;">
-                                          <input class="mdl-textfield__input myP" type="text" id="omComand" name="omComand">
+                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 40%;">
+                                          <select class="mdl-textfield__input myP" id="omComand" name="omComand">
+                                          {% for com in commands %}
+                                              <option value="{{com.key()}}">{{ com.name }} ({{ com.territory }})</option>
+                                          {% endfor %}
+                                          </select>
                                           <label class="mdl-textfield__label" for="omComand">Команда</label>
-                                        </div>
-                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 20%;">
-                                          <input class="mdl-textfield__input myP" type="text" id="omTerritory" name="omTerritory">
-                                          <label class="mdl-textfield__label" for="omTerritory">Территория</label>
                                         </div>
                                     </div>
                                     <div class="mdl-cell--1-col"></div>
@@ -136,30 +143,32 @@
                                 <div class="mdl-cell--1-col"></div>
                             </div>   
 							<form action="#" id="formAddMember" name="formAddMember" style="display:none;">
-								<div class="mdl-grid" style="padding-top: 12px; height: 24px; padding-bottom: 0px;">
-									<div class="mdl-cell--1-col"></div>
-									<div class="mdl-cell--5-col"><p class="myP" style="padding-left: 24px;">или из списка руководителей:</p></div>
-									<div class="mdl-cell--5-col"><p class="myP" style="padding-left: 24px;">или из списка организаторов:</p></div>
-									<div class="mdl-cell--1-col"></div>
-								</div>
-                                <div class="mdl-grid" style="padding-top: 0px; height: 50px; padding-bottom: 0px; display: none;">
-                                    <div class="mdl-layout-spacer"></div>
-                                    <div class="mdl-cell--1-col"></div>
-                                    <div class="mdl-cell--5-col">
-                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 62%;">
-                                      <input class="mdl-textfield__input myP" type="text" id="omlFio">
-                                          <label class="mdl-textfield__label" for="omlFio">ФИО руководителя</label>
-                                        </div>
+                                {#
+                                    <div class="mdl-grid" style="padding-top: 12px; height: 24px; padding-bottom: 0px;">
+                                        <div class="mdl-cell--1-col"></div>
+                                        <div class="mdl-cell--5-col"><p class="myP" style="padding-left: 24px;">или из списка руководителей:</p></div>
+                                        <div class="mdl-cell--5-col"><p class="myP" style="padding-left: 24px;">или из списка организаторов:</p></div>
+                                        <div class="mdl-cell--1-col"></div>
                                     </div>
-                                    <div class="mdl-cell--5-col">
+                                    <div class="mdl-grid" style="padding-top: 0px; height: 50px; padding-bottom: 0px; display: none;">
+                                        <div class="mdl-layout-spacer"></div>
+                                        <div class="mdl-cell--1-col"></div>
+                                        <div class="mdl-cell--5-col">
                                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 62%;">
-                                          <input class="mdl-textfield__input myP" type="text" id="omoFio">
-                                          <label class="mdl-textfield__label" for="omoFio">ФИО организатора</label>
+                                          <input class="mdl-textfield__input myP" type="text" id="omlFio">
+                                              <label class="mdl-textfield__label" for="omlFio">ФИО руководителя</label>
+                                            </div>
                                         </div>
+                                        <div class="mdl-cell--5-col">
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 62%;">
+                                              <input class="mdl-textfield__input myP" type="text" id="omoFio">
+                                              <label class="mdl-textfield__label" for="omoFio">ФИО организатора</label>
+                                            </div>
+                                        </div>
+                                        <div class="mdl-cell--1-col"></div>
+                                        <div class="mdl-layout-spacer"></div>
                                     </div>
-                                    <div class="mdl-cell--1-col"></div>
-                                    <div class="mdl-layout-spacer"></div>
-                                </div>   
+                                #}
 								<div class="mdl-grid">
 									<!--  row3  -->
 									<div class="mdl-cell--7-col"></div>
@@ -195,10 +204,10 @@
                                             <td class="myP" style="width: 35%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ memb.nickname }}</td>
                                             <td class="myP" style="width: 10%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ memb.birthdate }}</td>
                                             <td class="myP" style="width: 10%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ memb.qualification }}</td>
-                                            <td class="myP" style="width: 20%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ memb.command }}</td>
-                                            <td class="myP" style="width: 20%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ memb.territory }}</td>
+                                            <td class="myP" style="width: 20%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ memb.command.name }}</td>
+                                            <td class="myP" style="width: 20%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ memb.command.territory }}</td>
                                             <td style="width: 1%; text-align: center; bottom: 4px;">
-                                              <form action="/reg/deleteMember" method="post">
+                                              <form action="{{ url('list-membs-delete') }}" method="post">
                                                 <button class="mdl-button mdl-js-button mdl-button--icon changeMemb" type="button" style="width: 32px; height: 32px;">
                                                   <i class="material-icons">mode_edit</i>
                                                 </button>

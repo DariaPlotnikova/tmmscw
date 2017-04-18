@@ -28,6 +28,9 @@ jinja_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates')),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
+jinja_env.globals = {
+    'url': webapp2.uri_for
+}
 
 
 config = dict()
@@ -62,7 +65,18 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/reg/org/competition/(comp_id:\d+)', org_competition.CertainCompetition, name='comp-org'),
     webapp2.Route('/reg/org/fill_info', org_competition.FillCompetitionInfo, name='fillin-comp'),
     webapp2.Route('/reg/org/create', org_competition.CreateCompetition, name='create-comp'),
-    webapp2.Route('/reg/org/list/(kind:\w+)', lists.AllEntries, name='list'),
+
+    webapp2.Route('/reg/org/list/organizer', lists.OrganizerList, name='list-orgs'),
+    webapp2.Route('/reg/org/list/organizer/add', lists.OrganizerAdd, name='list-orgs-add'),
+    webapp2.Route('/reg/org/list/organizer/delete', lists.OrganizerDelete, name='list-orgs-delete'),
+
+    webapp2.Route('/reg/org/list/leader', lists.LeaderList, name='list-leads'),
+    webapp2.Route('/reg/org/list/leader/add', lists.LeaderAdd, name='list-leads-add'),
+    webapp2.Route('/reg/org/list/leader/delete', lists.LeaderDelete, name='list-leads-delete'),
+
+    webapp2.Route('/reg/org/list/member', lists.MemberList, name='list-membs'),
+    webapp2.Route('/reg/org/list/member/add', lists.MemberAdd, name='list-membs-add'),
+    webapp2.Route('/reg/org/list/member/delete', lists.MemberDelete, name='list-membs-delete'),
 ], config=config, debug=True)
 
 

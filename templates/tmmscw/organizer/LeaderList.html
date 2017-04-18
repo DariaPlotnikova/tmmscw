@@ -1,4 +1,4 @@
-{% extends 'templates/tmmosc/base/AuthUserHeader.html' %}
+{% extends '/tmmscw/base/AuthUserHeader.html' %}
    {% block title %}Список руководителей{% endblock %}
    {% block styles %}
        <style>
@@ -46,7 +46,7 @@
        </style>
    {% endblock %}
    {%  block scripts %}
-        <script type="application/javascript" src="static/js/omlList.js"></script>
+        <script type="application/javascript" src="/static/js/omlList.js"></script>
         <script>
             function fadeMe(){
                 $("#sovDiv").fadeOut();
@@ -95,7 +95,7 @@
                                 <div class="mdl-cell--10-col"><p class="myP" style="padding-left: 24px;">Добавить нового руководителя:</p></div>
                                 <div class="mdl-cell--1-col"></div>
                             </div>     
-                            <form action="/reg/addLeader" method="post" id="formNewLeader" name="formNewLeader" style="display:none;">
+                            <form action="{{ url('list-leads-add') }}" method="post" id="formNewLeader" name="formNewLeader" style="display:none;">
                                 <div class="mdl-grid" style="padding-top: 0px; margin-left: 10px;">
                                     <div class="mdl-layout-spacer"></div>
                                     <div class="mdl-cell--1-col">
@@ -138,30 +138,32 @@
                                 <div class="mdl-cell--1-col"></div>
                             </div>   
 							<form action="#" id="formAddLeader" name="formAddLeader" style="display:none;">
-								<div class="mdl-grid" style="padding-top: 12px; height: 24px; padding-bottom: 0px;">
-									<div class="mdl-cell--1-col"></div>
-									<div class="mdl-cell--5-col"><p class="myP" style="padding-left: 24px;">или из списка организаторов:</p></div>
-									<div class="mdl-cell--5-col"><p class="myP" style="padding-left: 24px;">или из списка участников:</p></div>
-									<div class="mdl-cell--1-col"></div>
-								</div>
-                                <div class="mdl-grid" style="padding-top: 0px; height: 50px; padding-bottom: 0px;">
-                                    <div class="mdl-layout-spacer"></div>
-                                    <div class="mdl-cell--1-col"></div>
-                                    <div class="mdl-cell--5-col">
-                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 62%;">
-                                          <input class="mdl-textfield__input myP" type="text" id="lloFio">
-                                              <label class="mdl-textfield__label" for="lloFio">ФИО организатора</label>
-                                        </div>
+                                {#
+                                    <div class="mdl-grid" style="padding-top: 12px; height: 24px; padding-bottom: 0px;">
+                                        <div class="mdl-cell--1-col"></div>
+                                        <div class="mdl-cell--5-col"><p class="myP" style="padding-left: 24px;">или из списка организаторов:</p></div>
+                                        <div class="mdl-cell--5-col"><p class="myP" style="padding-left: 24px;">или из списка участников:</p></div>
+                                        <div class="mdl-cell--1-col"></div>
                                     </div>
-                                    <div class="mdl-cell--5-col">
-                                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 62%;">
-                                          <input class="mdl-textfield__input myP" type="text" id="llmFio">
-                                          <label class="mdl-textfield__label" for="llmFio">ФИО участника</label>
+                                    <div class="mdl-grid" style="padding-top: 0px; height: 50px; padding-bottom: 0px;">
+                                        <div class="mdl-layout-spacer"></div>
+                                        <div class="mdl-cell--1-col"></div>
+                                        <div class="mdl-cell--5-col">
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 62%;">
+                                              <input class="mdl-textfield__input myP" type="text" id="lloFio">
+                                                  <label class="mdl-textfield__label" for="lloFio">ФИО организатора</label>
+                                            </div>
                                         </div>
+                                        <div class="mdl-cell--5-col">
+                                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 62%;">
+                                              <input class="mdl-textfield__input myP" type="text" id="llmFio">
+                                              <label class="mdl-textfield__label" for="llmFio">ФИО участника</label>
+                                            </div>
+                                        </div>
+                                        <div class="mdl-cell--1-col"></div>
+                                        <div class="mdl-layout-spacer"></div>
                                     </div>
-                                    <div class="mdl-cell--1-col"></div>
-                                    <div class="mdl-layout-spacer"></div>
-                                </div>   
+                                #}
                                 <div class="mdl-grid">
                                     <!--  row3  -->
                                     <div class="mdl-cell--7-col"></div>
@@ -196,11 +198,11 @@
                                     {% for lead in leads %}
                                       <tr style="color: #42a5f5;">
                                         <td class="myP" style="width: 33%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ lead.nickname }}</td>
-                                        <td class="myP" style="width: 20%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ lead.command }}</td>
-                                        <td class="myP" style="width: 20%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ lead.territory }}</td>
+                                        <td class="myP" style="width: 20%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ lead.command.name }}</td>
+                                        <td class="myP" style="width: 20%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ lead.command.territory }}</td>
                                         <td class="myP" style="width: 20%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ lead.contact }}</td>
                                         <td style="width: 1%; text-align: center; bottom: 4px;">
-                                          <form id="deleteLead" action="/reg/deleteLeader" method="post" style="display: inline;">
+                                          <form id="deleteLead" action="{{ url('list-leads-delete') }}" method="post" style="display: inline;">
                                             <button class="mdl-button mdl-js-button mdl-button--icon changeLeader" type="button" style="width: 32px; height: 32px;">
                                                 <i class="material-icons">mode_edit</i>
                                             </button>

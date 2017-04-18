@@ -44,10 +44,10 @@
         <span class="mdl-layout-title"></span>
         <nav class="mdl-navigation">
           <a class="mdl-navigation__link" href="/">Список соревнований</a>
-          <a class="mdl-navigation__link" href="/reg/org/fill_info">Новое соревнование</a>
-          <a class="mdl-navigation__link" href="/reg/org/list/?kind=member">Список участников</a>
-          <a class="mdl-navigation__link" href="/reg/org/list/?kind=leader">Список руководителей</a>
-          <a class="mdl-navigation__link" href="/reg/org/list/?kind=organizer">Список организаторов</a>
+          <a class="mdl-navigation__link" href="{{ url('fillin-comp') }}">Новое соревнование</a>
+          <a class="mdl-navigation__link" href="{{ url('list-membs') }}">Список участников</a>
+          <a class="mdl-navigation__link" href="{{ url('list-leads') }}">Список руководителей</a>
+          <a class="mdl-navigation__link" href="{{ url('list-orgs') }}">Список организаторов</a>
         </nav>
       </div>
     {% endblock %}
@@ -131,8 +131,9 @@
         </div>
     {% endblock %}
   </div>    <!--  .mdl-layout  -->
-</body>
-    {% block scripts %}
 
-    {% endblock %}
+  {% block scripts %}
+
+  {% endblock %}
+</body>
 </html>
