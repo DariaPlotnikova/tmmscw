@@ -24,9 +24,9 @@ def show_unauth_page(self):
     """
     Check is user authorized to look at some secured part of the system
     """
-    temp_values = {'img_src': '../static/img/er401.png', 'er_name': '401', 'login_redir':
+    temp_values = {'img_src': '/static/img/er401.png', 'er_name': '401', 'login_redir':
                     users.create_login_url('/postSignIn')}
-    self.response.write(main.jinja_env.get_template('templates/tmmosc/ErrorPage.html').render(temp_values))
+    self.response.write(main.jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
 
 
 def format_date(bad_date):
@@ -158,6 +158,7 @@ def post_info(self, competition):
         org_fios.append(self.request.POST.getall('orgFioNew%s' % str(i)))
         org_dols.append(self.request.POST.getall('orgDolNew%s' % str(i)))
         org_conts.append(self.request.POST.getall('orgContNew%s' % str(i)))
+    org_infos = zip(org_fios, org_dols, org_conts)
     for i in range(competition.days_count):
         info = Info(competition=competition, day_numb=i, place_addr=places[i], pz_is_open=on_to_boolean(pzs[i]),
                     pz_add_end=date_to_python(pz_end_add[i]), pz_change_end=date_to_python(pz_end_change[i]),
@@ -167,7 +168,8 @@ def post_info(self, competition):
     pzs = on_to_checked(pzs)
     tzs = on_to_checked(tzs)
     temp_values = {'pz_end_add': pz_end_add, 'pz_end_change': pz_end_change, 'links': links, 'places': places,
-                   'pzs': pzs, 'tzs': tzs, 'org_fios': org_fios, 'org_dols': org_dols, 'org_conts': org_conts}
+                   'pzs': pzs, 'tzs': tzs, 'org_fios': org_fios, 'org_dols': org_dols, 'org_conts': org_conts,
+                   'org_infos': org_infos}
     return temp_values
 
 
@@ -243,17 +245,19 @@ def info_from_db(comp):
         orgs_fio.insert(day_numb_of_info, info.orgs_fio)
         orgs_dol.insert(day_numb_of_info, info.orgs_dol)
         orgs_cont.insert(day_numb_of_info, info.orgs_cont)
+    org_infos = zip(orgs_fio, orgs_dol, orgs_cont)
     temp_values = {'pz_end_add': pz_end_add, 'pz_end_change': pz_end_change, 'places': places, 'pzs': pzs, 'tzs': tzs,
-                   'links': links, 'org_fios': orgs_fio, 'org_dols': orgs_dol, 'org_conts': orgs_cont}
+                   'links': links, 'org_fios': orgs_fio, 'org_dols': orgs_dol, 'org_conts': orgs_cont,
+                   'org_infos': org_infos}
     return temp_values
 
 
 def diz_from_db(comp):
     """Gets distance's info of competition from database and fills template's values"""
     distances_of_comp = comp.distance_set.run(batch_size=1000)
-    disciplines = [];
+    disciplines = []
     lengths = []
-    dizs = [];
+    dizs = []
     dus = []
     for distance in distances_of_comp:
         day_numb_of_distance = distance.day_numb

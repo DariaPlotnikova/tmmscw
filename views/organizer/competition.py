@@ -4,7 +4,8 @@ import webapp2
 from google.appengine.api import users
 
 import main
-from views.utils import show_unauth_page, find_user, create_roles_head
+from views.utils import show_unauth_page, find_user, create_roles_head, format_date,\
+    post_competition, post_info, post_diz
 from views.common.base_handlers import BaseHandler
 
 
@@ -13,12 +14,12 @@ class CertainCompetition(BaseHandler):
     Displays full info about certain competition and listens ajax request with changes
     """
 
-    def get(self):
+    def get(self, comp_id):
         temp_values = {}
         template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
         self.response.write(template.render(temp_values))
 
-    def post(self):  # ajax handler  # TODO create handler as kanban in Brama (if field='')
+    def post(self):  # ajax handler
         temp_values = {}
         template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
         self.response.write(template.render(temp_values))
@@ -28,43 +29,63 @@ class FillCompetitionInfo(BaseHandler):
     """
     Saves common info about new competition
     """
-
     def get(self):
         """Displays empty form for adding common info of that new competition"""
-        try:
-            user = users.get_current_user()
-            if not user:
-                show_unauth_page(self)
+        user = users.get_current_user()
+        if not user:
+            show_unauth_page(self)
+        else:
+            email = user.email()
+            [is_org, is_lead, is_memb] = find_user(email)
+            roles = create_roles_head(self, is_org, is_lead, is_memb)
+            if is_org and self.session.get('role') == 'organizer':
+                temp_values = {'roles': roles, 'user_email': email, 'logout': users.create_logout_url('/')}
+                template = main.jinja_env.get_template('/tmmscw/organizer/NewCompetitionInfo.html')
+                self.response.write(template.render(temp_values))
             else:
-                email = user.email()
-                [is_org, is_lead, is_memb] = find_user(email)
-                roles = create_roles_head(self, is_org, is_lead, is_memb)
-                if is_org and self.session.get('role') == 'organizer':
-                    temp_values = {'roles': roles, 'user_email': email, 'logout': users.create_logout_url('/')}
-                    template = main.jinja_env.get_template('/tmmscw/organizer/NewCompetitionInfo.html')
-                    self.response.write(template.render(temp_values))
-                else:
-                    show_unauth_page(self)
-        except Exception as e:
-            print '____________________________\nError:' + str(e.message)
-        '''
-        temp_values = {}
-        template = main.jinja_env.get_template('/tmmscw/organizer/NewCompetitionInfo.html')
-        self.response.write(template.render(temp_values))
-        '''
+                show_unauth_page(self)
 
     def post(self):
-        temp_values = {}
-        template = main.jinja_env.get_template('/tmmscw/organizer/AddCompetition.html')
-        self.response.write(template.render(temp_values))
+        user = users.get_current_user()
+        if user:
+            email = user.email()
+            name = self.request.POST.get('nameCompNew')
+            d_s = self.request.POST.get('dateStartNew')
+            d_f = self.request.POST.get('dateFinishNew')
+            d_count = self.request.POST.get('countStart')
+            write_places = self.request.POST.get('checkPlaces', False)
+            show_map = self.request.POST.get('checkPlacesMap', False)
+
+            temp_values = dict(user_email=email, logout=users.create_logout_url('/login'), d_start=format_date(d_s),
+                               d_finish=format_date(d_f), name=name, days_count=range(1, int(d_count) + 1),
+                               write_places=write_places, show_map=show_map, d_count=d_count)
+            template = main.jinja_env.get_template('/tmmscw/organizer/AddCompetition.html')
+            self.response.write(template.render(temp_values))
+        else:
+            show_unauth_page(self)
 
 
-class CreateCompetition(webapp2.RequestHandler):
+class CreateCompetition(BaseHandler):
     """
     Saves full info about new competition
     """
-
     def post(self):
+        user = users.get_current_user()
+        if user:
+            email = user.email()
+            # common info about competition
+            competition, temp_values, errors = post_competition(self)
+            temp_values.update(post_info(self, competition))
+            temp_values.update(post_diz(self, competition))
+
+            print 'TEMPLATE VALUES ----------------- ' + str(temp_values)
+            template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
+            self.response.write(template.render(temp_values))
+        else:
+            show_unauth_page(self)
+
+        '''
         temp_values = {}
         template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
         self.response.write(template.render(temp_values))
+        '''

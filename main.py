@@ -52,7 +52,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/clean', test.CleanUp, name='clean'),
     # common routes
     webapp2.Route('/', com_competition.Competitions, name='comps'),
-    webapp2.Route('/competition/(comp_id:\d+)', com_competition.CertainCompetition, name='comp'),
+    webapp2.Route('/competition/', com_competition.CertainCompetition, name='comp'),
     webapp2.Route('/members', members.MemberList, name='members'),
     webapp2.Route('/postSignIn', roles.PostSignIn, name='post-singin'),
     webapp2.Route('/reg/nullToRole', roles.BeforeSignOut, name='before-singout'),

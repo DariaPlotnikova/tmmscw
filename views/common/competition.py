@@ -35,7 +35,7 @@ class Competitions(BaseHandler):
             infos_of_comp = c.info_set.run(batch_size=1000)
             is_open = False
             for info_of_day in infos_of_comp:
-                is_open = is_open or (info_of_day.pz_is_open and (datetime.today().date() < info_of_day.pz_add_end))
+                is_open = is_open or (info_of_day.pz_is_open and (datetime.datetime.today().date() < info_of_day.pz_add_end))
             is_open_pz.append(is_open)
         d_start = format_date_list(d_start)
         d_finish = format_date_list(d_finish)
@@ -77,7 +77,7 @@ class CertainCompetition(BaseHandler):
     def get(self):
         """Displays info about competition stored in database"""
         user = users.get_current_user()
-        key = self.request.GET['dbKey']
+        key = self.request.GET.get('comp_id')
         comp = Competition.get(key)
         info_values = info_from_db(comp)
         diz_values = diz_from_db(comp)
@@ -87,6 +87,7 @@ class CertainCompetition(BaseHandler):
         temp_values.update(info_values)
         temp_values.update(diz_values)
         temp_values.update(memb_values)
+        print 'TEMPLAE --------- ' + str(temp_values)
         if not user:  # user is anonim
             login = users.create_login_url(dest_url='/postSignIn')
             temp_values.update({'action': '/entryOneMemb', 'login': login})
