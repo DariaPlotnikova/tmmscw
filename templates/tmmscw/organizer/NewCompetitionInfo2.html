@@ -1,46 +1,93 @@
 {% extends '/tmmscw/base/AuthUserHeader.html' %}
 {% block title %}Список соревнований{% endblock %}
-    {% block styles %}
+{% block styles %}
 <style>
-    .wide-card{
+    .wide-card {
         width: 80%;
         margin: 2% 10% 3% 10%;
     }
-    .mdl-card__title-text{
+
+    .mdl-card__text{
+        font-weight:bold;
+    }
+
+    .mdl-card__title-text {
         color: #FFF;
     }
-    .mdl-card__title{
+
+    .mdl-card__title {
         width: 100%;
         min-height: 100px;
     }
-    .mdl-card__options.mdl-card--border{
-        padding:3%;
+
+    .mdl-card__options.mdl-card--border {
+        padding: 3% 5% 3% 5%;
     }
 
-    #subBut{
+    #subBut {
         align-self: flex-start;
     }
+
+    .calendar {
+        margin: 0 5% 0 5%;
+    }
+
+    .corpName{
+        width:60%;
+    }
+
 </style>
-    {% endblock %}
+{% endblock %}
 
 
-    {% block scripts %}
-    {% endblock %}
-    {% block main_content %}
-        <main class="mdl-layout__content">
-            <form action="/reg/addCompetition" id="formNewComp" method="get" name="formNewComp">
-                <div class="page-content">
-                    <div class="wide-card mdl-card mdl-shadow--2dp">
-                        <div class="mdl-card__title">
-                            <h2 class="mdl-card__title-text">Новое соревнование</h2>
-                            <button type="submit" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored"
-                                    form="formNewComp" data-upgraded=",MaterialButton" id="subBut"></button>
-                        </div>
-                        <div class="mdl-card__options mdl-card--border">
-
-                        </div>
-                    </div>
+{% block scripts %}
+{% endblock %}
+{% block main_content %}
+<main class="mdl-layout__content">
+    <form action="/reg/addCompetition" id="formNewComp" method="get" name="formNewComp">
+        <div class="page-content">
+            <div class="wide-card mdl-card mdl-shadow--2dp">
+                <!--Шапка-->
+                <div class="mdl-card__title">
+                    <h2 class="mdl-card__title-text">Новое соревнование</h2>
+                    <button type="submit" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored"
+                            form="formNewComp" data-upgraded=",MaterialButton" id="subBut"></button>
                 </div>
-            </form>
-        </main>
-    {% endblock %}
+                <!--Содержание-->
+                <div class="mdl-card__options mdl-card--border">
+                    <!--Название соренивания-->
+                    <!--<p class="myP"></p>-->
+                    <!--style="color: #42A5F5; margin: 25px 0 0 30px;"-->
+                    <label class="mdl-card__text corpName">Название
+                        <div class="mdl-textfield mdl-js-textfield">
+                            <input class="mdl-textfield__input" type="text" id="nameCompNew" name="nameCompNew">
+                            <label class="mdl-textfield__label" for="nameCompNew">Введите название соревнования</label>
+                        </div><br>
+                    </label>
+                    <!--Календарь начла-->
+                    <label class="mdl-card__text">Начало
+                        <div class="mdl-textfield mdl-js-textfield calendar">
+                            <!--/*style="color: #42A5F5;"*/-->
+                            <input class="mdl-textfield__input" type="date" data-date="" data-date-format="DD MMMM YYYY"
+                                   id="dateStartNew" name="dateStartNew" value="2016-01-01">
+                            <label class="mdl-textfield__label" for="dateStartNew"></label>
+                            <span class="mdl-textfield__error"
+                                  id="spanStartNewError">Окончание не может быть раньше начала!</span>
+                        </div>
+                    </label>
+                    <!--календарь окончания-->
+                    <label class="mdl-card__text">Окончание
+                        <div class="mdl-textfield mdl-js-textfield calendar">
+                            <!--style="color: #42A5F5;">-->
+                            <input class="mdl-textfield__input" type="date" data-date="" data-date-format="DD MMMM YYYY"
+                                   id="dateFinishNew" name="dateFinishNew" value="2016-01-04">
+                            <label class="mdl-textfield__label" for="dateFinishNew"></label>
+                            <span class="mdl-textfield__error" id="spanFinishNewError">Окончание не может быть раньше начала!</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </form>
+</main>
+{% endblock %}

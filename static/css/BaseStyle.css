@@ -1,37 +1,40 @@
 @font-face {
     font-family: "RobotoRegular";
     src: url("../fonts/RobotoRegular/RobotoRegular.eot");
-    src: url("../fonts/RobotoRegular/RobotoRegular.eot?#iefix")format("embedded-opentype"),
+    src: url("../fonts/RobotoRegular/RobotoRegular.eot?#iefix") format("embedded-opentype"),
     url("../fonts/RobotoRegular/RobotoRegular.woff") format("woff"),
     url("../fonts/RobotoRegular/RobotoRegular.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }
+
 /* font-family: "RobotoLight"; */
 @font-face {
     font-family: "RobotoLight";
     src: url("../fonts/RobotoLight/RobotoLight.eot");
-    src: url("../fonts/RobotoLight/RobotoLight.eot?#iefix")format("embedded-opentype"),
+    src: url("../fonts/RobotoLight/RobotoLight.eot?#iefix") format("embedded-opentype"),
     url("../fonts/RobotoLight/RobotoLight.woff") format("woff"),
     url("../fonts/RobotoLight/RobotoLight.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }
+
 /* font-family: "RobotoMedium"; */
 @font-face {
     font-family: "RobotoMedium";
     src: url("../fonts/RobotoMedium/RobotoMedium.eot");
-    src: url("../fonts/RobotoMedium/RobotoMedium.eot?#iefix")format("embedded-opentype"),
+    src: url("../fonts/RobotoMedium/RobotoMedium.eot?#iefix") format("embedded-opentype"),
     url("../fonts/RobotoMedium/RobotoMedium.woff") format("woff"),
     url("../fonts/RobotoMedium/RobotoMedium.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }
+
 /* font-family: "RobotoBold"; */
 @font-face {
     font-family: "RobotoBold";
     src: url("../fonts/RobotoBold/RobotoBold.eot");
-    src: url("../fonts/RobotoBold/RobotoBold.eot?#iefix")format("embedded-opentype"),
+    src: url("../fonts/RobotoBold/RobotoBold.eot?#iefix") format("embedded-opentype"),
     url("../fonts/RobotoBold/RobotoBold.woff") format("woff"),
     url("../fonts/RobotoBold/RobotoBold.ttf") format("truetype");
     font-style: normal;
@@ -42,14 +45,16 @@ body {
     background: #fafafa;
     font-size: 20px;
 }
+
 /*.mdl-button{
     height: 40px;
     
 }*/
-h3.mdl-card__title-text{
+h3.mdl-card__title-text {
     font-size: 20px;
 }
-h2.mdl-card__title-text{
+
+h2.mdl-card__title-text {
     font-size: 24px;
 }
 
@@ -57,18 +62,26 @@ img {
     border-radius: 50%;
     opacity: 40%;
 }
-.mdl-card__title{
+
+.mdl-card__title {
     background-color: #42A5F5;
 }
+
 .mdl-card__actions.mdl-card--border {
-    border-top: 1px solid #ffffff ;
+    border-top: 1px solid #ffffff;
     opacity: 40%;
 }
-.open-comp{
+
+.open-comp {
     background: #42A5F5;
-    
+
 }
-.close-comp{
+
+.close-comp {
     background: #90CAF9;
     opacity: 60%;
+}
+
+.mdl-card__text {
+    color: #42A5F5;
 }

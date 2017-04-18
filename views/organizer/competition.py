@@ -12,12 +12,13 @@ class CertainCompetition(BaseHandler):
     """
     Displays full info about certain competition and listens ajax request with changes
     """
+
     def get(self):
         temp_values = {}
         template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
         self.response.write(template.render(temp_values))
 
-    def post(self):     # ajax handler  # TODO create handler as kanban in Brama (if field='')
+    def post(self):  # ajax handler  # TODO create handler as kanban in Brama (if field='')
         temp_values = {}
         template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
         self.response.write(template.render(temp_values))
@@ -27,6 +28,7 @@ class FillCompetitionInfo(BaseHandler):
     """
     Saves common info about new competition
     """
+
     def get(self):
         """Displays empty form for adding common info of that new competition"""
         try:
@@ -39,7 +41,7 @@ class FillCompetitionInfo(BaseHandler):
                 roles = create_roles_head(self, is_org, is_lead, is_memb)
                 if is_org and self.session.get('role') == 'organizer':
                     temp_values = {'roles': roles, 'user_email': email, 'logout': users.create_logout_url('/')}
-                    template = main.jinja_env.get_template('/tmmscw/organizer/NewCompetitionInfo2.html')
+                    template = main.jinja_env.get_template('/tmmscw/organizer/NewCompetitionInfo.html')
                     self.response.write(template.render(temp_values))
                 else:
                     show_unauth_page(self)
@@ -61,6 +63,7 @@ class CreateCompetition(webapp2.RequestHandler):
     """
     Saves full info about new competition
     """
+
     def post(self):
         temp_values = {}
         template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')

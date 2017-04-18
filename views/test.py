@@ -33,6 +33,7 @@ class Db(webapp2.RequestHandler):
                          contact='plotnikovanstu@gmail.com')
         org4 = Organizer(user=users.User('fordima1995@gmail.com'), nickname=u'Потапейко Дмитрий',
                          contact='fordima1995@gmail.com')
+        org5 = Organizer(user=users.User('cyanat56@gmail.com'), nickname=u'Петров Никита', contact='cyanat56@gmail.com')
         lead1 = Leader(user=users.User('anremonres@gmail.com'), nickname=u'Олишевская Анна',
                        contact='anremonres@gmail.com', command=com2)
 
@@ -51,6 +52,7 @@ class Db(webapp2.RequestHandler):
         org2.put()
         org3.put()
         org4.put()
+        org5.put()
         lead1.put()
 
     def post(self):
