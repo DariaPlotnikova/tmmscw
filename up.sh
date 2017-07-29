@@ -1,1 +1,1 @@
-/usr/bin/python /opt/google_appengine/dev_appserver.py --port=8080 /home/daria/tmmscw
+~/Документы/google-cloud-sdk/bin/dev_appserver.py --port=9000 /home/daria/tmmscw

@@ -71,13 +71,9 @@ class CreateCompetition(BaseHandler):
     def post(self):
         user = users.get_current_user()
         if user:
-            email = user.email()
-            # common info about competition
             competition, temp_values, errors = post_competition(self)
             temp_values.update(post_info(self, competition))
             temp_values.update(post_diz(self, competition))
-
-            print 'TEMPLATE VALUES ----------------- ' + str(temp_values)
             template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
             self.response.write(template.render(temp_values))
         else:

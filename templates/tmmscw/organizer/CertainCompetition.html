@@ -218,23 +218,24 @@
                                                             <p class="myP" style="margin-bottom: 0px; top: 6px;"><b>Контакты организаторов:</b></p>
                                                         </div>
                                                     </div>
-                                                    {% for org_in_day in org_infos[loop.index0] %}
+                                                    {% for org in org_infos[loop.index0] %}
                                                         <div class="mdl-grid" style="margin: 10px 0 20px 70px; padding: 0 0 0 0; vertical-align:middle; height: 30px; width: 90%;">
                                                             <!--  row10  -->
-                                                            <div class="mdl-cell--1-col"></div>
-                                                            <div class="mdl-cell--3-col">
-                                                                <p class="myP" style="margin-bottom: 0px; top: 6px;">{{ org_in_day[0] }}</p>
-                                                            </div>
-                                                            <div class="mdl-cell--1-col" style="width: 20px;"></div>
-                                                            <div class="mdl-cell--3-col" style="text-align: center;">
-                                                                <p class="myP">{{ org_in_day[1] }}</p>
-                                                            </div>
-                                                            <div class="mdl-cell--1-col"></div>
-                                                            <div class="mdl-cell--3-col" style="text-align: center;">
-                                                                <p class="myP">{{ org_in_day[2] }}</p>
-                                                            </div>
+                                                            <span class="mdl-cell--1-col"></span>
+                                                            <span class="mdl-cell--3-col">
+                                                                <span class="myP" style="margin-bottom: 0px; top: 6px;">{{ org.fio }}</span>
+                                                            </span>
+                                                            <span class="mdl-cell--1-col" style="width: 20px;"></span>
+                                                            <span class="mdl-cell--3-col" style="text-align: center;">
+                                                                <span class="myP">{{ org.dol }}</span>
+                                                            </span>
+                                                            <span class="mdl-cell--1-col"></span>
+                                                            <span class="mdl-cell--3-col" style="text-align: center;">
+                                                                <span class="myP">{{ org.cont }}</span>
+                                                            </span>
                                                         </div>
                                                     {% endfor %}
+
                                                     <div class="mdl-grid" style="margin: 0 0 0 0; padding: 0 0 0 0; height: 30px; display: none;" id="addOrgInsert{{ day_numb }}">
                                                         <!--  row12  -->
                                                         <div class="mdl-cell--2-col"></div>
@@ -245,6 +246,7 @@
                                         {% endfor %}
                                     </form>  <!--  formInfo  -->
                                   </div>   <!--   #info-panel    -->
+
                                   <div class="mdl-tabs__panel" id="diz-panel" style="background: #fff; color: #42A5F5;">
                                     <!--  ДИСТАНЦИИ И ЗАЧЕТЫ  -->
                                     <form action="#" id="formDiz" name="formDiz">
@@ -323,15 +325,15 @@
                                                         <div class="mdl-cell--1-col"></div>
                                                     </div>
                                                   <!--  Этот кусок будет множиться на все записи  -->
-                                                    {%  for group_in_day in dizs[loop.index0] %}
+                                                    {% for group_in_day in dizs[loop.index0] %}
                                                         <div class="mdl-grid" style="margin: 10px 0 0 0; padding: 0 0 0 0; text-align: center;">
                                                             <!--  row4  -->
                                                             <div class="mdl-cell--2-col"></div>
-                                                            <div class="mdl-cell--1-col"><p class="myP">{{ group_in_day[0] }}</p></div>
+                                                            <div class="mdl-cell--1-col"><p class="myP">{{ group_in_day.group_name }}</p></div>
                                                             <div class="mdl-cell--1-col"></div>
-                                                            <div class="mdl-cell--1-col"><p class="myP">{{ group_in_day[1] }}</p></div>
-                                                            <div class="mdl-cell--1-col"><p class="myP" style="margin-left: 55px;">{{ group_in_day[2] }}</p></div>
-                                                            <div class="mdl-cell--5-col" style="height: 30px;"><p class="myP">{{ group_in_day[3] }} - {{ group_in_day[4] }}</p></div>
+                                                            <div class="mdl-cell--1-col"><p class="myP">{{ group_in_day.length }}</p></div>
+                                                            <div class="mdl-cell--1-col"><p class="myP" style="margin-left: 55px;">{{ group_in_day.dist_class}}</p></div>
+                                                            <div class="mdl-cell--5-col" style="height: 30px;"><p class="myP">{{ group_in_day.min_com }} - {{ group_in_day.max_com }}</p></div>
                                                             <div class="mdl-cell--1-col"></div>
                                                         </div>
                                                     {% endfor %}
@@ -398,13 +400,13 @@
                                                         <div class="mdl-grid" style="margin: 10px 0 0 0; padding: 0 0 0 0;text-align: center;">
                                                             <!--  row8  -->
                                                             <div class="mdl-cell--2-col"></div>
-                                                            <div class="mdl-cell--1-col"><p id="old71" class="myP">{{ membs_in_day[0] }}</p></div>
+                                                            <div class="mdl-cell--1-col"><p class="myP">{{ membs_in_day.distinfo_set[0].group_name }}</p></div>
                                                             <div class="mdl-cell--1-col"></div>
-                                                            <div class="mdl-cell--1-col"><p class="myP">{{ membs_in_day[1] }}</p></div>
+                                                            <div class="mdl-cell--1-col"><p class="myP">{{ membs_in_day.salary }}</p></div>
                                                             <div class="mdl-cell--1-col"></div>
-                                                            <div class="mdl-cell--2-col"><p class="myP">{{ membs_in_day[2] }} - {{ membs_in_day[3] }}</p></div>
+                                                            <div class="mdl-cell--2-col"><p class="myP">{{ membs_in_day.age_min }} - {{ membs_in_day.age_max }}</p></div>
                                                             <div class="mdl-cell--1-col"></div>
-                                                            <div class="mdl-cell--2-col"><p class="myP">{{ membs_in_day[4] }} - {{ membs_in_day[5] }}</p></div>
+                                                            <div class="mdl-cell--2-col"><p class="myP">{{ membs_in_day.qual_min }} - {{ membs_in_day.qual_max }}</p></div>
                                                             <div class="mdl-cell--1-col"></div>
                                                         </div>
                                                     {% endfor %}

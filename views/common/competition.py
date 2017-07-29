@@ -87,7 +87,6 @@ class CertainCompetition(BaseHandler):
         temp_values.update(info_values)
         temp_values.update(diz_values)
         temp_values.update(memb_values)
-        print 'TEMPLAE --------- ' + str(temp_values)
         if not user:  # user is anonim
             login = users.create_login_url(dest_url='/postSignIn')
             temp_values.update({'action': '/entryOneMemb', 'login': login})

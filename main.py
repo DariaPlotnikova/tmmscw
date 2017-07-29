@@ -61,6 +61,8 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/reg/lead/add_class', lead_competition.AddMembersByClasses, name='add-by-class'),
     webapp2.Route('/reg/lead/team', team.Team, name='team'),
     webapp2.Route('/reg/lead/add_to_team', team.AddToTeam, name='add-to-team'),
+    webapp2.Route('/reg/lead/change', team.ChangeTeamMember, name='change-member'),
+    webapp2.Route('/reg/lead/delete', team.DeleteMember, name='delete-member'),
     # organizer routes
     webapp2.Route('/reg/org/competition/(comp_id:\d+)', org_competition.CertainCompetition, name='comp-org'),
     webapp2.Route('/reg/org/fill_info', org_competition.FillCompetitionInfo, name='fillin-comp'),
@@ -116,9 +118,9 @@ def handle_503(request, response, exception):
     response.write(jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
 
 
-app.error_handlers[401] = handle_401
-app.error_handlers[403] = handle_403
-app.error_handlers[404] = handle_404
-app.error_handlers[405] = handle_405
-app.error_handlers[500] = handle_500
-app.error_handlers[503] = handle_503
+#app.error_handlers[401] = handle_401
+#app.error_handlers[403] = handle_403
+#app.error_handlers[404] = handle_404
+#app.error_handlers[405] = handle_405
+#app.error_handlers[500] = handle_500
+#app.error_handlers[503] = handle_503
