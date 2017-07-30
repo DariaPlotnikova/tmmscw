@@ -64,7 +64,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/reg/lead/change', team.ChangeTeamMember, name='change-member'),
     webapp2.Route('/reg/lead/delete', team.DeleteMember, name='delete-member'),
     # organizer routes
-    webapp2.Route('/reg/org/competition/(comp_id:\d+)', org_competition.CertainCompetition, name='comp-org'),
+    #webapp2.Route('/reg/org/competition/(comp_id:\d+)', org_competition.CertainCompetition, name='comp-org'),
     webapp2.Route('/reg/org/fill_info', org_competition.FillCompetitionInfo, name='fillin-comp'),
     webapp2.Route('/reg/org/create', org_competition.CreateCompetition, name='create-comp'),
 

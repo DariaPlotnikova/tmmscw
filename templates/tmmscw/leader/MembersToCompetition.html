@@ -1,4 +1,4 @@
-{% extends 'templates/tmmosc/base/AuthUserHeader.html' %}
+{% extends '/tmmscw/base/AuthUserHeader.html' %}
    {% block title %}{{ comp_name }}{% endblock %}
    {% block styles %}
        <style>
@@ -20,8 +20,8 @@
         <span class="mdl-layout-title"></span>
         <nav class="mdl-navigation">
           <a class="mdl-navigation__link" href="/">Список соревнований</a>
-          <a class="mdl-navigation__link" href="/reg/lead/team">Моя команда</a>
-          <a class="mdl-navigation__link" href="/reg/leaderAddMember">Добавить участника</a>
+          <a class="mdl-navigation__link" href="{{ url('team') }}">Моя команда</a>
+          <a class="mdl-navigation__link" href="{{ url('add-to-team') }}">Добавить участника</a>
         </nav>
       </div>
    {% endblock %}
@@ -47,14 +47,14 @@
                           </div>
                       </div>   <!--   .mdl-card__title  -->
                       <div class="mdl-card__actions mdl-card--border" style="border: none; background: #fff; padding: 30px 0 0 0;">
-                      {% if membs_count > 0 %}
+                      {% if entry_membs or no_entry_membs %}
                           <div class="mdl-grid" style="padding-bottom: 0px; margin-bottom: 0px; text-align: center;">
                               <div class="mdl-cell--12-col">
                                   <p class="myP" style="color: #42A5F5; margin: 25px 0 0 30px;">Выберите участников команды для заявки (cиним выделены те, кто уже заявлен на эти соревнования):</p>
                               </div>
                           </div>
-                          <form id="formSaveMembs" name="formSaveMembs" action="/entryMembsByDay" method="post">
-                              <input type="text" style="display: none;" name="competition" value="{{ comp_key }}">
+                          <form id="formSaveMembs" name="formSaveMembs" action="{{ url('add-by-day') }}" method="post">
+                              <input type="text" style="display: none;" name="competition" value="{{ competition.key() }}">
                               <div class="mdl-grid" style="padding-top: 0px; margin-bottom: 24px;">
                                   <!--  row3  -->
                                   <div class="mdl-cell mdl-cell--1-col"></div>
@@ -68,7 +68,7 @@
                                                 <th class="myP" style="width: 10%; color: #42a5f5; text-align: center;">Год рождения</th>
                                                 <th class="myP" style="width: 10%; color: #42a5f5; text-align: center;">Разряд</th>
                                                 <th class="myP" style="width: 15%; color: #42a5f5; text-align: center;">Пол</th>
-                                                <th class="myP" style="width: 2%; color: #42a5f5; text-align: center;" colspan="{{ days_count|length }}">Дни соревнований</th>
+                                                <th class="myP" style="width: 2%; color: #42a5f5; text-align: center;" colspan="{{ days_range|length }}">Дни соревнований</th>
                                               </tr>
                                           </thead>
                                           <tbody>
@@ -79,10 +79,10 @@
                                                     <td class="myP" style="width: 10%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ memb.qualification }}</td>
                                                     <td class="myP" style="width: 15%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ memb.sex }}</td>
                                                     {% set outer_indx = loop.index0 %}
-                                                    {% for day in days_count %}
+                                                    {% for day in days_range %}
                                                       <td style="bottom: 4px; padding: 12px 6px 6px 6px;">
                                                         <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkMemb1{{ loop.index0 }}{{ outer_indx }}">
-                                                          <input type="checkbox" id="checkMemb1{{ loop.index0 }}{{ outer_indx }}" name="checkMemb{{ loop.index0 }}" class="mdl-checkbox__input" value="{{ memb.key() }}" checked>
+                                                          <input type="checkbox" id="checkMemb1{{ loop.index0 }}{{ outer_indx }}" name="checkMemb{{loop.index0}}" class="mdl-checkbox__input" value="{{ memb.key() }}" checked>
                                                           <span class="mdl-checkbox__label"></span>
                                                         </label>
                                                       </td>
@@ -96,10 +96,10 @@
                                                     <td class="myP" style="width: 10%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ memb.qualification }}</td>
                                                     <td class="myP" style="width: 15%; text-align: center; padding-left: 2px; padding-right: 2px;">{{ memb.sex }}</td>
                                                     {% set outer_indx = loop.index0 %}
-                                                    {% for day in days_count %}
+                                                    {% for day in days_range %}
                                                       <td style="bottom: 4px; padding: 12px 6px 6px 6px;">
                                                         <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkMemb2{{ loop.index0 }}{{ outer_indx }}">
-                                                          <input type="checkbox" id="checkMemb2{{ loop.index0 }}{{ outer_indx }}" name="checkMemb{{ loop.index0 }}" class="mdl-checkbox__input" value="{{ memb.key() }}">
+                                                          <input type="checkbox" id="checkMemb2{{ loop.index0 }}{{ outer_indx }}" name="checkMemb{{loop.index0}}" class="mdl-checkbox__input" value="{{ memb.key() }}">
                                                           <span class="mdl-checkbox__label"></span>
                                                         </label>
                                                       </td>

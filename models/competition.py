@@ -43,7 +43,7 @@ class DistInfo(db.Model):
 class CompMemb(db.Model):
     competition = db.ReferenceProperty(Competition)
     member = db.ReferenceProperty(Member)
-    group = db.StringProperty()
+    group = db.ReferenceProperty(DistInfo)
     day_numb = db.IntegerProperty()
 
 

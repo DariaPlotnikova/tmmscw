@@ -8,13 +8,14 @@ from views.utils import show_unauth_page, find_user, create_roles_head, format_d
     post_competition, post_info, post_diz
 from views.common.base_handlers import BaseHandler
 
-
+'''
 class CertainCompetition(webapp2.RedirectHandler, BaseHandler):
     """
     Displays full info about certain competition and listens ajax request with changes
     """
     def get(self, comp_id):
-        temp_values = {}
+        competition = 1
+        temp_values = {'competition': competition}
         template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
         self.response.write(template.render(temp_values))
 
@@ -22,7 +23,7 @@ class CertainCompetition(webapp2.RedirectHandler, BaseHandler):
         temp_values = {}
         template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
         self.response.write(template.render(temp_values))
-
+'''
 
 class FillCompetitionInfo(webapp2.RedirectHandler, BaseHandler):
     """
