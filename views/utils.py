@@ -284,7 +284,6 @@ def diz_from_db(comp):
             dus_of_day.append(dict(salary=mem_info.salary, age_min=mem_info.age_min,
                                    age_max=mem_info.age_max, qual_min=mem_info.qual_min,
                                    qual_max=mem_info.qual_max, group=dist.group_name))
-            print dizs_of_day
         dizs.insert(day_numb_of_distance, dizs_of_day)
         dus.insert(day_numb_of_distance, dus_of_day)
     temp_values = {'discs': disciplines, 'lens': lengths, 'dizs': dizs, 'dus': dus}
@@ -293,15 +292,22 @@ def diz_from_db(comp):
 
 def membs_from_db(comp):
     """Gets members of the competition from database and fills template's values"""
-    members_by_day = []
-    membs_count = 0
-    for day in range(1, comp.days_count + 1):
+    womens_by_day = []
+    mens_by_day = []
+    has_any_member = db.Query(CompMemb).filter('competition =', comp).count()
+    for day in range(comp.days_count):
         membs_of_day_q = db.Query(CompMemb).filter('competition =', comp).filter('day_numb =', day).order('group')
         membs_of_day = membs_of_day_q.run(batch_size=1000)
-        if membs_of_day_q.count() > 0:
-            membs_count = 1
-        members_by_day.append(membs_of_day)
-    temp_values = {'membs_by_days': members_by_day, 'membs_count': membs_count}
+        mens = []
+        womens = []
+        for m in membs_of_day:
+            if m.member.is_men():
+                mens.append(m)
+            else:
+                womens.append(m)
+        womens_by_day.append(womens)
+        mens_by_day.append(mens)
+    temp_values = {'womens_by_day': womens_by_day, 'mens_by_day': mens_by_day, 'has_any_member': has_any_member}
     return temp_values
 
 

@@ -72,7 +72,6 @@ class CertainCompetition(BaseHandler):
     """
     Displays info about certain competition
     """
-
     def get(self):
         """Displays info about competition stored in database"""
         user = users.get_current_user()

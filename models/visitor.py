@@ -40,6 +40,9 @@ class Member(db.Model):
     birthdate = db.IntegerProperty(required=True)
     qualification = db.StringProperty(choices=defaults.DEFAULT_QUALS, default=defaults.DEFAULT_QUALS[0])
 
+    def is_men(self):
+        return self.sex.encode('utf-8') == ''.join(['Мужской',]) or self.sex.encode('utf-8') == ''.join(['М',])
+
     @classmethod
     def get_by_user(cls, user):
         return db.Query(cls)\
