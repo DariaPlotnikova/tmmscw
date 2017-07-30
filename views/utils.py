@@ -221,12 +221,12 @@ def post_diz(self, competition):
         dizs.append(zip(diz_groups[i], diz_length[i], diz_class[i], diz_min_com[i], diz_max_com[i]))
         dus.append(zip(du_group[i], du_salary[i], du_age_min[i], du_age_max[i], du_qual_min[i], du_qual_max[i]))
         for j in range(len(du_group[i])):  # Run through groups in one day
-            mem = MemInfo(salary=float(du_salary[i][j]), age_min=int(du_age_min[i][j]),
+            mem = MemInfo(salary=float(du_salary[i][j]), age_min=int(du_age_min[i][j]), ordering=j,
                           age_max=int(du_age_max[i][j]), qual_min=du_qual_min[i][j], qual_max=du_qual_max[i][j])
             mem.put()
             dist = DistInfo(group_name=diz_groups[i][j], length=float(diz_length[i][j]),
                             dist_class=int(diz_class[i][j]), min_com=int(diz_min_com[i][j]),
-                            max_com=int(diz_max_com[i][j]), mem_info=mem, distance=distance)
+                            max_com=int(diz_max_com[i][j]), mem_info=mem, distance=distance, ordering=j)
             dist.put()
     temp_values = {'discs': disciplines, 'lens': lengths, 'dizs': dizs, 'dus': dus, 'stat_day': competition.statistic[0],
                    'stat_sex': competition.statistic[1], 'stat_qual': competition.statistic[2], 'membs_count': 0}
@@ -257,7 +257,7 @@ def info_from_db(comp):
         day_info = []
         for idx, fio in enumerate(info.orgs_fio):
             day_info.append(dict(fio=fio, dol=info.orgs_dol[idx], cont=info.orgs_cont[idx]))
-        org_infos.append(day_info)
+        org_infos.insert(day_numb_of_info, day_info)
     temp_values = {'pz_end_add': pz_end_add, 'pz_end_change': pz_end_change, 'places': places, 'pzs': pzs, 'tzs': tzs,
                    'links': links, 'org_fios': orgs_fio, 'org_dols': orgs_dol, 'org_conts': orgs_cont,
                    'org_infos': org_infos}
@@ -280,7 +280,10 @@ def diz_from_db(comp):
         dus_of_day = []
         for dist in dists_info:
             dizs_of_day.append(dist)
-            dus_of_day.append(dist.mem_info)
+            mem_info = dist.mem_info
+            dus_of_day.append(dict(salary=mem_info.salary, age_min=mem_info.age_min,
+                                   age_max=mem_info.age_max, qual_min=mem_info.qual_min,
+                                   qual_max=mem_info.qual_max, group=dist.group_name))
             print dizs_of_day
         dizs.insert(day_numb_of_distance, dizs_of_day)
         dus.insert(day_numb_of_distance, dus_of_day)

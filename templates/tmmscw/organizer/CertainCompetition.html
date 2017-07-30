@@ -129,13 +129,13 @@
                                                         <!--  row5  -->
                                                         <div class="mdl-cell--2-col" style="width: 85px;"></div>
                                                         <div class="mdl-cell--5-col" style="padding-top: 6px;">
-                                                            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="trPz{{ day_numb }}">
+                                                            <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="trPz{{ day_numb }}" disabled>
                                                               {% if pzs[loop.index0] != ''%}
                                                                 <span class="mdl-switch__label">Текущее состояние: <span id="PzState1{{ day_numb }}">Открыта</span></span><span id="PzState2{{ day_numb }}" style="display:none; margin-left: 25px;">Закрыта</span></span>
                                                               {% else %}
                                                                 <span class="mdl-switch__label">Текущее состояние: <span id="PzState1{{ day_numb }}">Закрыта</span></span><span id="PzState2{{ day_numb }}" style="display:none; margin-left: 25px;">Открыта</span></span>
                                                               {% endif %}
-                                                                <input type="checkbox" id="trPz{{ day_numb }}" name="trPz" class="mdl-switch__input" onclick="trPzClick({{ day_numb }})" {{ pzs[loop.index0] }}>
+                                                                <input type="checkbox" id="trPz{{ day_numb }}" name="trPz" class="mdl-switch__input" onclick="trPzClick({{ day_numb }})" {{ pzs[loop.index0] }} disabled>
                                                             </label>
                                                         </div>
                                                         <div class="mdl-cell--1-col" style="width: 20px;"></div>
@@ -192,7 +192,7 @@
                                                               {% else %}
                                                                 <span class="mdl-switch__label">Текущее состояние: <span id="TzState1{{ day_numb }}">Отключена</span><span id="TzState2{{ day_numb }}" style="display: none;">Включена</span></span>
                                                               {% endif %}
-                                                              <input type="checkbox" id="trTz{{ day_numb }}" name="trTz" class="mdl-switch__input" onclick="trTzClick({{ day_numb }});" {{ tzs[loop.index0] }}>
+                                                              <input type="checkbox" id="trTz{{ day_numb }}" name="trTz" class="mdl-switch__input" onclick="trTzClick({{ day_numb }});" {{ tzs[loop.index0] }} disabled>
                                                             </label>
                                                         </div>
                                                         <div class="mdl-cell--1-col" style="width: 20px;"></div>
@@ -396,11 +396,11 @@
                                                         <div class="mdl-cell--1-col"></div>
                                                     </div>
                                                   <!--  Этот кусок будет множиться на все записи  -->
-                                                    {%  for membs_in_day in dus[loop.index0] %}
+                                                    {% for membs_in_day in dus[loop.index0] %}
                                                         <div class="mdl-grid" style="margin: 10px 0 0 0; padding: 0 0 0 0;text-align: center;">
                                                             <!--  row8  -->
                                                             <div class="mdl-cell--2-col"></div>
-                                                            <div class="mdl-cell--1-col"><p class="myP">{{ membs_in_day.distinfo_set[0].group_name }}</p></div>
+                                                            <div class="mdl-cell--1-col"><p class="myP">{{ membs_in_day.group }}</p></div>
                                                             <div class="mdl-cell--1-col"></div>
                                                             <div class="mdl-cell--1-col"><p class="myP">{{ membs_in_day.salary }}</p></div>
                                                             <div class="mdl-cell--1-col"></div>

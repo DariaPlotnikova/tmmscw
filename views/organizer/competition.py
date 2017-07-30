@@ -9,7 +9,7 @@ from views.utils import show_unauth_page, find_user, create_roles_head, format_d
 from views.common.base_handlers import BaseHandler
 
 
-class CertainCompetition(BaseHandler):
+class CertainCompetition(webapp2.RedirectHandler, BaseHandler):
     """
     Displays full info about certain competition and listens ajax request with changes
     """
@@ -24,7 +24,7 @@ class CertainCompetition(BaseHandler):
         self.response.write(template.render(temp_values))
 
 
-class FillCompetitionInfo(BaseHandler):
+class FillCompetitionInfo(webapp2.RedirectHandler, BaseHandler):
     """
     Saves common info about new competition
     """
@@ -64,7 +64,7 @@ class FillCompetitionInfo(BaseHandler):
             show_unauth_page(self)
 
 
-class CreateCompetition(BaseHandler):
+class CreateCompetition(webapp2.RedirectHandler, BaseHandler):
     """
     Saves full info about new competition
     """
