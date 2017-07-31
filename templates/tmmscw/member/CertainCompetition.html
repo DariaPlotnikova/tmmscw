@@ -1,14 +1,14 @@
-{% extends 'templates/tmmosc/base/AuthUserHeader.html' %}
+{% extends '/tmmscw/base/AuthUserHeader.html' %}
    {% block title %}{{ name }}{% endblock %}
    {% block menu_nav %}
       <div class="mdl-layout__drawer">
         <span class="mdl-layout-title"></span>
         <nav class="mdl-navigation">
           <a class="mdl-navigation__link" href="/">Список соревнований</a>
-          <a class="mdl-navigation__link" href="#">Редактировать данные</a>
+          <a class="mdl-navigation__link" href="{{ url('self-edit') }}">Редактировать данные</a>
         </nav>
       </div>
    {% endblock %}
    {% block main_content %}
-        {% include "/templates/tmmosc/base/CompetitionContent.html" %}  {# also includes blocks STYLES and SCRIPTS #}
+        {% include 'tmmscw/base/CompetitionContent.html' %}  {# also includes blocks STYLES and SCRIPTS #}
    {% endblock %}

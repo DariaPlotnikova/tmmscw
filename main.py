@@ -22,6 +22,7 @@ from views.common import roles
 from views.common import competition as com_competition, members
 from views.leader import competition as lead_competition, team
 from views.organizer import competition as org_competition, lists
+from views.member import views as memb_views
 
 
 jinja_env = jinja2.Environment(
@@ -56,6 +57,11 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/members', members.MemberList, name='members'),
     webapp2.Route('/postSignIn', roles.PostSignIn, name='post-singin'),
     webapp2.Route('/reg/nullToRole', roles.BeforeSignOut, name='before-singout'),
+    # member routes
+    webapp2.Route('/member/edit', memb_views.EditMember, name='self-edit'),
+    webapp2.Route('/member/delete', memb_views.DeleteMember, name='self-delete'),
+    webapp2.Route('/member/add_day', memb_views.AddMemberByDays, name='add-self-by-day'),
+    webapp2.Route('/member/add_class', memb_views.AddMemberByClasses, name='add-self-by-class'),
     # leader routes
     webapp2.Route('/reg/lead/add_day', lead_competition.AddMembersByDays, name='add-by-day'),
     webapp2.Route('/reg/lead/add_class', lead_competition.AddMembersByClasses, name='add-by-class'),

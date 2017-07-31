@@ -75,13 +75,6 @@ class CreateCompetition(webapp2.RedirectHandler, BaseHandler):
             competition, temp_values, errors = post_competition(self)
             temp_values.update(post_info(self, competition))
             temp_values.update(post_diz(self, competition))
-            template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
-            self.response.write(template.render(temp_values))
+            self.redirect(webapp2.uri_for('comps'))
         else:
             show_unauth_page(self)
-
-        '''
-        temp_values = {}
-        template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
-        self.response.write(template.render(temp_values))
-        '''

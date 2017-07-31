@@ -101,10 +101,10 @@ class CertainCompetition(BaseHandler):
                 action = webapp2.uri_for('add-by-day')
                 template = main.jinja_env.get_template('/tmmscw/leader/CertainCompetition.html')
             elif is_memb and self.session.get('role') == 'member':
-                action = webapp2.uri_for('add-by-day')  # only one member
+                action = webapp2.uri_for('add-self-by-day')  # only one member
                 template = main.jinja_env.get_template('/tmmscw/member/CertainCompetition.html')
             else:
-                action = webapp2.uri_for('add-by-day')  # only one member
+                action = webapp2.uri_for('add-self-by-day')  # only one member
                 template = main.jinja_env.get_template('/tmmscw/CertainCompetition.html')
             temp_values.update({'action': action})
         self.response.write(template.render(temp_values))

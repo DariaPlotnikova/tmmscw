@@ -30,12 +30,13 @@ class AddMembersByDays(webapp2.RequestHandler):
             user = users.get_current_user()
             leader = db.Query(Leader).filter('user =', user).get()
             command = leader.command
-            comp_members = competition.compmemb_set
-            team_members = command.member_set
+            comp_members = [cm.member for cm in competition.compmemb_set]
+            team_members = command.member_set.fetch(limit=1000)
             entry_membs = [m for m in team_members if m in comp_members]
             no_entry_membs = [m for m in team_members if m not in comp_members]
             temp_values = {'competition': competition, 'entry_membs': entry_membs,
-                           'no_entry_membs': no_entry_membs, 'days_range': range(competition.days_count)}
+                           'no_entry_membs': no_entry_membs, 'days_range': range(competition.days_count),
+                           'comp_members': comp_members}
             template = main.jinja_env.get_template('/tmmscw/leader/MembersToCompetition.html')
             self.response.write(template.render(temp_values))
         else:

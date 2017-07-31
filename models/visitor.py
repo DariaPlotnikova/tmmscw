@@ -43,7 +43,5 @@ class Member(db.Model):
     def is_men(self):
         return self.sex.encode('utf-8') == ''.join(['Мужской',]) or self.sex.encode('utf-8') == ''.join(['М',])
 
-    @classmethod
-    def get_by_user(cls, user):
-        return db.Query(cls)\
-            .filter(cls.user_id == user.user_id()).get()
+    def __eq__(self, other):
+        return self.key() == other.key()
