@@ -40,8 +40,8 @@ class Competitions(BaseHandler):
         d_start = format_date_list(d_start)
         d_finish = format_date_list(d_finish)
         user = users.get_current_user()
-        temp_values = {'comps': comps, 'c_count': comps_count, 'd_start': d_start, 'd_finish': d_finish, 'pzs': pzs,
-                       'is_open_pz': is_open_pz}
+        temp_values = {'comps': comps, 'c_count': comps_count, 'd_start': d_start,
+                       'd_finish': d_finish, 'pzs': pzs, 'is_open_pz': is_open_pz}
         if not user:        # user is anonim
             login = users.create_login_url(dest_url='/postSignIn')
             temp_values.update({'login': login, 'is_user': False})
@@ -53,7 +53,6 @@ class Competitions(BaseHandler):
             temp_values.update({'user_email': email, 'roles': roles, 'logout': users.create_logout_url('/'),
                                 'is_user': True})
 
-            print 'Current local role: ' + str(loc_role)
             if loc_role == 'organizer':          # show compList corresponding to user's role
                 template_path = '/tmmscw/organizer/CompetitionList.html'
             elif loc_role == 'leader':
@@ -73,11 +72,10 @@ class CertainCompetition(BaseHandler):
     """
     Displays info about certain competition
     """
-
     def get(self):
         """Displays info about competition stored in database"""
         user = users.get_current_user()
-        key = self.request.GET.get('comp_id')
+        key = self.request.get('comp_id')
         comp = Competition.get(key)
         info_values = info_from_db(comp)
         diz_values = diz_from_db(comp)
@@ -87,10 +85,9 @@ class CertainCompetition(BaseHandler):
         temp_values.update(info_values)
         temp_values.update(diz_values)
         temp_values.update(memb_values)
-        print 'TEMPLAE --------- ' + str(temp_values)
         if not user:  # user is anonim
             login = users.create_login_url(dest_url='/postSignIn')
-            temp_values.update({'action': '/entryOneMemb', 'login': login})
+            temp_values.update({'action': webapp2.uri_for('add-by-day'), 'login': login})     # only one member
             template = main.jinja_env.get_template('/tmmscw/CertainCompetition.html')
         else:
             email = user.email()
@@ -101,34 +98,16 @@ class CertainCompetition(BaseHandler):
                 action = ''
                 template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
             elif is_lead and self.session.get('role') == 'leader':
-                action = '/entryMembs'
+                action = webapp2.uri_for('add-by-day')
                 template = main.jinja_env.get_template('/tmmscw/leader/CertainCompetition.html')
             elif is_memb and self.session.get('role') == 'member':
-                action = '/entryOneMemb'
+                action = webapp2.uri_for('add-self-by-day')  # only one member
                 template = main.jinja_env.get_template('/tmmscw/member/CertainCompetition.html')
             else:
-                action = '/entryOneMemb'
+                action = webapp2.uri_for('add-self-by-day')  # only one member
                 template = main.jinja_env.get_template('/tmmscw/CertainCompetition.html')
             temp_values.update({'action': action})
         self.response.write(template.render(temp_values))
-
-
-    '''
-    def get(self):
-        member = leader = organizer = False
-
-        temp_values = {}
-        if member:
-            template = main.jinja_env.get_template('/tmmscw/member/CertainCompetition.html')
-        elif leader:
-            template = main.jinja_env.get_template('/tmmscw/leader/CertainCompetition.html')
-        elif organizer:
-            template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
-        else:
-            template = main.jinja_env.get_template('/tmmscw/CertainCompetition.html')
-
-        self.response.write(template.render(temp_values))
-    '''
 
 
 

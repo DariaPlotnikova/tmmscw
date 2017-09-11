@@ -10,6 +10,10 @@ class Organizer(db.Model):
     nickname = db.StringProperty(required=False, multiline=False)
     contact = db.StringProperty(required=False)
 
+    @classmethod
+    def get_by_user(cls, user):
+        return db.Query(cls).filter(cls.user_id == user.user_id()).get()
+
 
 class Command(db.Model):
     name = db.StringProperty()
@@ -22,6 +26,10 @@ class Leader(db.Model):
     nickname = db.StringProperty(multiline=False)
     contact = db.EmailProperty(required=True)
 
+    @classmethod
+    def get_by_user(cls, user):
+        return db.Query(cls).filter(cls.user_id == user.user_id()).get()
+
 
 class Member(db.Model):
     pass_to_edit = db.StringProperty(multiline=False)
@@ -31,3 +39,9 @@ class Member(db.Model):
     command = db.ReferenceProperty(Command, required=False)
     birthdate = db.IntegerProperty(required=True)
     qualification = db.StringProperty(choices=defaults.DEFAULT_QUALS, default=defaults.DEFAULT_QUALS[0])
+
+    def is_men(self):
+        return self.sex.encode('utf-8') == ''.join(['Мужской',]) or self.sex.encode('utf-8') == ''.join(['М',])
+
+    def __eq__(self, other):
+        return self.key() == other.key()

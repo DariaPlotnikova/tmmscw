@@ -8,14 +8,15 @@ from views.utils import show_unauth_page, find_user, create_roles_head, format_d
     post_competition, post_info, post_diz
 from views.common.base_handlers import BaseHandler
 
-
-class CertainCompetition(BaseHandler):
+'''
+class CertainCompetition(webapp2.RedirectHandler, BaseHandler):
     """
     Displays full info about certain competition and listens ajax request with changes
     """
 
     def get(self, comp_id):
-        temp_values = {}
+        competition = 1
+        temp_values = {'competition': competition}
         template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
         self.response.write(template.render(temp_values))
 
@@ -23,9 +24,9 @@ class CertainCompetition(BaseHandler):
         temp_values = {}
         template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
         self.response.write(template.render(temp_values))
+'''
 
-
-class FillCompetitionInfo(BaseHandler):
+class FillCompetitionInfo(webapp2.RedirectHandler, BaseHandler):
     """
     Saves common info about new competition
     """
@@ -65,27 +66,16 @@ class FillCompetitionInfo(BaseHandler):
             show_unauth_page(self)
 
 
-class CreateCompetition(BaseHandler):
+class CreateCompetition(webapp2.RedirectHandler, BaseHandler):
     """
     Saves full info about new competition
     """
     def post(self):
         user = users.get_current_user()
         if user:
-            email = user.email()
-            # common info about competition
             competition, temp_values, errors = post_competition(self)
             temp_values.update(post_info(self, competition))
             temp_values.update(post_diz(self, competition))
-
-            print 'TEMPLATE VALUES ----------------- ' + str(temp_values)
-            template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
-            self.response.write(template.render(temp_values))
+            self.redirect(webapp2.uri_for('comps'))
         else:
             show_unauth_page(self)
-
-        '''
-        temp_values = {}
-        template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
-        self.response.write(template.render(temp_values))
-        '''

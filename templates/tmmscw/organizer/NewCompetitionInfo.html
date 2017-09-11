@@ -37,7 +37,7 @@
 
 
    {% block scripts %}
-        <script type="application/javascript" src="js/toAddCompetition.js"></script>
+        <script type="application/javascript" src="static/js/toAddCometition.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
         <script>
            $("input").on("change", function() {
@@ -81,8 +81,8 @@
                               </div>
                               <div class="mdl-cell--7-col">
                                   <div class="mdl-textfield mdl-js-textfield" style="width: 100%; color: #42A5F5;">
-                                    <input class="mdl-textfield__input" type="text" id="nameCompNew" name="nameCompNew">
-                                    <label class="mdl-textfield__label" for="nameCompNew">Введите название соревнования</label>
+                                    <input class="mdl-textfield__input" type="text" id="nameCompNew" name="nameCompNew" value="Тестовый старт">
+                                    <label class="mdl-textfield__label" for="sample1">Введите название соревнования</label>
                                   </div>
                               </div>
                               <div class="mdl-cell--3-col"></div>
@@ -94,7 +94,7 @@
                               </div>
                               <div class="mdl-cell--2-col">
                                   <div class="mdl-textfield mdl-js-textfield" style="width: 100%; color: #42A5F5;">
-                                    <input class="mdl-textfield__input" type="date" data-date="" data-date-format="DD MMMM YYYY" id="dateStartNew" name="dateStartNew" value="2016-01-01">
+                                    <input class="mdl-textfield__input" type="date" data-date="" data-date-format="DD MMMM YYYY" id="dateStartNew" name="dateStartNew" value="2017-10-08">
                                   </div>
                               </div>
                               <div class="mdl-cell--1-col"></div>
@@ -103,7 +103,7 @@
                               </div>
                               <div class="mdl-cell--2-col">
                                   <div class="mdl-textfield mdl-js-textfield" style="width: 100%; color: #42A5F5;">
-                                    <input class="mdl-textfield__input" type="date" data-date="" data-date-format="DD MMMM YYYY" id="dateFinishNew" name="dateFinishNew" value="2016-01-04">
+                                    <input class="mdl-textfield__input" type="date" data-date="" data-date-format="DD MMMM YYYY" id="dateFinishNew" name="dateFinishNew" value="2017-10-13">
                                   </div>
                               </div>
                               <div class="mdl-cell--2-col"></div>
@@ -115,8 +115,8 @@
                               </div>
                               <div class="mdl-cell--2-col">
                                   <div class="mdl-textfield mdl-js-textfield" style="width: 100%; color: #42A5F5;">
-                                    <input class="mdl-textfield__input" type="text" id="countStart" name="countStart">
-                                    <label class="mdl-textfield__label" for="countStart">Введите число стартовых дней</label>
+                                    <input class="mdl-textfield__input" type="text" id="countStart" name="countStart" value="2">
+                                    <label class="mdl-textfield__label" for="sample1">Введите число стартовых дней</label>
                                   </div>
                               </div>
                               <div class="mdl-cell--7-col"></div>
@@ -139,10 +139,10 @@
                               <div class="mdl-cell--4-col"></div>
                               <div class="mdl-cell--2-col"></div>
                               <div class="mdl-cell--6-col">
-                                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkPlacesMap" style="left:30px; margin-top:10px;">
+                                  {# <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkPlacesMap" style="left:30px; margin-top:10px;">
                                       <input type="checkbox" id="checkPlacesMap" name="checkPlacesMap" class="mdl-checkbox__input" checked>
                                       <span class="mdl-checkbox__label" style="color: #42a5f5; left:30px;">Отображать места стартов на карте</span>
-                                  </label>
+                                  </label> #}
                               </div>
 
                               <div class="mdl-cell--4-col"></div>
@@ -158,4 +158,5 @@
           </div>  <!-- page-content -->
         </form>  <!--  formNewComp  -->
       </main>
+    </div>
     {% endblock %}

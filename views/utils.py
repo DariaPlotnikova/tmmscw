@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import hashlib
+import random
+import string
 from google.appengine.api import users
 from datetime import date, datetime
 from google.appengine.ext import db
@@ -10,6 +12,15 @@ from models.visitor import Organizer, Leader, Member
 
 
 __author__ = 'Daria'
+
+
+def generate_passwd():
+    pwd = []
+    for i in range(3):
+        pwd.append(random.choice(string.ascii_lowercase))
+        pwd.append(random.choice(string.ascii_uppercase))
+    random.shuffle(pwd)
+    return ''.join(pwd)
 
 
 def salt_pass(paswd):
@@ -152,13 +163,13 @@ def post_info(self, competition):
     org_fios = []
     org_dols = []
     org_conts = []
+    org_infos = []
     for i in range(1, competition.days_count + 1):
         pzs.append(self.request.POST.getall('trPzNew%s' % str(i)))
         tzs.append(self.request.POST.getall('trTzNew%s' % str(i)))
         org_fios.append(self.request.POST.getall('orgFioNew%s' % str(i)))
         org_dols.append(self.request.POST.getall('orgDolNew%s' % str(i)))
         org_conts.append(self.request.POST.getall('orgContNew%s' % str(i)))
-    org_infos = zip(org_fios, org_dols, org_conts)
     for i in range(competition.days_count):
         info = Info(competition=competition, day_numb=i, place_addr=places[i], pz_is_open=on_to_boolean(pzs[i]),
                     pz_add_end=date_to_python(pz_end_add[i]), pz_change_end=date_to_python(pz_end_change[i]),
@@ -210,12 +221,12 @@ def post_diz(self, competition):
         dizs.append(zip(diz_groups[i], diz_length[i], diz_class[i], diz_min_com[i], diz_max_com[i]))
         dus.append(zip(du_group[i], du_salary[i], du_age_min[i], du_age_max[i], du_qual_min[i], du_qual_max[i]))
         for j in range(len(du_group[i])):  # Run through groups in one day
-            mem = MemInfo(salary=float(du_salary[i][j]), age_min=int(du_age_min[i][j]),
+            mem = MemInfo(salary=float(du_salary[i][j]), age_min=int(du_age_min[i][j]), ordering=j,
                           age_max=int(du_age_max[i][j]), qual_min=du_qual_min[i][j], qual_max=du_qual_max[i][j])
             mem.put()
             dist = DistInfo(group_name=diz_groups[i][j], length=float(diz_length[i][j]),
                             dist_class=int(diz_class[i][j]), min_com=int(diz_min_com[i][j]),
-                            max_com=int(diz_max_com[i][j]), mem_info=mem, distance=distance)
+                            max_com=int(diz_max_com[i][j]), mem_info=mem, distance=distance, ordering=j)
             dist.put()
     temp_values = {'discs': disciplines, 'lens': lengths, 'dizs': dizs, 'dus': dus, 'stat_day': competition.statistic[0],
                    'stat_sex': competition.statistic[1], 'stat_qual': competition.statistic[2], 'membs_count': 0}
@@ -234,6 +245,7 @@ def info_from_db(comp):
     orgs_fio = []
     orgs_dol = []
     orgs_cont = []
+    org_infos = []
     for info in infos:
         day_numb_of_info = info.day_numb
         pz_end_add.insert(day_numb_of_info, format_date(str(info.pz_add_end)))
@@ -242,10 +254,10 @@ def info_from_db(comp):
         tzs.insert(day_numb_of_info, bool_to_checked(info.tz_is_on))
         places.insert(day_numb_of_info, info.place_addr)
         links.insert(day_numb_of_info, info.link)
-        orgs_fio.insert(day_numb_of_info, info.orgs_fio)
-        orgs_dol.insert(day_numb_of_info, info.orgs_dol)
-        orgs_cont.insert(day_numb_of_info, info.orgs_cont)
-    org_infos = zip(orgs_fio, orgs_dol, orgs_cont)
+        day_info = []
+        for idx, fio in enumerate(info.orgs_fio):
+            day_info.append(dict(fio=fio, dol=info.orgs_dol[idx], cont=info.orgs_cont[idx]))
+        org_infos.insert(day_numb_of_info, day_info)
     temp_values = {'pz_end_add': pz_end_add, 'pz_end_change': pz_end_change, 'places': places, 'pzs': pzs, 'tzs': tzs,
                    'links': links, 'org_fios': orgs_fio, 'org_dols': orgs_dol, 'org_conts': orgs_cont,
                    'org_infos': org_infos}
@@ -264,11 +276,14 @@ def diz_from_db(comp):
         disciplines.insert(day_numb_of_distance, distance.type)
         lengths.insert(day_numb_of_distance, distance.lent)
         dists_info = distance.distinfo_set.run(batch_size=1000)
-        dizs_of_day = [];
+        dizs_of_day = []
         dus_of_day = []
         for dist in dists_info:
             dizs_of_day.append(dist)
-            dus_of_day.append(dist.mem_info)
+            mem_info = dist.mem_info
+            dus_of_day.append(dict(salary=mem_info.salary, age_min=mem_info.age_min,
+                                   age_max=mem_info.age_max, qual_min=mem_info.qual_min,
+                                   qual_max=mem_info.qual_max, group=dist.group_name))
         dizs.insert(day_numb_of_distance, dizs_of_day)
         dus.insert(day_numb_of_distance, dus_of_day)
     temp_values = {'discs': disciplines, 'lens': lengths, 'dizs': dizs, 'dus': dus}
@@ -277,15 +292,22 @@ def diz_from_db(comp):
 
 def membs_from_db(comp):
     """Gets members of the competition from database and fills template's values"""
-    members_by_day = []
-    membs_count = 0
-    for day in range(1, comp.days_count + 1):
+    womens_by_day = []
+    mens_by_day = []
+    has_any_member = db.Query(CompMemb).filter('competition =', comp).count()
+    for day in range(comp.days_count):
         membs_of_day_q = db.Query(CompMemb).filter('competition =', comp).filter('day_numb =', day).order('group')
         membs_of_day = membs_of_day_q.run(batch_size=1000)
-        if membs_of_day_q.count() > 0:
-            membs_count = 1
-        members_by_day.append(membs_of_day)
-    temp_values = {'membs_by_days': members_by_day, 'membs_count': membs_count}
+        mens = []
+        womens = []
+        for m in membs_of_day:
+            if m.member.is_men():
+                mens.append(m)
+            else:
+                womens.append(m)
+        womens_by_day.append(womens)
+        mens_by_day.append(mens)
+    temp_values = {'womens_by_day': womens_by_day, 'mens_by_day': mens_by_day, 'has_any_member': has_any_member}
     return temp_values
 
 

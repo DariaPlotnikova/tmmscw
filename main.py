@@ -22,6 +22,7 @@ from views.common import roles
 from views.common import competition as com_competition, members
 from views.leader import competition as lead_competition, team
 from views.organizer import competition as org_competition, lists
+from views.member import views as memb_views
 
 
 jinja_env = jinja2.Environment(
@@ -56,13 +57,20 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/members', members.MemberList, name='members'),
     webapp2.Route('/postSignIn', roles.PostSignIn, name='post-singin'),
     webapp2.Route('/reg/nullToRole', roles.BeforeSignOut, name='before-singout'),
+    # member routes
+    webapp2.Route('/member/edit', memb_views.EditMember, name='self-edit'),
+    webapp2.Route('/member/delete', memb_views.DeleteMember, name='self-delete'),
+    webapp2.Route('/member/add_day', memb_views.AddMemberByDays, name='add-self-by-day'),
+    webapp2.Route('/member/add_class', memb_views.AddMemberByClasses, name='add-self-by-class'),
     # leader routes
     webapp2.Route('/reg/lead/add_day', lead_competition.AddMembersByDays, name='add-by-day'),
     webapp2.Route('/reg/lead/add_class', lead_competition.AddMembersByClasses, name='add-by-class'),
     webapp2.Route('/reg/lead/team', team.Team, name='team'),
     webapp2.Route('/reg/lead/add_to_team', team.AddToTeam, name='add-to-team'),
+    webapp2.Route('/reg/lead/change', team.ChangeTeamMember, name='change-member'),
+    webapp2.Route('/reg/lead/delete', team.DeleteMember, name='delete-member'),
     # organizer routes
-    webapp2.Route('/reg/org/competition/(comp_id:\d+)', org_competition.CertainCompetition, name='comp-org'),
+    #webapp2.Route('/reg/org/competition/(comp_id:\d+)', org_competition.CertainCompetition, name='comp-org'),
     webapp2.Route('/reg/org/fill_info', org_competition.FillCompetitionInfo, name='fillin-comp'),
     webapp2.Route('/reg/org/create', org_competition.CreateCompetition, name='create-comp'),
 
@@ -116,9 +124,9 @@ def handle_503(request, response, exception):
     response.write(jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
 
 
-app.error_handlers[401] = handle_401
-app.error_handlers[403] = handle_403
-app.error_handlers[404] = handle_404
-app.error_handlers[405] = handle_405
-app.error_handlers[500] = handle_500
-app.error_handlers[503] = handle_503
+#app.error_handlers[401] = handle_401
+#app.error_handlers[403] = handle_403
+#app.error_handlers[404] = handle_404
+#app.error_handlers[405] = handle_405
+#app.error_handlers[500] = handle_500
+#app.error_handlers[503] = handle_503

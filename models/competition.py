@@ -6,14 +6,6 @@ from models.visitor import Member
 __author__ = 'Daria'
 
 
-class MemInfo(db.Model):
-    salary = db.FloatProperty(default=0)
-    age_min = db.IntegerProperty(default=6)
-    age_max = db.IntegerProperty(default=90)
-    qual_min = db.StringProperty(multiline=False, default=u'б/р')
-    qual_max = db.StringProperty(multiline=False, default=u'ЗМС')
-
-
 class Competition(db.Model):
     name = db.StringProperty(multiline=False, default=u'Название соревнований')
     d_start = db.DateProperty(required=True)
@@ -30,6 +22,14 @@ class Distance(db.Model):
     lent = db.StringProperty()
 
 
+class MemInfo(db.Model):
+    salary = db.FloatProperty(default=0)
+    age_min = db.IntegerProperty(default=6)
+    age_max = db.IntegerProperty(default=90)
+    qual_min = db.StringProperty(multiline=False, default=u'б/р')
+    qual_max = db.StringProperty(multiline=False, default=u'ЗМС')
+
+
 class DistInfo(db.Model):
     group_name = db.StringProperty(default=u'МЖЭ')
     length = db.FloatProperty(default=0)
@@ -43,7 +43,7 @@ class DistInfo(db.Model):
 class CompMemb(db.Model):
     competition = db.ReferenceProperty(Competition)
     member = db.ReferenceProperty(Member)
-    group = db.StringProperty()
+    group = db.ReferenceProperty(DistInfo)
     day_numb = db.IntegerProperty()
 
 
