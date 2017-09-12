@@ -31,7 +31,7 @@ class PostSignIn(BaseHandler):
                     self.session['role'] = cur_role_local
                     self.redirect('/')
             except Exception as e:                                     # If user hasn't roles in system (anonim)
-                print 'Error at roles.PostSignIn: ' + str(e)
+                print('Error at roles.PostSignIn: ' + str(e))
                 self.session['role'] = 'anonim'
                 self.redirect('/')
 

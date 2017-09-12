@@ -54,6 +54,10 @@ class Db(webapp2.RequestHandler):
         org4.put()
         org5.put()
         lead1.put()
+        temp_values = {"email_memb": [memb1.nickname, memb2.nickname, memb3.nickname],
+                       "email_lead": [lead1.contact],
+                       "email_org": [org1.contact, org2.contact, org3.contact, org4.contact, org5.contact]}
+        self.response.write(main.jinja_env.get_template('/tmmscw/test.html').render(temp_values))
 
     def post(self):
         pass            # TODO create handler as kanban in Brama (if kind='')
@@ -65,19 +69,19 @@ class Test(webapp2.RequestHandler):
     """
     def get(self):
         cur_user = users.get_current_user()
-        #cur_lead = db.Query(Leader).filter('user =', cur_user).get()
-        #user_members = db.Query(Member).filter('leader =', cur_lead)
-        #memInfos = MemInfo.all()
-        #usrs = "MemInfo: " + str(db.Query(MemInfo).count())
-        #usrs += " | DistInfo: " + str(db.Query(DistInfo).count())
-        #usrs += " | Competition: " + str(db.Query(Competition).count())
-        #usrs += " | Distance: " + str(db.Query(Distance).count())
-        #usrs += " | Info: " + str(db.Query(Info).count())
-        #tmp = ''
-        #orgs = Organizer.all()
-        #for org in orgs:
-        #    tmp += org.contact + " _ "
-        #usrs += " | ORGS contact: " + tmp
+        # cur_lead = db.Query(Leader).filter('user =', cur_user).get()
+        # user_members = db.Query(Member).filter('leader =', cur_lead)
+        # memInfos = MemInfo.all()
+        # usrs = "MemInfo: " + str(db.Query(MemInfo).count())
+        # usrs += " | DistInfo: " + str(db.Query(DistInfo).count())
+        # usrs += " | Competition: " + str(db.Query(Competition).count())
+        # usrs += " | Distance: " + str(db.Query(Distance).count())
+        # usrs += " | Info: " + str(db.Query(Info).count())
+        # tmp = ''
+        # orgs = Organizer.all()
+        # for org in orgs:
+        #     tmp += org.contact + " _ "
+        # usrs += " | ORGS contact: " + tmp
         temp_values = {'test_data': cur_user}
         self.response.write(main.jinja_env.get_template('/tmmscw/test.html').render(temp_values))
 

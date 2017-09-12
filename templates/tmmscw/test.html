@@ -5,6 +5,25 @@
     <title>Test html</title>
 </head>
 <body>
-    This is test page of Tmmosc
+This is test page of Tmmosc<br><br>
+Membs:
+<ul>
+    {% for nick in email_memb %}
+    <li>{{nick}}</li>
+    {% endfor %}
+</ul>
+Leads:
+<ul>
+    {% for nick in email_lead %}
+    <li>{{nick}}</li>
+    {% endfor %}
+</ul>
+Orgs:
+<ul>
+    {% for nick in email_org %}
+    <li>{{nick}}</li>
+    {% endfor %}
+</ul>
+ {{test}}
 </body>
 </html>
