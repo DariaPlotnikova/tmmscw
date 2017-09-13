@@ -12,22 +12,17 @@
     {% block styles %}
 
     {% endblock %}
-    <script src="static/js/jquery.min.js"></script>
-    <script type = "text/javascript" src="static/js/material.min.js"></script>
-    <script type = "text/javascript" src="static/js/ajax.js"></script>
-
-
 </head>
 <body>
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     {% block header %}
         <header class="mdl-layout__header mdl-layout__header--scroll">
         <div class="mdl-layout__header-row">
-          <div class="mdl-layout-spacer"></div>
-          <nav class="mdl-navigation">
-              <a class="mdl-navigation__link" href="#">Регистрация</a>
-              <a class="mdl-navigation__link" href="{{ login }}">Вход</a>
-          </nav>
+            <div class="mdl-layout-spacer"></div>
+            <nav class="mdl-navigation">
+                <a class="mdl-navigation__link" href="#">Регистрация</a>
+                <a class="mdl-navigation__link" href="{{ login }}">Вход</a>
+            </nav>
         </div>
       </header>
     {% endblock %}
@@ -37,81 +32,106 @@
     {% block main_content %}            {# Default content is competition list #}
         <main class="mdl-layout__content">
             <div class="page-content">
-              <div style="height: 20px;"></div>
+                <div style="height: 20px;"></div>
                 {% if c_count > 0 %}
-                  {% for comp in comps %}
-                      {% if loop.index0 % 2 == 0 %}
-                          <div class="mdl-grid" style="margin-top:15px;">
-                              <div class="mdl-cell mdl-cell--2-col mdl-cell--1-col-phone"></div>
-                              <div class="mdl-cell mdl-cell--4-col mdl-cell--10-col-phone">
-                                  <a href="{{ url('comp') }}?comp_id={{comp.key()}}" style="text-decoration: none; color:#ffffff;">
-                                      <div class="demo-card-wide mdl-card mdl-shadow--2dp competition-card" style="width: 95%; position: relative;" onclick="$('#keyForm{{ loop.index0 }}').submit();">
-                                          <div class="mdl-grid mdl-card__title" style="margin: 0 0 0 0;">
-                                              <div>
-                                                <h3 class="mdl-card__title-text" style="margin: 12px 0 12px 24px">{{ d_start[loop.index0] }} - {{ d_finish[loop.index0] }} </h3>
-                                                <h2 class="mdl-card__title-text" style="margin: 12px 0 12px 24px">{{ comp.name }}</h2>
-                                              </div>
-                                          </div>
-                                          <div class="mdl-card__actions mdl-card--border" style="height: 42px; border-top: 1px solid rgba(255, 255, 255, .5); position: absolute; bottom: 0px; display: inline;">
-                                              {% if is_open_pz[loop.index0] %}
-                                                  <img src="static/img/good.png" style="margin-left: 20px;"> Предварительная заявка открыта</i>
-                                              {% else %}
-                                                  <img src="static/img/bad.png" style="margin-left: 20px;"> Предварительная заявка закрыта</i>
-                                              {% endif %}
-                                          </div>
-                                      </div>
-                                  </a>
-                              </div>
-                      {% else %}
-                              <div class="mdl-cell mdl-cell--4-col mdl-cell--10-col-phone">
-                                  <a href="{{ url('comp') }}?comp_id={{comp.key()}}" style="text-decoration: none; color:#ffffff;">
-                                      <div class="demo-card-wide mdl-card mdl-shadow--2dp competition-card" style="width: 98%;" onclick="$('#keyForm{{ loop.index0 }}').submit();">
-                                          <div class="mdl-grid mdl-card__title" style="margin: 0 0 0 0;">
-                                              <div>
-                                                <h3 class="mdl-card__title-text" style="margin: 12px 0 12px 24px">{{ d_start[loop.index0] }} - {{ d_finish[loop.index0] }} </h3>
-                                                <h2 class="mdl-card__title-text" style="margin: 12px 0 12px 24px">{{ comp.name }}</h2>
-                                              </div>
-                                          </div>
-                                          <div class="mdl-card__actions mdl-card--border" style="height: 42px; border-top: 1px solid rgba(255, 255, 255, .5); position: absolute; bottom: 0px; display: inline;">
-                                              {% if is_open_pz[loop.index0] %}
-                                                  <img src="static/img/good.png" style="margin-left: 20px;"> Предварительная заявка открыта</i>
-                                              {% else %}
-                                                  <img src="static/img/bad.png" style="margin-left: 20px;"> Предварительная заявка закрыта</i>
-                                              {% endif %}
-                                          </div>
-                                      </div>
-                                  </a>
-                              </div>
-                              <div class="mdl-cell mdl-cell--2-col mdl-cell--1-col-phone"></div>
-                          </div>
-                      {% endif %}
-                  {% endfor %}
-                {% else %}
-                    <div class="mdl-grid" style="margin-top:15px;">
-                      <div class="mdl-cell mdl-cell--2-col mdl-cell--1-col-phone"></div>
-                      <div class="mdl-cell mdl-cell--8-col mdl-cell--10-col-phone">
-                        <div class="demo-card-wide mdl-card mdl-shadow--2dp competition-card" style="width: 95%; position: relative; background: #ffffff;">
-                          <div class="mdl-grid mdl-card__actions" style="margin: 80px 0 0 10px;">
-                              <h3 class="mdl-card__title-text" style="color: #42a5f5;">В настоящий момент нет соревнований для заявки. Зайдите через некоторое время...</h3>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="mdl-cell mdl-cell--2-col mdl-cell--1-col-phone"></div>
+                {% for comp in comps %}
+                {% if loop.index0 % 2 == 0 %}
+                <div class="mdl-grid" style="margin-top:15px;">
+                    <div class="mdl-cell mdl-cell--2-col mdl-cell--1-col-phone"></div>
+                    <div class="mdl-cell mdl-cell--4-col mdl-cell--10-col-phone">
+                        <a href="{{ url('comp') }}?comp_id={{comp.key()}}"
+                           style="text-decoration: none; color:#ffffff;">
+                            <div class="demo-card-wide mdl-card mdl-shadow--2dp competition-card"
+                                 style="width: 95%; position: relative;"
+                                 onclick="$('#keyForm{{ loop.index0 }}').submit();">
+                                <div class="mdl-grid mdl-card__title" style="margin: 0 0 0 0;">
+                                    <div>
+                                        <h3 class="mdl-card__title-text" style="margin: 12px 0 12px 24px">{{
+                                            d_start[loop.index0] }} - {{ d_finish[loop.index0] }} </h3>
+                                        <h2 class="mdl-card__title-text" style="margin: 12px 0 12px 24px">{{ comp.name
+                                            }}</h2>
+                                    </div>
+                                </div>
+                                <div class="mdl-card__actions mdl-card--border"
+                                     style="height: 42px; border-top: 1px solid rgba(255, 255, 255, .5); position: absolute; bottom: 0px; display: inline;">
+                                    {% if is_open_pz[loop.index0] %}
+                                    <img src="static/img/good.png" style="margin-left: 20px;"> Предварительная заявка
+                                    открыта
+                                    {% else %}
+                                    <img src="static/img/bad.png" style="margin-left: 20px;"> Предварительная заявка
+                                    закрыта
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
                     </div>
+                {% if loop.index0 == loop.lenght %}
+                </div>
                 {% endif %}
-              </div>  <!--   style=...  -->
+                {% else %}
+                    <div class="mdl-cell mdl-cell--4-col mdl-cell--10-col-phone">
+                        <a href="{{ url('comp') }}?comp_id={{comp.key()}}"
+                           style="text-decoration: none; color:#ffffff;">
+                            <div class="demo-card-wide mdl-card mdl-shadow--2dp competition-card" style="width: 98%;"
+                                 onclick="$('#keyForm{{ loop.index0 }}').submit();">
+                                <div class="mdl-grid mdl-card__title" style="margin: 0 0 0 0;">
+                                    <div>
+                                        <h3 class="mdl-card__title-text" style="margin: 12px 0 12px 24px">{{
+                                            d_start[loop.index0] }} - {{ d_finish[loop.index0] }} </h3>
+                                        <h2 class="mdl-card__title-text" style="margin: 12px 0 12px 24px">{{ comp.name
+                                            }}</h2>
+                                    </div>
+                                </div>
+                                <div class="mdl-card__actions mdl-card--border"
+                                     style="height: 42px; border-top: 1px solid rgba(255, 255, 255, .5); position: absolute; bottom: 0px; display: inline;">
+                                    {% if is_open_pz[loop.index0] %}
+                                    <img src="static/img/good.png" style="margin-left: 20px;"> Предварительная заявка
+                                    открыта</i>
+                                    {% else %}
+                                    <img src="static/img/bad.png" style="margin-left: 20px;"> Предварительная заявка
+                                    закрыта</i>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="mdl-cell mdl-cell--2-col mdl-cell--1-col-phone"></div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                <div class="mdl-grid" style="margin-top:15px;">
+                    <div class="mdl-cell mdl-cell--2-col mdl-cell--1-col-phone"></div>
+                    <div class="mdl-cell mdl-cell--8-col mdl-cell--10-col-phone">
+                        <div class="demo-card-wide mdl-card mdl-shadow--2dp competition-card"
+                             style="width: 95%; position: relative; background: #ffffff;">
+                            <div class="mdl-grid mdl-card__actions" style="margin: 80px 0 0 10px;">
+                                <h3 class="mdl-card__title-text" style="color: #42a5f5;">В настоящий момент нет
+                                    соревнований для заявки. Зайдите через некоторое время...</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdl-cell mdl-cell--2-col mdl-cell--1-col-phone"></div>
+                </div>
+                {% endif %}
+            </div>  <!--   style=...  -->
         </main> <!--  .page-content  -->
     {% endblock %}
     {% block addition %}
         <div class="mdl-card mdl-shadow--8dp" style="z-index: 5; height: 44px; min-height: 44px; opacity: 0.85; position: fixed; bottom: 30px; left: 20%; right: 20%; width: 60%; display: none;">
-          <div class="mdl-card__actions">
-              <p class="myP" style="color: #fff; text-align: center;">Это подсказка</p>
-          </div>
+            <div class="mdl-card__actions">
+                <p class="myP" style="color: #fff; text-align: center;">Это подсказка</p>
+            </div>
         </div>
     {% endblock %}
-  </div>    <!--  .mdl-layout  -->
-</body>
-    {% block scripts %}
+    </div>    <!--  .mdl-layout  -->
 
-    {% endblock %}
+{% block scripts %}
+
+{% endblock %}
+<script src="static/js/jquery.min.js"></script>
+<script type = "text/javascript" src="static/js/material.min.js"></script>
+<script type="text/javascript" src="static/js/ajax.js"></script>
+
+</body>
 </html>
