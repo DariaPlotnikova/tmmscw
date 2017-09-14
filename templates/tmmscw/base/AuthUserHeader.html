@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -21,10 +21,10 @@
                 <span class="mdl-layout-title">
                     <nav class="mdl-navigation">
                         {% for role in roles %}
-                            <a id="{{role|safe}}" name="role" class="mdl-navigation__link" href="/postSignIn">
+                            <a id="{{role|safe}}" name="role" class="mdl-navigation__link" href="#">
                                 {{ role|safe }}
                             </a>
-                        {%  endfor %}
+                        {% endfor %}
                     </nav>
                 </span>
             <div class="mdl-layout-spacer"></div>

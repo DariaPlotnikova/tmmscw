@@ -56,6 +56,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/competition/', com_competition.CertainCompetition, name='comp'),
     webapp2.Route('/members', members.MemberList, name='members'),
     webapp2.Route('/postSignIn', roles.PostSignIn, name='post-singin'),
+    webapp2.Route('/changeRole', roles.ChangeRole, name='change-role'),
     webapp2.Route('/reg/nullToRole', roles.BeforeSignOut, name='before-singout'),
     # member routes
     webapp2.Route('/member/edit', memb_views.EditMember, name='self-edit'),

@@ -36,7 +36,8 @@ class Db(webapp2.RequestHandler):
         org5 = Organizer(user=users.User('cyanat56@gmail.com'), nickname=u'Петров Никита', contact='cyanat56@gmail.com')
         lead1 = Leader(user=users.User('anremonres@gmail.com'), nickname=u'Олишевская Анна',
                        contact='anremonres@gmail.com', command=com2)
-
+        lead2 = Leader(user=users.User('cyanat56@gmail.com'), nickname=u'Петров Никита',
+                       contact='cyanat56@gmail.com', command=com1)
         memb1 = Member(pass_to_edit=paswd, sex=u'Женский', nickname='plotnikovanstu@gmail.com',
                        surname=u'Плотникова Дарья',
                        command=com1, birthdate=1994, qualification='I')
@@ -45,17 +46,22 @@ class Db(webapp2.RequestHandler):
         memb3 = Member(pass_to_edit=paswd, sex=u'Мужской', nickname='fordima1995@gmail.com',
                        surname=u'Потапейко Дмитрий',
                        command=com2, birthdate=1995, qualification='I')
+        memb4 = Member(pass_to_edit=paswd, sex=u'Мужской', nickname='cyanat56@gmail.com',
+                       surname=u'Петров Никита',
+                       command=com2, birthdate=1998, qualification='I')
         memb1.put()
         memb2.put()
         memb3.put()
+        memb4.put()
         org1.put()
         org2.put()
         org3.put()
         org4.put()
         org5.put()
         lead1.put()
-        temp_values = {"email_memb": [memb1.nickname, memb2.nickname, memb3.nickname],
-                       "email_lead": [lead1.contact],
+        lead2.put()
+        temp_values = {"email_memb": [memb1.nickname, memb2.nickname, memb3.nickname, memb4.nickname],
+                       "email_lead": [lead1.contact, lead2.contact],
                        "email_org": [org1.contact, org2.contact, org3.contact, org4.contact, org5.contact]}
         self.response.write(main.jinja_env.get_template('/tmmscw/test.html').render(temp_values))
 
