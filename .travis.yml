@@ -3,8 +3,11 @@ language: python
 before_install:
 - openssl aes-256-cbc -K $encrypted_90c3b37c21c9_key -iv $encrypted_90c3b37c21c9_iv
   -in client-secret.json.enc -out client-secret.json -d
+script:
+- echo "No Script to run"
 deploy:
   provider: gae
+  skip_cleanup: true
   keyfile: client-secret.json
   project: tmmscw-179613
   on: design
