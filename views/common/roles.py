@@ -38,12 +38,6 @@ class PostSignIn(BaseHandler):
         cur_role_local = self.request.POST.get('curRole', 'anonim')
         self.session['role'] = cur_role_local
         self.redirect('/')
-        #    cur_role = self.request.POST.get('curRole')
-        #     new_role = self.request.POST.get('newRole')
-        #
-        #     self.session['role'] = new_role
-        #     # print(cur_role + "      AISUHDASIOUDHASIODUHASIODUHASDIOUHASDOIUASHDOASIDUHASIODUHASOIDUHASD     " + new_role)
-        #     self.redirect('/')
 
 
 class BeforeSignOut(BaseHandler):

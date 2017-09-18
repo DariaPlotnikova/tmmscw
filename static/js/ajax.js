@@ -1,19 +1,19 @@
 function nullToCurRole() {
-   $.ajax({
-       url: '/reg/nullToRole',
-       type: 'GET'
-   });
+   $.get($("#inpt-null-role").val());
 }
 $(document).ready( function () {
-    var b = $("a[name='role']").children("b").text();
+    var curRole = $("a[name='role']").children("b").text();
     $("a[name='role']").on("click", function () {
-        var text = $.trim($(this).text());
-        if(text !== b) {
-            $.post("/changeRole", {newRole: text}, success);
+        var newRole = $.trim($(this).text());
+        if(newRole !== curRole) {
+            $.post($("#inpt-change-role").val(), {newRole: newRole}, success);
         }
     });
 
     function success() {
         location.reload(true);
+        // $(this).setTextContent = curRole;
+        // $($("a[name='role']").children("b")).detach("b");
+
     }
 });

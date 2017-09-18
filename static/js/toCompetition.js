@@ -6,13 +6,11 @@ var duCount = 1;
 function trPzClick(day_n){
     $('#PzState1'+day_n.toString()).toggle();
     $('#PzState2'+day_n.toString()).toggle();
-};
-
+}
 function trTzClick(day_n){
     $('#TzState1'+day_n.toString()).toggle();
     $('#TzState2'+day_n.toString()).toggle();
-};
-
+}
 $('.swapVisInfo').click(function(){
     var dayToSwap = $(this).val();
     var blockName = "#toSwapInfo" + dayToSwap.toString();
@@ -78,7 +76,7 @@ $('.addOrg').click(function(){
         var textfield2 = document.createElement('div');
         textfield2.setAttribute('style', 'width: 100%; padding:20px 0 20px 0;');
         textfield2.className = 'mdl-textfield mdl-js-textfield';
-            var Dol = 'orgDol'+orgCount.toString()+dayCount.toString();
+            var Dol = 'orgDol' + orgCount.toString() + dayCount.toString();
             var in2 = document.createElement('input');
             in2.className = 'mdl-textfield__input';
             in2.setAttribute('style', 'font-size: 16px;');
@@ -119,7 +117,7 @@ $('.addOrg').click(function(){
      var blockInsert = addButtonDiv.parentNode;
      blockInsert.insertBefore(grid, addButtonDiv);
      orgCount = orgCount+1;
-     componentHandler.upgradeAllRegistered();                 
+     componentHandler.upgradeAllRegistered();
 
     /*   $.ajax({
              type: "POST",
@@ -128,7 +126,7 @@ $('.addOrg').click(function(){
          });        */ 
 });
 
-$("#addGroupDiz").click(function(){    
+$("#addGroupDiz").click(function(){
     var grid = document.createElement('div');
     grid.className = 'mdl-grid';
     grid.style.margin = "-20px 0 20px 0";
@@ -190,7 +188,7 @@ $("#addGroupDiz").click(function(){
         textfield3.appendChild(label3);
      col5.appendChild(textfield3);
     var col6 = document.createElement('div'); col6.className = 'mdl-cell--5-col';
-    col6.setAttribute('style', 'text-align: center;'); 
+    col6.setAttribute('style', 'text-align: center;');
         var textfield4 = document.createElement('div');
         textfield4.setAttribute('style', 'width: 40px; padding: 20px 0 20px 0;');
         textfield4.className = 'mdl-textfield mdl-js-textfield';

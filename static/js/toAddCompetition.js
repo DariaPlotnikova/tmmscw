@@ -185,7 +185,7 @@ $(".addGroupDizNew").click(function(){
     blockInsert.insertBefore(grid, addButtonDiv);
     componentHandler.upgradeAllRegistered();
     distCount = distCount + 1;
-    if (distCount != duCount) {$('#addMemDizNew'+dayNum).click();}
+    if (distCount !== duCount) {$('#addMemDizNew'+dayNum).click();}
 });
 
 $(".addMemDizNew").click(function(){
@@ -311,7 +311,7 @@ $(".addMemDizNew").click(function(){
     blockInsert.insertBefore(grid, addButtonDiv);
     componentHandler.upgradeAllRegistered();
     duCount = duCount + 1;
-    if (duCount != distCount) {$('#addGroupDizNew'+dayNum).click();}
+    if (duCount !== distCount) {$('#addGroupDizNew'+dayNum).click();}
 });
 
 
@@ -350,7 +350,7 @@ $('#swapVisMemNew1').click(function(){
 
 $('#btnLogIn').click(function(){
     var dc = $('#countStart');
-    if (dc.val() != '1'){
+    if (dc.val() !== '1'){
        daysCount = dc.val();
    }
 });
