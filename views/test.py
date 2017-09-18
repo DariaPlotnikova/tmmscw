@@ -28,12 +28,15 @@ class Db(webapp2.RequestHandler):
         paswd = salt_pass(paswd)
         org1 = Organizer(user=users.User('anremonres@gmail.com'), nickname=u'Олишевская Анна',
                          contact='anremonres@gmail.com')
+        org5 = Organizer(user=users.User('olishevskayaa@gmail.com'), nickname=u'Олишевская Анна',
+                         contact='olishevskayaa@gmail.com')
+
         org2 = Organizer(user=users.User('test@example.com'), nickname=u'Тест Тестович', contact='test@example.com')
         org3 = Organizer(user=users.User('plotnikovanstu@gmail.com'), nickname=u'Плотникова Дарья',
                          contact='plotnikovanstu@gmail.com')
         org4 = Organizer(user=users.User('fordima1995@gmail.com'), nickname=u'Потапейко Дмитрий',
                          contact='fordima1995@gmail.com')
-        lead1 = Leader(user=users.User('anremonres@gmail.com'), nickname=u'Олишевская Анна',
+        lead1 = Leader(user=users.User('@gmail.com'), nickname=u'Олишевская Анна',
                        contact='anremonres@gmail.com', command=com2)
 
         memb1 = Member(pass_to_edit=paswd, sex=u'Женский', nickname='plotnikovanstu@gmail.com',
@@ -51,6 +54,7 @@ class Db(webapp2.RequestHandler):
         org2.put()
         org3.put()
         org4.put()
+	org5.put()
         lead1.put()
 
     def post(self):
