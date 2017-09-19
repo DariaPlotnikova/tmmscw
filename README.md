@@ -1,4 +1,5 @@
-Develop branch
+Develop branch:
+
 [![Build Status](https://travis-ci.org/DariaPlotnikova/tmmscw.svg?branch=design)](https://travis-ci.org/DariaPlotnikova/tmmscw)
 
 # tmmoscow

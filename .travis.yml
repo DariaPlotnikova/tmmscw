@@ -10,4 +10,4 @@ deploy:
   skip_cleanup: true
   keyfile: client-secret.json
   project: tmmscw-179613
-  on: design
+  on: develop
