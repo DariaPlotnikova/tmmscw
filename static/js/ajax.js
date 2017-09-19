@@ -1,13 +1,19 @@
-/**
- * Created by daria on 29.05.16.
- */
-
 function nullToCurRole() {
-   $.ajax({
-       url: '/reg/nullToRole',
-       type: 'GET',
-       success: function () {
-           alert("Cool!");
-       }
-   });
+   $.get($("#inpt-null-role").val());
 }
+$(document).ready( function () {
+    var curRole = $("a[name='role']").children("b").text();
+    $("a[name='role']").on("click", function () {
+        var newRole = $.trim($(this).text());
+        if(newRole !== curRole) {
+            $.post($("#inpt-change-role").val(), {newRole: newRole}, success);
+        }
+    });
+
+    function success() {
+        location.reload(true);
+        // $(this).setTextContent = curRole;
+        // $($("a[name='role']").children("b")).detach("b");
+
+    }
+});

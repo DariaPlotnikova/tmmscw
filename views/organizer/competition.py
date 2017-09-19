@@ -13,13 +13,14 @@ class CertainCompetition(webapp2.RedirectHandler, BaseHandler):
     """
     Displays full info about certain competition and listens ajax request with changes
     """
+
     def get(self, comp_id):
         competition = 1
         temp_values = {'competition': competition}
         template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
         self.response.write(template.render(temp_values))
 
-    def post(self):     # ajax handler
+    def post(self):  # ajax handler
         temp_values = {}
         template = main.jinja_env.get_template('/tmmscw/organizer/CertainCompetition.html')
         self.response.write(template.render(temp_values))

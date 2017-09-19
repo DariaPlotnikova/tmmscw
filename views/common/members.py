@@ -17,7 +17,3 @@ class MemberList(webapp2.RequestHandler):
     """
     def get(self):
         pass
-
-
-
-
