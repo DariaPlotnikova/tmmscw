@@ -1,6 +1,6 @@
 Develop branch:
 
-[![Build Status](https://travis-ci.org/DariaPlotnikova/tmmscw.svg?branch=design)](https://travis-ci.org/DariaPlotnikova/tmmscw)
+[![Build Status](https://travis-ci.org/DariaPlotnikova/tmmscw.svg?branch=develop)](https://travis-ci.org/DariaPlotnikova/tmmscw)
 
 # tmmoscow
 Это веб-приложение для регистрации участников на соревнования по спортивному туризму.
