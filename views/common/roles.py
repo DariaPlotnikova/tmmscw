@@ -45,6 +45,7 @@ class BeforeSignOut(BaseHandler):
         """Throws out current role before signing out of system"""
         self.session['role'] = 'anonim'
 
+
 class ChangeRole(BaseHandler):
     def post(self):
         """Change role"""

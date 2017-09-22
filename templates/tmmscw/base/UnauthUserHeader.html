@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-Type" charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% block tile %} {% endblock %}</title>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css"  media="screen,projection"/>
+    {% block styles %}
+
+    {% endblock %}
+
+</head>
+<body>
+
+    <div class="navbar-fixed">
+        <nav class="light-blue" role="navigation">
+            <div class="nav-wrapper container">
+                {% block header %}
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="#">Регистрация</a></li>
+                    <li><a href="{{login}}">Вход</a></li>
+                </ul>
+                <ul id="nav-mobile" class="side-nav">
+                    <li><a href="#">Example</a></li>
+                </ul>
+                <a href="#" data-activities="nav-mobile" class="button-collapse">
+                    <i class="material-icons">menu</i>
+                </a>
+                {% endblock %}
+            </div>
+        </nav>
+    </div>
+
+
+    {% block menu_nav %}
+    <main>
+
+    </main>
+    {% endblock %}
+
+    {% block main_content %}            {# Default content is competition list #}
+
+    {% endblock %}
+
+    {% block addition %}
+
+    {% endblock %}
+
+    {% block scripts %}
+
+    {% endblock %}
+<script src="/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/materialize.min.js"></script>
+<script type="text/javascript" src="/static/js/ajax.js"></script>
+<script type="text/javascript" src="/static/js/main.js"></script>
+</body>
+</html>
