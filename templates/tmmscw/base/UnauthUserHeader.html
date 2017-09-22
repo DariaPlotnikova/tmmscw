@@ -15,26 +15,24 @@
 </head>
 <body>
     {% block side_bar %} {# Header and Side Bar #}
-    <div class="navbar-fixed">
-        <nav class="light-blue" role="navigation">
+        <nav class="light-blue navbar-fixed" role="navigation">
             <div class="nav-wrapper container">
                 {% block header %}
-                <ul class="right hide-on-med-and-down">
-                    <li><a href="{{login}}">Вход</a></li>
-                </ul>
-                <ul id="nav-mobile" class="side-nav">
-                    <li><a href="{{login}}">Вход</a></li>
-                </ul>
-                <a href="#" data-activates="nav-mobile" class="button-collapse">
-                    <i class="material-icons">menu</i>
-                </a>
-                <ul>
-                    <li class="center-on-small-only"><a href="#logo">LOGO</a></li>
-                </ul>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="{{ login }}">Вход</a></li>
+                    </ul>
+                    <ul id="nav-mobile" class="side-nav">
+                        <li><a href="{{ login }}">Вход</a></li>
+                    </ul>
+                    <a href="#" data-activates="nav-mobile" class="button-collapse">
+                        <i class="material-icons">menu</i>
+                    </a>
+                    <ul>
+                        <li class="brand-logo"><a href="#logo">LOGO</a></li>
+                    </ul>
                 {% endblock %}
             </div>
         </nav>
-    </div>
     {% endblock %}
 
     {% block main_content %}            {# Default content is competition list #}
@@ -45,14 +43,19 @@
                         <div class="col s12 m6 l6 xl6">
                             <div class="card hoverable">
                                 <div class="card-title light-blue">
-                                    <h3>{{ d_start[loop.index0] }} - {{ d_finish[loop.index0] }}</h3>
-                                    <h2>{{ comp.name }}</h2>
+                                    <div class="container">
+                                        {{ d_start[loop.index0] }} - {{ d_finish[loop.index0] }}<br>
+                                        {{ comp.name }}
+                                    </div>
                                 </div>
-                                <div class="card-content light-blue lighten-5">
+                                <div class="card-content light-blue lighten-3">
+
                                     {% if is_open_pz[loop.index0] %}
-                                        <img src="img/good.png"> Предварительная заявка открыта
+                                        <img src="/static/img/good.png" class="right">
+                                        Предварительная заявка открыта
                                     {% else %}
-                                        <img src="img/bad.png"> Предварительная заявка закрыта
+                                        <img src="/static/img/bad.png" class="right">
+                                        Предварительная заявка закрыта
                                     {% endif %}
                                 </div>
                             </div>
@@ -60,9 +63,9 @@
                     {% endfor %}
                 {% else %}
                     <div class="col s12 m8 l8 xl8 offset-m2 offset-l2 offset-xl2">
-                        <div class="card-panel hoverable light-blue lighten-5 black-text">
-                            <h4>В настоящий момент нет соревнований для заявки.
-                                Зайдите через некоторое время...</h4>
+                        <div class="card-panel hoverable light-blue lighten-4 black-text">
+                            <p class="flow-text">В настоящий момент нет соревнований для заявки.
+                                Зайдите через некоторое время...</p>
                         </div>
                     </div>
                 {% endif %}
