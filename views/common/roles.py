@@ -22,7 +22,7 @@ class PostSignIn(BaseHandler):
                 [is_org, is_lead, is_memb] = find_user(email)
                 [roles, cur_role_local] = create_roles(is_org, is_lead, is_memb)
                 if len(roles) > 1:  # If user has several roles, he should choose one
-                    temp_values = {'roles': roles, 'logout': users.create_logout_url('/login')}
+                    temp_values = {'roles': roles, 'user_email': email, 'logout': users.create_logout_url('/')}
                     template = main.jinja_env.get_template('/tmmscw/AfterSignIn.html')
                     self.response.write(template.render(temp_values))
                 else:  # If user has only one role
