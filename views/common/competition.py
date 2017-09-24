@@ -49,9 +49,9 @@ class Competitions(BaseHandler):
         else:
             email = user.email()
             [is_org, is_lead, is_memb] = find_user(email)
-            roles = create_roles_head(self, is_org, is_lead, is_memb)
+            roles = create_roles_head(is_org, is_lead, is_memb)
             temp_values.update({'user_email': email, 'roles': roles, 'logout': users.create_logout_url('/'),
-                                'is_user': True})
+                                'is_user': True, 'cur_role': loc_role})
 
             if loc_role == 'organizer':          # show compList corresponding to user's role
                 template_path = '/tmmscw/organizer/CompetitionList.html'

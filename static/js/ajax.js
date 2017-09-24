@@ -1,12 +1,12 @@
 function nullToCurRole() {
-   $.get($("#inpt-null-role").val());
+   $.get($("#inpt-null-role-url").val());
 }
 $(document).ready( function () {
-    var curRole = $("a[name='role']").children("b").text();
+    var curRole = $("#inpt-change-role-cur").val();
     $("a[name='role']").on("click", function () {
-        var newRole = $.trim($(this).text());
+        var newRole = $(this).attr('id');
         if(newRole !== curRole) {
-            $.post($("#inpt-change-role").val(), {newRole: newRole}, success);
+            $.post($("#inpt-change-role-url").val(), {newRole: newRole}, success);
         }
     });
 
@@ -14,6 +14,8 @@ $(document).ready( function () {
         location.reload(true);
         // $(this).setTextContent = curRole;
         // $($("a[name='role']").children("b")).detach("b");
-
     }
+    $(".dropdown-button").dropdown();
+
+
 });

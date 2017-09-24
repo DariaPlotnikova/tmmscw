@@ -2,13 +2,13 @@
 {% block title %}Выбор роли{% endblock %}
 {% block header %}
     <ul class="right">
-        <li><a href="">{{ user_email }}</a></li>
+        <li><a href="#email">{{ user_email }}</a></li>
         <li><a href="{{ logout }}">Выход</a></li>
     </ul>
-    <ul>
-        <li class="brand-logo left"><a href="#logo">LOGO</a></li>
+{#    <ul>#}
+{#        <li class="brand-logo left"><a href="#logo">LOGO</a></li>#}
         {# TODO Добавить логотип #}
-    </ul>
+{#    </ul>#}
 {% endblock %}
 {% block main_content %}
     <div class="row">
@@ -23,21 +23,21 @@
                         <i class="material-icons" style="">save</i>
                     </button>
                     <form action="{{ url('post-singin') }}" id="formCurRole" name="formCurRole" method="post">
-                        {% if 'MEM' in roles %}
+                        {% if 'is_memb' in roles %}
                             <p>
-                                <input class="with-gap" name="curRole" type="radio" value="member" id="memb">
+                                <input class="with-gap light-blue" name="curRole" type="radio" value="member" id="memb">
                                 <label for="memb">Участник соревнований</label>
                             </p>
                         {% endif %}
-                        {% if 'LEAD' in roles %}
+                        {% if 'is_lead' in roles %}
                             <p>
-                                <input class="with-gap" name="curRole" type="radio" value="leader" id="lead">
+                                <input class="with-gap light-blue" name="curRole" type="radio" value="leader" id="lead">
                                 <label for="lead">Руководитель команды</label>
                             </p>
                         {% endif %}
-                        {% if 'ORG' in roles %}
+                        {% if 'is_org' in roles %}
                             <p>
-                                <input class="with-gap" name="curRole" type="radio" value="organizer" id="org">
+                                <input class="with-gap light-blue" name="curRole" type="radio" value="organizer" id="org">
                                 <label for="org">Организатор соревнований</label>
                             </p>
                         {% endif %}
@@ -51,6 +51,6 @@
     <script type="text/javascript">
         $("input:radio").click(function () {
             $("#enterCurRole").addClass("scale-in");
-        })
+        });
     </script>
 {% endblock %}

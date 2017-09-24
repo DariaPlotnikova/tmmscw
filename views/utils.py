@@ -319,24 +319,15 @@ def find_user(keyword):
     return [is_org, is_lead, is_memb]
 
 
-def create_roles_head(self, is_org, is_lead, is_memb):
-    """Returns list of registered user roles for indicating available roles at page head"""
+def create_roles_head(is_org, is_lead, is_memb):
+    """Returns list of registered user roles for user"""
     roles = []
     if is_org:
-        if self.session.get('role') == 'organizer':
-            roles.append(u'<b>ORG</b>')
-        else:
-            roles.append(u'ORG')
+        roles.append(u'is_org')
     if is_lead:
-        if self.session.get('role') == 'leader':
-            roles.append(u'<b>LEAD</b>')
-        else:
-            roles.append(u'LEAD')
+        roles.append(u'is_lead')
     if is_memb:
-        if self.session.get('role') == 'member':
-            roles.append(u'<b>MEM</b>')
-        else:
-            roles.append(u'MEM')
+        roles.append(u'is_memb')
     return roles
 
 
@@ -345,12 +336,12 @@ def create_roles(is_org, is_lead, is_memb):
     roles = []
     cur_role_local = 'anonim'
     if is_org:
-        roles.append(u'ORG')
+        roles.append(u'is_org')
         cur_role_local = 'organizer'
     if is_lead:
-        roles.append(u'LEAD')
+        roles.append(u'is_lead')
         cur_role_local = 'leader'
     if is_memb:
-        roles.append(u'MEM')
+        roles.append(u'is_memb')
         cur_role_local = 'member'
     return [roles, cur_role_local]

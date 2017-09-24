@@ -1,7 +1,5 @@
-.idea/*
 .idea
 *.pyc
-.idea/workspace.xml
 client-secret.json
 credentials.tar.gz
 api_key.py

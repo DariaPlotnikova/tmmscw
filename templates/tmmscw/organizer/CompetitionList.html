@@ -1,15 +1,9 @@
-{% extends '/tmmscw/base/AuthUserHeader.html' %}
-   {% block title %}Список соревнований{% endblock %}
-   {% block styles %}
-       <style>
-           body, .mdl-card__title{
-               color: #ffffff;
-           }
-           .competition-card:hover{
-               background: #64B5F6;
-           }
-           .demo-list-item {
-              width: 300px;
-           }
-       </style>
-   {% endblock %}
+{% extends 'tmmscw/base/AuthUserHeader.html' %}
+{% block title %}Список соревнований{% endblock %}
+{% block side_bar %}
+    <li><a href="/">Список соревнований</a></li>
+    <li><a href="{{ url('fillin-comp') }}">Новое соревнование</a></li>
+    <li><a href="{{ url('list-membs') }}">Список участников</a></li>
+    <li><a href="{{ url('list-leads') }}">Список руководителей</a></li>
+    <li><a href="{{ url('list-orgs') }}">Список организаторов</a></li>
+{% endblock %}

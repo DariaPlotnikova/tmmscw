@@ -50,14 +50,7 @@ class ChangeRole(BaseHandler):
     def post(self):
         """Change role"""
         new_role = self.request.POST.get('newRole')
-        temp = str(self.session['role'])
-        print(str(new_role) + '  ' + temp)
-        if new_role == 'MEM':
-            new_role = 'member'
-        elif new_role == 'LEAD':
-            new_role = 'leader'
-        elif new_role == 'ORG':
-            new_role = 'organizer'
-        else:
+        roles = ['organizer', 'leader', 'member']
+        if new_role not in roles:
             new_role = 'anonim'
         self.session['role'] = new_role
