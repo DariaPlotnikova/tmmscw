@@ -24,13 +24,13 @@
 
 <!-- Dropdown of roles -->
 <ul id="dropdown-role" class="dropdown-content">
-    {% if 'is_org' in roles %}
+    {% if 'is_org' in roles and cur_role != 'organizer' %}
         <li><a class="light-blue-text" name="role" href="#" id="organizer">Организатор</a></li>
     {% endif %}
-    {% if 'is_lead' in roles %}
+    {% if 'is_lead' in roles and cur_role != 'leader'%}
         <li><a class="light-blue-text" name="role" href="#" id="leader">Руководитель команды</a></li>
     {% endif %}
-    {% if 'is_memb' in roles %}
+    {% if 'is_memb' in roles and cur_role != 'member'%}
         <li><a class="light-blue-text" name="role" href="#" id="member">Участник</a></li>
     {% endif %}
     <input type="hidden" id="inpt-change-role-url" value="{{ url('change-role') }}">
@@ -45,7 +45,8 @@
                 {# TODO Добавить логотип #}
                 <!-- Dropdown Trigger -->
                 <li class="hide-on-med-and-down">
-                    <a class="dropdown-button" href="#" data-activates="dropdown-role">Выбрать роль<i class="material-icons right">arrow_drop_down</i>
+                    <a class="dropdown-button" href="#" data-activates="dropdown-role" data-beloworigin="true">
+                        {{ cur_role_rus }}<i class="material-icons right">arrow_drop_down</i>
                     </a>
                 </li>
             </ul>
