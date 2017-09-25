@@ -16,6 +16,31 @@
 
 <ul id="nav-mobile" class="side-nav"> {# Side Nav on mobile #}
     <li><a href="#email">{{ user_email }}</a></li>
+    <li>
+        {% if roles|length > 1 %}
+            <ul class="collapsible collapsible-accordion">
+                <li>
+                    <a class="collapsible-header">{{ cur_role_rus }}<i class="material-icons">arrow_drop_down</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            {% if 'is_org' in roles and cur_role != 'organizer' %}
+                                <li><a name="role" href="#" id="organizer">Организатор</a></li>
+                            {% endif %}
+                            {% if 'is_lead' in roles and cur_role != 'leader' %}
+                                <li><a name="role" href="#" id="leader">Руководитель команды</a>
+                                </li>
+                            {% endif %}
+                            {% if 'is_memb' in roles and cur_role != 'member' %}
+                                <li><a name="role" href="#" id="member">Участник</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        {% else %}
+            <a>{{ cur_role_rus }}</a>
+        {% endif %}
+    </li>
     {% block side_bar %}
 
     {% endblock %}
@@ -27,10 +52,10 @@
     {% if 'is_org' in roles and cur_role != 'organizer' %}
         <li><a class="light-blue-text" name="role" href="#" id="organizer">Организатор</a></li>
     {% endif %}
-    {% if 'is_lead' in roles and cur_role != 'leader'%}
+    {% if 'is_lead' in roles and cur_role != 'leader' %}
         <li><a class="light-blue-text" name="role" href="#" id="leader">Руководитель команды</a></li>
     {% endif %}
-    {% if 'is_memb' in roles and cur_role != 'member'%}
+    {% if 'is_memb' in roles and cur_role != 'member' %}
         <li><a class="light-blue-text" name="role" href="#" id="member">Участник</a></li>
     {% endif %}
     <input type="hidden" id="inpt-change-role-url" value="{{ url('change-role') }}">
@@ -41,14 +66,18 @@
     <nav class="light-blue navbar-fixed" role="navigation">
         <div class="nav-wrapper container">
             <ul class="left">
-{#                <li class="brand-logo"><a href="#logo">LOGO</a></li>#}
+                {#                <li class="brand-logo"><a href="#logo">LOGO</a></li>#}
                 {# TODO Добавить логотип #}
-                <!-- Dropdown Trigger -->
-                <li class="hide-on-med-and-down">
-                    <a class="dropdown-button" href="#" data-activates="dropdown-role" data-beloworigin="true">
-                        {{ cur_role_rus }}<i class="material-icons right">arrow_drop_down</i>
-                    </a>
-                </li>
+                {% if roles|length > 1 %}
+                    <!-- Dropdown Trigger -->
+                    <li class="hide-on-med-and-down">
+                        <a class="dropdown-button" href="#" data-activates="dropdown-role" data-beloworigin="true">
+                            {{ cur_role_rus }}<i class="material-icons right">arrow_drop_down</i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="hide-on-med-and-down"><span>{{ cur_role_rus }}</span></li>
+                {% endif %}
             </ul>
             <ul class="right hide-on-med-and-down">
                 <li><a href="#email">{{ user_email }}</a></li>

@@ -15,7 +15,4 @@ $(document).ready( function () {
         // $(this).setTextContent = curRole;
         // $($("a[name='role']").children("b")).detach("b");
     }
-    $(".dropdown-button").dropdown();
-
-
 });
