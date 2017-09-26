@@ -3,7 +3,7 @@ function nullToCurRole() {
 }
 $(document).ready( function () {
     var curRole = $("#inpt-change-role-cur").val();
-    $("a[name='role']").on("click", function () {
+    $(document).on("click", "a[name='role']", function () {
         var newRole = $(this).attr('id');
         if(newRole !== curRole) {
             $.post($("#inpt-change-role-url").val(), {newRole: newRole}, success);

@@ -14,9 +14,9 @@
 </head>
 <body>
 
-<ul id="nav-mobile" class="side-nav"> {# Side Nav on mobile #}
-    <li><a href="#email">{{ user_email }}</a></li>
-    <li>
+<ul id="side-out" class="side-nav"> {# Side Nav #}
+    <li class="hide-on-large-only"><a href="#email">{{ user_email }}</a></li>
+    <li class="hide-on-large-only">
         {% if roles|length > 1 %}
             <ul class="collapsible collapsible-accordion">
                 <li>
@@ -44,10 +44,10 @@
     {% block side_bar %}
 
     {% endblock %}
-    <li><a href="{{ logout }}" onclick="nullToCurRole();">Выход</a></li>
+    <li class="hide-on-large-only"><a href="{{ logout }}" onclick="nullToCurRole();">Выход</a></li>
 </ul>
 
-<!-- Dropdown of roles -->
+{#<!-- Dropdown of roles -->#}
 <ul id="dropdown-role" class="dropdown-content">
     {% if 'is_org' in roles and cur_role != 'organizer' %}
         <li><a class="light-blue-text" name="role" href="#" id="organizer">Организатор</a></li>
@@ -66,8 +66,10 @@
     <nav class="light-blue navbar-fixed" role="navigation">
         <div class="nav-wrapper container">
             <ul class="left">
-                {#                <li class="brand-logo"><a href="#logo">LOGO</a></li>#}
-                {# TODO Добавить логотип #}
+                {# side nav trigger #}
+                <a data-activates="side-out" class="button-collapse show-on-large">
+                    <i class="material-icons">menu</i>
+                </a>
                 {% if roles|length > 1 %}
                     <!-- Dropdown Trigger -->
                     <li class="hide-on-med-and-down">
@@ -86,13 +88,12 @@
             {% block header %}
 
             {% endblock %}
-            <a href="#" data-activates="nav-mobile" class="button-collapse">
-                <i class="material-icons">menu</i>
-            </a>
         </div>
     </nav>
 </header>
+
 <div class="" style="margin-top: 3%;"></div>
+
 <main class="container">
     {% block main_content %}            {# Default content is competition list #}
         <div class="row">
