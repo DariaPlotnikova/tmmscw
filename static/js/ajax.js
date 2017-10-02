@@ -10,6 +10,8 @@ $(document).ready( function () {
         }
     });
 
+    $('.modal').modal();
+
     function success() {
         location.reload(true);
         // $(this).setTextContent = curRole;

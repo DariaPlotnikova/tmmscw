@@ -2,10 +2,15 @@
 {% block title %}Список организаторов{% endblock %}
 {% block scripts %}
     <script type="application/javascript" src="/static/js/omlList.js"></script>
+{#    <script>#}
+{#        function fadeMe() {#}
+{#            $("#sovDiv").fadeOut();#}
+{#        }#}
+{#    </script>#}
     <script>
-        function fadeMe() {
-            $("#sovDiv").fadeOut();
-        }
+    $('#addOrgan').on("click", function () {
+        $('#modal1').modal('open');
+    })
     </script>
 {% endblock %}
 {% block header %}
@@ -20,16 +25,20 @@
                 </div>
                 <div class="card-image light-blue white-text">
                     {# TODO найти нормальное решение: заменить card-image на стили #}
-                    <button class="btn-floating btn-large halfway-fab waves-effect waves-light
-                    green lighten-2 hoverable tooltipped"
-                            data-position="bottom" data-delay="50" data-tooltip="Добавить руководителья"
-                            id="addOrgan" type="button"
-                            style="bottom: -14px"><i class="material-icons">add</i></button>
+                    <a class="btn-floating btn-large halfway-fab waves-effect waves-light
+                    green lighten-2 hoverable tooltipped modal-trigger" data-target="modal1" {# Modal trigger #}
+                            data-position="bottom"
+                            data-delay="50" data-tooltip="Добавить руководителя"
+                            id="addOrgan"
+                       href="#modal1"
+{#                            type="button"#}
+                            style="bottom: -14px"><i class="material-icons">add</i></a>
                 </div>
                 <div class="card-content">
-                    <form action="{{ url('list-orgs-add') }}" method="post" id="formNewOrg" name="formNewOrg">
-
-                    </form>
+{#                    <form action="{{ url('list-orgs-add') }}" method="post" id="formNewOrg" name="formNewOrg">#}
+{##}
+{#                        <span>Добавить нового организатора</span>#}
+{#                    </form>#}
                     <table class="striped centered light-blue-text responsive-table">
                     {# TODO нормально доделать для мобильных телефонов #}
                         <thead>
@@ -65,7 +74,18 @@
             </div>
         </div>
     </div>
-    <div class="" onclick="fadeMe();" onload="$(this).fadeIn(100); $('#sovDiv').trigger('click');">
-        <p id="sovText">{{ tool }}</p>
+
+    {# Modal ctructure #}
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
     </div>
+    {#    <div class="" onclick="fadeMe();" onload="$(this).fadeIn(100); $('#sovDiv').trigger('click');">#}
+{#        <p id="sovText">{{ tool }}</p>#}
+{#    </div>#}
 {% endblock %}
