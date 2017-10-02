@@ -52,7 +52,8 @@ class Competitions(BaseHandler):
             roles = create_roles_head(is_org, is_lead, is_memb)
             loc_role_rus = {'organizer': u'Организатор',
                             'leader': u'Руководитель команды',
-                            'member': u'Участник'}[loc_role]
+                            'member': u'Участник',
+                            'anonim': u'Аноним'}[loc_role]
             temp_values.update({'user_email': email, 'roles': roles, 'logout': users.create_logout_url('/'),
                                 'is_user': True, 'cur_role': loc_role, 'cur_role_rus': loc_role_rus})
 
