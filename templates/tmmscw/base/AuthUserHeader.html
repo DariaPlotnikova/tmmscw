@@ -16,6 +16,7 @@
 
 <ul id="side-out" class="side-nav"> {# Side Nav #}
     <li class="hide-on-large-only"><a href="#email">{{ user_email }}</a></li>
+    {% block side_bar %}
     <li class="hide-on-large-only">
         {% if roles|length > 1 %}
             <ul class="collapsible collapsible-accordion">
@@ -40,9 +41,10 @@
         {% else %}
             <a>{{ cur_role_rus }}</a>
         {% endif %}
+{#    {% if cur_role == 'organizer' %}#}
+{#        {% include 'tmmscw/organizer/CompetitionList.html' %}#}
+{#    {% endif %}#}
     </li>
-    {% block side_bar %}
-
     {% endblock %}
     <li class="hide-on-large-only"><a href="{{ logout }}" onclick="nullToCurRole();">Выход</a></li>
 </ul>
@@ -64,7 +66,8 @@
 
 <header>
     <nav class="light-blue navbar-fixed" role="navigation">
-        <div class="nav-wrapper container">
+        <div class="nav-wrapper">
+            {% block header %}
             <ul class="left">
                 {# side nav trigger #}
                 <a data-activates="side-out" class="button-collapse show-on-large">
@@ -85,8 +88,6 @@
                 <li><a href="#email">{{ user_email }}</a></li>
                 <li><a href="{{ logout }}">Выход</a></li>
             </ul>
-            {% block header %}
-
             {% endblock %}
         </div>
     </nav>
