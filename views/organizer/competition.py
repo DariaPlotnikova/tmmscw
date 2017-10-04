@@ -4,7 +4,7 @@ import webapp2
 from google.appengine.api import users
 
 import main
-from views.utils import show_unauth_page, find_user, create_roles_head, format_date,\
+from views.utils import show_unauth_page, find_user, create_roles_head, format_date, \
     post_competition, post_info, post_diz
 from views.common.base_handlers import BaseHandler
 
@@ -26,6 +26,7 @@ class CertainCompetition(webapp2.RedirectHandler, BaseHandler):
         self.response.write(template.render(temp_values))
 '''
 
+
 class FillCompetitionInfo(webapp2.RedirectHandler, BaseHandler):
     """
     Saves common info about new competition
@@ -38,7 +39,7 @@ class FillCompetitionInfo(webapp2.RedirectHandler, BaseHandler):
         else:
             email = user.email()
             [is_org, is_lead, is_memb] = find_user(email)
-            roles = create_roles_head(self, is_org, is_lead, is_memb)
+            roles = create_roles_head(is_org, is_lead, is_memb)
             if is_org and self.session.get('role') == 'organizer':
                 temp_values = {'roles': roles, 'user_email': email, 'logout': users.create_logout_url('/')}
                 template = main.jinja_env.get_template('/tmmscw/organizer/NewCompetitionInfo.html')
@@ -70,6 +71,7 @@ class CreateCompetition(webapp2.RedirectHandler, BaseHandler):
     """
     Saves full info about new competition
     """
+
     def post(self):
         user = users.get_current_user()
         if user:

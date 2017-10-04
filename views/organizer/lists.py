@@ -1,3 +1,4 @@
+# coding=utf-8
 import os
 import jinja2
 import time
@@ -6,6 +7,7 @@ import main, defaults
 from google.appengine.api import users
 from google.appengine.ext import db
 from models.visitor import Organizer, Leader, Member, Command
+from views.utils import create_roles_head, find_user
 
 from ..common.base_handlers import BaseHandler
 
@@ -20,17 +22,30 @@ class OrganizerList(BaseHandler):
     """
     def get(self):
         user = users.get_current_user()
-        if user:
+        if self.session['role'] == 'organizer':
             orgs = db.Query(Organizer).order('nickname')
             keys = []
             for org in orgs:
                 keys.append(org.key())
             global tooltip_message
             global tooltip_show
+            email = user.email()
+            loc_role = self.session.get('role', 'anonim')
+            [is_org, is_lead, is_memb] = find_user(email)
+            roles = create_roles_head(is_org, is_lead, is_memb)
+            loc_role_rus = {'organizer': u'Организатор',
+                            'leader': u'Руководитель команды',
+                            'member': u'Участник',
+                            'anonim': u'Аноним'}[loc_role]
             temp_values = dict(user_email=user.email(), logout=users.create_logout_url('/login'),
-                               disp_tool=tooltip_show, tool=tooltip_message, organizers=orgs, keys=keys)
+                               disp_tool=tooltip_show, tool=tooltip_message, organizers=orgs, keys=keys,
+                               roles=roles, cur_role_rus=loc_role_rus, cur_role=loc_role)
             template = main.jinja_env.get_template('/tmmscw/organizer/OrganizerList.html')
             self.response.write(template.render(temp_values))
+        elif user:
+            temp_values = dict(img_src='/static/img/er403.png', er_name='403',
+                               login_redir=users.create_login_url(webapp2.uri_for('list-orgs')))
+            self.response.write(main.jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
         else:
             temp_values = dict(img_src='/static/img/er401.png', er_name='401',
                                login_redir=users.create_login_url(webapp2.uri_for('list-orgs')))
@@ -60,7 +75,7 @@ class OrganizerAdd(BaseHandler):
             global tooltip_show
             tooltip_message = u'Organizer %s added to database' % fio
         tooltip_show = 'block'
-        time.sleep(0.1)
+        time.sleep(0.2)
         self.redirect(webapp2.uri_for('list-orgs'))
 
 
@@ -83,7 +98,7 @@ class LeaderList(BaseHandler):
     """
     def get(self):
         user = users.get_current_user()
-        if user:
+        if self.session['role'] == 'organizer':
             leaders = db.Query(Leader).order('nickname')
             keys = []
             for lead in leaders:
@@ -94,6 +109,10 @@ class LeaderList(BaseHandler):
                                disp_tool=tooltip_show, tool=tooltip_message, leads=leaders, keys=keys)
             template = main.jinja_env.get_template('/tmmscw/organizer/LeaderList.html')
             self.response.write(template.render(temp_values))
+        elif user:
+            temp_values = dict(img_src='/static/img/er403.png', er_name='403',
+                               login_redir=users.create_login_url(webapp2.uri_for('list-leads')))
+            self.response.write(main.jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
         else:
             temp_values = dict(img_src='/static/img/er401.png', er_name='401',
                                login_redir=users.create_login_url(webapp2.uri_for('list-leads')))
