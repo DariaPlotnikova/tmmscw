@@ -194,9 +194,18 @@ class MemberList(BaseHandler):
             global tooltip_message
             global tooltip_show
             commands = db.Query(Command)
+            email = user.email()
+            loc_role = self.session.get('role', 'anonim')
+            [is_org, is_lead, is_memb] = find_user(email)
+            roles = create_roles_head(is_org, is_lead, is_memb)
+            loc_role_rus = {'organizer': u'Организатор',
+                            'leader': u'Руководитель команды',
+                            'member': u'Участник',
+                            'anonim': u'Аноним'}[loc_role]
             temp_values = dict(user_email=user.email(), logout=users.create_logout_url('/login'),
                                disp_tool=tooltip_show, tool=tooltip_message, members=members, keys=keys,
-                               commands=commands, quals=defaults.DEFAULT_QUALS)
+                               commands=commands, quals=defaults.DEFAULT_QUALS,
+                               roles=roles, cur_role_rus=loc_role_rus, cur_role=loc_role)
             template = main.jinja_env.get_template('/tmmscw/organizer/MemberList.html')
             self.response.write(template.render(temp_values))
         else:

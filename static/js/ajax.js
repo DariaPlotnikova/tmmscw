@@ -12,6 +12,7 @@ $(document).ready(function () {
     });
 
     $('.modal').modal();
+    $('select').material_select();
 
     function success() {
         location.reload(true);
