@@ -20,6 +20,7 @@ class OrganizerList(BaseHandler):
     """
     Displays list of organizers
     """
+
     def get(self):
         user = users.get_current_user()
         if self.session['role'] == 'organizer':
@@ -56,8 +57,9 @@ class OrganizerAdd(BaseHandler):
     """
     Add new organizer and change existed
     """
+
     def post(self):
-        if self.request.POST.get('olKey'):      # changing existing organizer
+        if self.request.POST.get('olKey'):  # changing existing organizer
             new_fio = self.request.POST.get('olFio')
             new_contact = self.request.POST.get('olContact')
             org_key = self.request.POST.get('olKey')
@@ -66,7 +68,7 @@ class OrganizerAdd(BaseHandler):
             organizer.contact = new_contact
             organizer.put()
             tooltip_message = u'Organizer %s changed' % new_fio
-        else:                               # add new organizer
+        else:  # add new organizer
             fio = self.request.POST.get('olFio')
             contact = self.request.POST.get('olContact')
             newOrg = Organizer(nickname=fio, contact=contact)
@@ -96,6 +98,7 @@ class LeaderList(BaseHandler):
     """
     Displays list of leaders
     """
+
     def get(self):
         user = users.get_current_user()
         if self.session['role'] == 'organizer':
@@ -105,8 +108,17 @@ class LeaderList(BaseHandler):
                 keys.append(lead.key())
             global tooltip_message
             global tooltip_show
+            email = user.email()
+            loc_role = self.session.get('role', 'anonim')
+            [is_org, is_lead, is_memb] = find_user(email)
+            roles = create_roles_head(is_org, is_lead, is_memb)
+            loc_role_rus = {'organizer': u'Организатор',
+                            'leader': u'Руководитель команды',
+                            'member': u'Участник',
+                            'anonim': u'Аноним'}[loc_role]
             temp_values = dict(user_email=user.email(), logout=users.create_logout_url('/login'),
-                               disp_tool=tooltip_show, tool=tooltip_message, leads=leaders, keys=keys)
+                               disp_tool=tooltip_show, tool=tooltip_message, leads=leaders, keys=keys,
+                               roles=roles, cur_role_rus=loc_role_rus, cur_role=loc_role)
             template = main.jinja_env.get_template('/tmmscw/organizer/LeaderList.html')
             self.response.write(template.render(temp_values))
         elif user:
@@ -123,8 +135,9 @@ class LeaderAdd(BaseHandler):
     """
     Add new leader and change existed
     """
+
     def post(self):
-        if self.request.POST.get('llKey'):              # changing existing leader
+        if self.request.POST.get('llKey'):  # changing existing leader
             new_fio = self.request.POST.get('llFio')
             new_contact = self.request.POST.get('llContact')
             lead_key = self.request.POST.get('llKey')
@@ -138,7 +151,7 @@ class LeaderAdd(BaseHandler):
             leader.command.territory = new_terry
             leader.command.put()
             tooltip_message = u'Leader %s changed' % new_fio
-        else:                                           # add new leader
+        else:  # add new leader
             command = self.request.POST.get('llComand')
             terry = self.request.POST.get('llTerritory')
             command = Command(name=command, territory=terry).put()
@@ -170,6 +183,7 @@ class MemberList(BaseHandler):
     """
     Displays list of members
     """
+
     def get(self):
         user = users.get_current_user()
         if user:
@@ -195,10 +209,11 @@ class MemberAdd(BaseHandler):
     """
     Add new member and change existed
     """
+
     def post(self):
         cur_user = users.get_current_user()
         if cur_user:
-            if self.request.POST.get('omKey'):              # change existing member
+            if self.request.POST.get('omKey'):  # change existing member
                 new_fio = self.request.POST.get('omFio')
                 new_birthdate = self.request.POST.get('omGr')
                 new_qual = self.request.POST.get('omRazr')
@@ -212,7 +227,7 @@ class MemberAdd(BaseHandler):
                 member.qualification = new_qual
                 member.put()
                 tooltip_message = u'Member %s was changed' % new_fio
-            else:                                           # add new member
+            else:  # add new member
                 comm_id = self.request.POST.get('omComand')
                 command = db.Query(Command).filter('__key__ =', db.Key(comm_id)).get()
                 fio = self.request.POST.get('omFio')

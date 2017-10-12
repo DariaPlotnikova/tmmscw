@@ -16,16 +16,16 @@
                 <div class="card-image light-blue white-text">
                     {# TODO найти нормальное решение: заменить card-image на стили #}
                     <a class="btn-floating btn-large halfway-fab waves-effect waves-light
-                    green lighten-2 hoverable tooltipped modal-trigger"
-                            data-position="bottom"
-                            data-delay="50" data-tooltip="Добавить организатора"
-                            id="addOrgan"
-                            href="#modalAddOrg"
-                            style="bottom: -14px"><i class="material-icons">add</i></a>
+                        green lighten-2 hoverable tooltipped modal-trigger"
+                       data-position="bottom"
+                       data-delay="50" data-tooltip="Добавить организатора"
+                       id="addOrgan"
+                       href="#modalAddOrg"
+                       style="bottom: -14px"><i class="material-icons">add</i></a>
                 </div>
                 <div class="card-content">
                     <table class="striped centered light-blue-text responsive-table">
-                    {# TODO нормально доделать для мобильных телефонов #}
+                        {# TODO нормально доделать для мобильных телефонов #}
                         <thead>
                         <tr>
                             <th>ФИО</th>
@@ -41,7 +41,7 @@
                                 <td>
                                     <form action="{{ url('list-orgs-delete') }}" method="post" id="deleteOrg">
                                         <button class="btn-floating light-blue modal-trigger changeOrg"
-                                                 type="button" href="#modalAddOrg">
+                                                type="button" href="#modalAddOrg">
                                             <i class="material-icons">mode_edit</i>
                                         </button>
                                         <button class="btn-floating light-blue" type="submit"
