@@ -21,7 +21,6 @@ $(document).ready(function () {
         $('#olContact').siblings().removeClass('active');
     });
 
-
     $('#addOrgSubmit').on('click', function () {
         var fio = $('#olFio');
         var cont = $('#olContact');
@@ -47,7 +46,7 @@ $(document).ready(function () {
         cont.val(cols[1].innerHTML);
         cont.siblings().addClass('active');
         cont.addClass('valid');
-        $('#olKey').val($(this).siblings()[1].value);
+        $('#olKey').val($(this).siblings()[2].value);
     });
 
     function success() {

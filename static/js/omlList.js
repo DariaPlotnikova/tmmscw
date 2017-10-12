@@ -12,7 +12,7 @@
 // 	$('#formAddOrg').toggle();
 // });
 //
-// $('#changeOrgan').click(function(){
+// $('.changeOrg').click(function(){
 // 	var cols = $(this).parent().parent().siblings();
 // 	var fio = $('#olFio');
 // 	fio.val(cols[0].innerHTML);
@@ -20,11 +20,12 @@
 // 	var cont = $('#olContact');
 //     cont.val(cols[1].innerHTML);
 //     cont.parent().addClass('is-dirty');
-// 	$('#olKey').val($(this).siblings()[1].value);
+//     alert($(this).siblings()[2].value);
+// 	$('#olKey').val($(this).siblings()[2].value);
 // 	$("#sectB").toggle();
 // 	$('#sect1').toggle();
 // 	$('#sect2').toggle();
-// // });
+// });
 // $('#changeOrgBack').click(function(){
 //     $('#sectB').toggle();
 // 	$('#sect1').toggle();
