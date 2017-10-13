@@ -228,13 +228,13 @@ class MemberAdd(BaseHandler):
         if cur_user:
             if self.request.POST.get('omKey'):  # change existing member
                 new_fio = self.request.POST.get('omFio')
-                new_birthdate = self.request.POST.get('omGr')
+                new_birthdate = int(self.request.POST.get('omGr'))
                 new_qual = self.request.POST.get('omRazr')
                 new_command_id = self.request.POST.get('omComand')
                 new_command = db.Query(Command).filter('__key__ =', db.Key(new_command_id)).get()
                 memb_key = self.request.POST.get('omKey')
                 member = Member.get(memb_key)
-                member.nickname = new_fio
+                member.surname = new_fio
                 member.command = new_command
                 member.birthdate = int(new_birthdate)
                 member.qualification = new_qual
@@ -246,7 +246,7 @@ class MemberAdd(BaseHandler):
                 fio = self.request.POST.get('omFio')
                 bdate = int(self.request.POST.get('omGr'))
                 qual = self.request.POST.get('omRazr')
-                new_member = Member(nickname=fio, birthdate=bdate, qualification=qual, command=command)
+                new_member = Member(surname=fio, birthdate=bdate, qualification=qual, command=command)
                 new_member.put()
                 global tooltip_message
                 global tooltip_show

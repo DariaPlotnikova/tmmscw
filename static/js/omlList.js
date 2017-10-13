@@ -41,9 +41,7 @@ $('#addMember').on("click", function () {
     $('#addMemSubmit').text('Добавить');
     $('#formNewMem')[0].reset();
     $('#omFio').siblings().removeClass('active');
-    $('#omContact').siblings().removeClass('active');
-    $('#omTerritory').siblings().removeClass('active');
-    $('#omComand').siblings().removeClass('active');
+    $('#omGr').siblings().removeClass('active');
 });
 
 $('#addMemSubmit').on('click', function () {
@@ -75,20 +73,10 @@ $('.changeMem').click(function () {
 
     var qual = $('#omRazr');
     qual.val(cols[2].innerHTML);
-    qual.siblings().addClass('active');
-    qual.addClass('valid');
 
-    var comm = $('#omComand');
-    comm.val(cols[3].innerHTML);
-    comm.siblings().addClass('active');
-    comm.addClass('valid');
+    var comm = String(cols[3].innerHTML + ' (' + cols[4].innerHTML + ')');
+    $('li:contains("'+comm+'")').addClass('active selected');
 
-    var terr = $('#omTerritory');
-    terr.val(cols[4].innerHTML);
-    terr.siblings().addClass('active');
-    terr.addClass('valid');
-
-    alert($(this).siblings()[2].value);
     $('#omKey').val($(this).siblings()[2].value);
 });
 

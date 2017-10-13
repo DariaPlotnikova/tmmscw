@@ -19,7 +19,7 @@
                         green lighten-2 hoverable tooltipped modal-trigger"
                        data-position="bottom"
                        data-delay="50" data-tooltip="Добавить участника"
-                       id="addMemeran"
+                       id="addMember"
                        href="#modalAddMem"
                        style="bottom: -14px"><i class="material-icons">add</i></a>
                 </div>
@@ -85,7 +85,7 @@
                         <label for="omGr">Год рождения</label>
                     </div>
                     <div class="input-field col s12 m6">
-                        <select id="omRazr" class="validate">
+                        <select id="omRazr" name="omRazr" class="validate">
                             {% for qual in quals %}
                                 <option value="{{ qual }}">{{ qual }}</option>
                             {% endfor %}
@@ -93,20 +93,12 @@
                         <label for="omRazr">Разряд/Звание</label>
                     </div>
                     <div class="input-field col s12 m6">
-                        <select id="omComand" class="validate">
+                        <select id="omComand" name="omComand" class="validate">
                             {% for com in commands %}
-                                <option value="{{ com.key() }}">{{ com.name }}</option>
+                                <option value="{{ com.key() }}">{{ com.name }} ({{ com.territory }})</option>
                             {% endfor %}
                         </select>
                         <label for="omComand">Команда</label>
-                    </div>
-                    <div class="input-field col s12 m6">
-                        <select id="omTerritory" class="validate">
-                            {% for com in commands %}
-                                <option value="{{ com.key() }}">{{ com.territory }}</option>
-                            {% endfor %}
-                        </select>
-                        <label for="omTerritory">Территория</label>
                     </div>
                 </div>
             </form>
