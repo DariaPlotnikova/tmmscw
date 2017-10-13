@@ -186,7 +186,7 @@ class MemberList(BaseHandler):
 
     def get(self):
         user = users.get_current_user()
-        if user:
+        if self.session['role'] == 'organizer':
             members = db.Query(Member).order('nickname')
             keys = []
             for memb in members:
@@ -194,11 +194,24 @@ class MemberList(BaseHandler):
             global tooltip_message
             global tooltip_show
             commands = db.Query(Command)
+            email = user.email()
+            loc_role = self.session.get('role', 'anonim')
+            [is_org, is_lead, is_memb] = find_user(email)
+            roles = create_roles_head(is_org, is_lead, is_memb)
+            loc_role_rus = {'organizer': u'Организатор',
+                            'leader': u'Руководитель команды',
+                            'member': u'Участник',
+                            'anonim': u'Аноним'}[loc_role]
             temp_values = dict(user_email=user.email(), logout=users.create_logout_url('/login'),
                                disp_tool=tooltip_show, tool=tooltip_message, members=members, keys=keys,
-                               commands=commands, quals=defaults.DEFAULT_QUALS)
+                               commands=commands, quals=defaults.DEFAULT_QUALS,
+                               roles=roles, cur_role_rus=loc_role_rus, cur_role=loc_role)
             template = main.jinja_env.get_template('/tmmscw/organizer/MemberList.html')
             self.response.write(template.render(temp_values))
+        elif user:
+            temp_values = dict(img_src='/static/img/er403.png', er_name='403',
+                               login_redir=users.create_login_url(webapp2.uri_for('list-membs')))
+            self.response.write(main.jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
         else:
             temp_values = dict(img_src='/static/img/er401.png', er_name='401',
                                login_redir=users.create_login_url(webapp2.uri_for('list-membs')))
@@ -215,13 +228,13 @@ class MemberAdd(BaseHandler):
         if cur_user:
             if self.request.POST.get('omKey'):  # change existing member
                 new_fio = self.request.POST.get('omFio')
-                new_birthdate = self.request.POST.get('omGr')
+                new_birthdate = int(self.request.POST.get('omGr'))
                 new_qual = self.request.POST.get('omRazr')
                 new_command_id = self.request.POST.get('omComand')
                 new_command = db.Query(Command).filter('__key__ =', db.Key(new_command_id)).get()
                 memb_key = self.request.POST.get('omKey')
                 member = Member.get(memb_key)
-                member.nickname = new_fio
+                member.surname = new_fio
                 member.command = new_command
                 member.birthdate = int(new_birthdate)
                 member.qualification = new_qual
@@ -233,7 +246,7 @@ class MemberAdd(BaseHandler):
                 fio = self.request.POST.get('omFio')
                 bdate = int(self.request.POST.get('omGr'))
                 qual = self.request.POST.get('omRazr')
-                new_member = Member(nickname=fio, birthdate=bdate, qualification=qual, command=command)
+                new_member = Member(surname=fio, birthdate=bdate, qualification=qual, command=command)
                 new_member.put()
                 global tooltip_message
                 global tooltip_show

@@ -36,45 +36,48 @@ $('.changeOrg').click(function () {
 });
 
 //Member
-$('#addMemb').click(function () {
-    $('#sectB').toggle();
-    $('#sect0').toggle();
-    $('#formNewMember').toggle();
-    $('#formAddMember').toggle();
-});
-$('#addMemBack').click(function () {
-    $('#sectB').toggle();
-    $('#sect0').toggle();
-    $('#formNewMember').toggle();
-    $('#formAddMember').toggle();
+$('#addMember').on("click", function () {
+    $('#hModal').text('Добавить участника');
+    $('#addMemSubmit').text('Добавить');
+    $('#formNewMem')[0].reset();
+    $('#omFio').siblings().removeClass('active');
+    $('#omGr').siblings().removeClass('active');
 });
 
-$('.changeMemb').click(function () {
+$('#addMemSubmit').on('click', function () {
+    var fio = $('#omFio');
+    var gr = $('#omGr');
+
+    if (fio.hasClass('valid') && gr.hasClass('valid')) {
+        $('#modalAddMem').modal('close');
+        $('#formNewMem').submit();
+    } else {
+        Materialize.toast('Ошибка при заполнении полей!', 4000);
+    }
+});
+
+$('.changeMem').click(function () {
+    $('#hModal').text('Изменить данные участника');
+    $('#addMemSubmit').text('Изменить');
+
     var cols = $(this).parent().parent().siblings();
     var fio = $('#omFio');
     fio.val(cols[0].innerHTML);
-    fio.parent().addClass('is-dirty');
+    fio.siblings().addClass('active');
+    fio.addClass('valid');
+
     var gr = $('#omGr');
     gr.val(cols[1].innerHTML);
-    gr.parent().addClass('is-dirty');
+    gr.siblings().addClass('active');
+    gr.addClass('valid');
+
     var qual = $('#omRazr');
     qual.val(cols[2].innerHTML);
-    qual.parent().addClass('is-dirty');
-    var comm = $('#omComand');
-    comm.val(cols[3].innerHTML);
-    comm.parent().addClass('is-dirty');
-    var terr = $('#omTerritory');
-    terr.val(cols[4].innerHTML);
-    terr.parent().addClass('is-dirty');
-    $('#omKey').val($(this).siblings()[1].value);
-    $('#sectB').toggle();
-    $('#formNewMember').toggle();
-    $('#sect2').toggle();
-});
-$('#changeMemBack').click(function () {
-    $('#sectB').toggle();
-    $('#formNewMember').toggle();
-    $('#sect2').toggle();
+
+    var comm = String(cols[3].innerHTML + ' (' + cols[4].innerHTML + ')');
+    $('li:contains("'+comm+'")').addClass('active selected');
+
+    $('#omKey').val($(this).siblings()[2].value);
 });
 
 //Leader
