@@ -186,7 +186,7 @@ class MemberList(BaseHandler):
 
     def get(self):
         user = users.get_current_user()
-        if user:
+        if self.session['role'] == 'organizer':
             members = db.Query(Member).order('nickname')
             keys = []
             for memb in members:
@@ -208,6 +208,10 @@ class MemberList(BaseHandler):
                                roles=roles, cur_role_rus=loc_role_rus, cur_role=loc_role)
             template = main.jinja_env.get_template('/tmmscw/organizer/MemberList.html')
             self.response.write(template.render(temp_values))
+        elif user:
+            temp_values = dict(img_src='/static/img/er403.png', er_name='403',
+                               login_redir=users.create_login_url(webapp2.uri_for('list-membs')))
+            self.response.write(main.jinja_env.get_template('/tmmscw/errors.html').render(temp_values))
         else:
             temp_values = dict(img_src='/static/img/er401.png', er_name='401',
                                login_redir=users.create_login_url(webapp2.uri_for('list-membs')))
