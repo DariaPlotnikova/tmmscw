@@ -1,14 +1,14 @@
 # coding=utf-8
-import os
-import jinja2
 import time
+
 import webapp2
-import main, defaults
 from google.appengine.api import users
 from google.appengine.ext import db
+
+import defaults
+import main
 from models.visitor import Organizer, Leader, Member, Command
 from views.utils import create_roles_head, find_user
-
 from ..common.base_handlers import BaseHandler
 
 # TODO change globals to something else

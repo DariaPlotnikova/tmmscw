@@ -1,179 +1,115 @@
-{% extends 'tmmscw/base/AuthUserHeaderOld.html' %}
-
+{% extends 'tmmscw/leader/CompetitionList.html' %}
 {% block title %}{{ team_name }}{% endblock %}
-{% block styles %}
-<style>
-    body, .mdl-card__title {
-        color: #ffffff;
-    }
-
-    .mdl-button {
-        height: 56px;
-        width: 56px;
-    }
-
-    .mdl-button--fab.mdl-button--colored {
-        background: rgb(178, 255, 89);
-        color: rgb(255, 255, 255);
-    }
-</style>
+{% block scripts %}
+    <script type="application/javascript" src="/static/js/lmList.js"></script>
 {% endblock %}
-{% block menu_nav %}
-<div class="mdl-layout__drawer">
-    <span class="mdl-layout-title"></span>
-    <nav class="mdl-navigation">
-        <a class="mdl-navigation__link" href="/">Список соревнований</a>
-        <a class="mdl-navigation__link" href="{{ url('team') }}">Моя команда</a>
-        <a class="mdl-navigation__link" href="{{ url('add-to-team') }}">Добавить участника</a>
-    </nav>
-</div>
+{% block header %}
+    {{ super() }}
 {% endblock %}
 {% block main_content %}
-<main class="mdl-layout__content">
-    <!--  Content  -->
-    <div class="page-content">
-        <div class="mdl-grid" style="margin-top:15px;">
-            <div class="mdl-cell mdl-cell--1-col"></div>
-            <div class="mdl-cell mdl-cell--10-col">
-                <div class="demo-card-wide mdl-card mdl-shadow--2dp"
-                     style="width: 100%; min-height: 150px; margin-top: 35px;">
-                    <div class="mdl-grid mdl-card__title"
-                         style="height: 120px; width: 100%; text-align: center; border: none;">
-                        <div class="mdl-cell mdl-cell--1-col"></div>
-                        <div style="text-align: center; margin-top: 24px;" class="mdl-cell mdl-cell--4-col">
-                            <h2 class="mdl-card__title-text">Моя команда</h2>
-                        </div>
-                        <div class="mdl-cell mdl-cell--7-col"></div>
-                        <div class="mdl-cell mdl-cell--7-col"></div>
-                        <div class="mdl-cell mdl-cell--5-col">
-                            <button id="saveInfo" type="submit"
-                                    class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored"
-                                    style="top: 14px; left:10px;" form="formSaveTeam">
-                                <i class="material-icons">save</i>
-                            </button>
-                        </div>
-                    </div>   <!--   .mdl-card__title  -->
-                    <div class="mdl-card__actions mdl-card--border"
-                         style="border: none; background: #fff; padding: 30px 0 0 0;">
-                        <form id="formSaveTeam" name="formSaveTeam" action="/reg/lead/team" method="post">
-                            <div class="mdl-grid" style="padding-bottom: 0px;">
-                                <div class="mdl-cell--1-col"></div>
-                                <div class="mdl-cell--2-col">
-                                    <p class="myP" style="color: #42A5F5; margin: 25px 0 0 30px;"><b>Название</b></p>
-                                </div>
-                                <div class="mdl-cell--7-col">
-                                    <div class="mdl-textfield mdl-js-textfield" style="width: 100%; color: #42A5F5;">
-                                        <input class="mdl-textfield__input" type="text" id="nameTeam" name="nameTeam"
-                                               value="{{ command.name }}">
-                                        <label class="mdl-textfield__label" for="nameTeam">Введите название
-                                            команды</label>
-                                    </div>
-                                </div>
-                                <div class="mdl-cell--3-col"></div>
-                            </div>
-                            <div class="mdl-grid" style="padding-bottom: 0px;">
-                                <div class="mdl-cell--1-col"></div>
-                                <div class="mdl-cell--2-col">
-                                    <p class="myP" style="color: #42A5F5; margin: 25px 0 0 30px;"><b>Территория</b></p>
-                                </div>
-                                <div class="mdl-cell--7-col">
-                                    <div class="mdl-textfield mdl-js-textfield" style="width: 100%; color: #42A5F5;">
-                                        <input class="mdl-textfield__input" type="text" id="terryTeam" name="terryTeam"
-                                               value="{{ command.territory }}">
-                                        <label class="mdl-textfield__label" for="terryTeam">Введите территорию (город и,
-                                            возможно, район)</label>
-                                    </div>
-                                </div>
-                                <div class="mdl-cell--3-col"></div>
-                            </div>
-                        </form>
-                        <div class="mdl-grid" style="padding-bottom: 0px; margin-bottom: 0px;">
-                            <div class="mdl-cell--1-col"></div>
-                            <div class="mdl-cell--11-col">
-                                <p class="myP" style="color: #42A5F5; margin: 25px 0 0 30px;"><b>Список участников
-                                    команды</b></p>
-                            </div>
-                        </div>
-                        <div class="mdl-grid" style="padding-top: 0px; margin-bottom: 24px;">
-                            <!--  row3  -->
-                            <div class="mdl-cell mdl-cell--1-col"></div>
-                            <div class="mdl-cell mdl-cell--10-col">
-                                <div style="width: 100%; text-align: center;">
-                                    {% if membs_count > 0 %}
-                                    <table class="mdl-data-table mdl-js-data-table">
-                                        <thead>
-                                        <tr>
-                                            <th class="myP" style="width: 35%; color: #42a5f5; text-align: center;">
-                                                ФИО
-                                            </th>
-                                            <th class="myP" style="width: 10%; color: #42a5f5; text-align: center;">Год
-                                                рождения
-                                            </th>
-                                            <th class="myP" style="width: 10%; color: #42a5f5; text-align: center;">
-                                                Разряд
-                                            </th>
-                                            <th class="myP" style="width: 20%; color: #42a5f5; text-align: center;">
-                                                Пол
-                                            </th>
-                                            <th style="width: 2%; color: #42a5f5;"></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {% for memb in membs %}
-                                        <tr style="color: #42a5f5;">
-                                            <td class="myP"
-                                                style="width: 35%; text-align: center; padding-left: 2px; padding-right: 2px;">
-                                                {{ memb.surname }}
-                                            </td>
-                                            <td class="myP"
-                                                style="width: 10%; text-align: center; padding-left: 2px; padding-right: 2px;">
-                                                {{ memb.birthdate }}
-                                            </td>
-                                            <td class="myP"
-                                                style="width: 10%; text-align: center; padding-left: 2px; padding-right: 2px;">
-                                                {{ memb.qualification }}
-                                            </td>
-                                            <td class="myP"
-                                                style="width: 20%; text-align: center; padding-left: 2px; padding-right: 2px;">
-                                                {{ memb.sex }}
-                                            </td>
-                                            <td style="width: 1%; text-align: center; bottom: 4px;">
-                                                <form action="{{ url('change-member') }}" method="get"
-                                                      style="display: inline;">
-                                                    <button class="mdl-button mdl-js-button mdl-button--icon "
-                                                            type="submit" style="width: 32px; height: 32px;">
-                                                        <i class="material-icons">mode_edit</i>
-                                                    </button>
-                                                    <input type="text" style="display: none;" value="{{memb.key()}}"
-                                                           name="key">
-                                                </form>
-                                                <form action="{{ url('delete-member') }}" method="post"
-                                                      style="display: inline;">
-                                                    <input type="text" style="display: none;" value="{{memb.key()}}"
-                                                           name="key">
-                                                    <button class="mdl-button mdl-js-button mdl-button--icon"
-                                                            type="submit" style="width: 32px; height: 32px;">
-                                                        <i class="material-icons" id="deleteMemb">delete</i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                        </tbody>
-                                    </table>
-                                    {% else %}
-                                    <p class="myP" style="color: #42a5f5; top: 10px;">В вашей команде пока нет
-                                        участников</p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="mdl-cell mdl-cell--1-col"></div>
-                        </div>
-                    </div>    <!--  mdl-cards__actions  -->
+    <div class="row">
+        <div class="col s12 m12 l12 xl12">
+            <div class="card hoverable">
+                <div class="card-panel light-blue white-text">
+                    <span class="card-title">Моя команда</span>
                 </div>
-            </div>    <!--  вся карточка  -->
-            <div class="mdl-cell mdl-cell--1-col"></div>
-        </div>  <!-- mdl-grid -->
-    </div>  <!-- page-content -->
-</main>
+                <div class="card-image light-blue white-text">
+                    {# TODO найти нормальное решение: заменить card-image на стили #}
+                    <a class="btn-floating btn-large halfway-fab waves-effect waves-light
+                        green lighten-2 hoverable tooltipped modal-trigger"
+                       data-position="bottom"
+                       data-delay="50" data-tooltip="Добавить участника"
+                       id="addMember"
+                       href="#modalAddMem"
+                       style="bottom: -14px"><i class="material-icons">add</i></a>
+                </div>
+                <div class="card-content">
+                    <table class="striped centered light-blue-text responsive-table">
+                        {# TODO нормально доделать для мобильных телефонов #}
+                        <thead>
+                        <tr>
+                            <th>ФИО</th>
+                            <th>Год рождения</th>
+                            <th>Разряд</th>
+                            <th>Пол</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for memb in membs %}
+                            <tr>
+                                <td>{{ memb.surname }}</td>
+                                <td>{{ memb.birthdate }}</td>
+                                <td>{{ memb.qualification }}</td>
+                                <td>{{ memb.sex }}</td>
+                                <td class="horizontal">
+                                    <form action="{{ url('delete-member') }}" method="post">
+                                        <button class="btn-floating light-blue modal-trigger changeMem"
+                                                type="button" href="#modalAddMem">
+                                            <i class="material-icons">mode_edit</i>
+                                        </button>
+                                        <button class="btn-floating light-blue" type="submit">
+                                            <i class="material-icons">delete</i>
+                                        </button>
+                                        <input name="idMembKeyToDel" type="hidden" value="{{ memb.key() }}">
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Modal addMem ctructure #}
+    <div id="modalAddMem" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4 id="hModal">Добавить участника</h4>
+            <form action="{{ url('add-to-team') }}" method="post" id="formNewMem" name="formNewMem">
+                <input type="hidden" id="lmKey" name="lmKey">
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input class="validate" type="text" id="lmFio" name="lmFio">
+                        <label for="lmFio">ФИО участника</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input class="validate" type="text" id="lmGr" name="lmGr">
+                        <label for="lmGr">Год рождения</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <select id="lmRazr" name="lmRazr" class="validate">
+                            {% for qual in quals %}
+                                <option value="{{ qual }}">{{ qual }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="lmRazr">Разряд/Звание</label>
+                    </div>
+                    <div class="col s12 m6">
+                        <input class="with-gap" name="lmSexMemb" type="radio" id="sexM">
+                        <label for="sexM">Мужской пол</label>
+                        <input class="with-gap" name="lmSexMemb" type="radio" id="sexW">
+                        <label for="sexW">Женский пол</label>
+                    </div>
+                    <input type="hidden" name="passToEdit" value="{{ edit_pass }}">
+                </div>
+                <div class="container" id="edit-pass">
+                    <p>
+                        Пароль редактирования участника {{ edit_pass }}
+                    </p>
+                    <p>
+                        <sup>*</sup>Передайте этот пароль участнику. С его помощью он сможет редактировать личные данные
+                        и <br>самостоятельно заявляться на соревнования.
+                    </p>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn-flat" id="addMemSubmit">Добавить</button>
+        </div>
+    </div>
+
 {% endblock %}
