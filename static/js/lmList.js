@@ -10,9 +10,15 @@ $('#addMember').on("click", function () {
     $('select').material_select();
     $('#pass-to-edit-input').val("");
     $('#passToEdit').val("");
-    $.get($('#inpt-url-edit-pass').val(), function (value) {
-        $('#pass-to-edit-input').val(value);
-        $('#passToEdit').val(value);
+    $.ajax({
+        url: $('#inpt-url-edit-pass').val(),
+        type: "GET",
+        async: false,
+        cache: false,
+        success: function (value) {
+            $('#pass-to-edit-input').val(value);
+            $('#passToEdit').val(value);
+        }
     });
 });
 
@@ -53,7 +59,6 @@ $('.changeMem').click(function () {
 
     $('#pass-to-edit-input').val($(this).siblings()[2].value);
     $('#passToEdit').val($(this).siblings()[2].value);
-
 
     $('#lmKey').val($(this).siblings()[1].value);
 });
