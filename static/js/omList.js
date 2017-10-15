@@ -49,7 +49,6 @@ $('.changeMem').click(function () {
 
     var comm = $('#omComand');
     var tempString = cols[3].innerHTML + ' (' + cols[4].innerHTML + ')';
-    alert(tempString);
     comm.val(tempString);
     $('select').material_select();
     //comm.val(cols[3].innerHTML + ' (' + cols[4].innerHTML + ')');
