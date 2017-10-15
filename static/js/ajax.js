@@ -15,7 +15,8 @@ $(document).ready(function () {
     $('select').material_select();
 
     function success() {
-        location.reload(true);
+        location.href = "/";
+        //location.reload(true);
         // $(this).setTextContent = curRole;
         // $($("a[name='role']").children("b")).detach("b");
     }

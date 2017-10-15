@@ -104,3 +104,18 @@ class CleanUp(BaseHandler):
     """
     def get(self):
         self.session['role'] = 'anonim'
+        mems = Member.all()
+        orgs = Organizer.all()
+        leads = Leader.all()
+        comps = Competition.all()
+        comms = Command.all()
+        for mem in mems:
+            mem.delete()
+        for org in orgs:
+            org.delete()
+        for lead in leads:
+            lead.delete()
+        for comp in comps:
+            comp.delete()
+        for comm in comms:
+            comm.delete()
