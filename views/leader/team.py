@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import time
+# import time
 
 import webapp2
 from google.appengine.api import users
@@ -79,12 +79,13 @@ class AddToTeam(BaseHandler):
             new_qual = self.request.POST.get('lmRazr')
             new_sex = self.request.POST.get('lmSexMemb')
             memb_key = self.request.POST.get('lmKey')
-
+            new_pass_to_edit = self.request.POST.get('passToEdit')
             member = Member.get(memb_key)
             member.sex = new_sex
             member.surname = new_surname
             member.birthdate = new_birthdate
             member.qualification = new_qual
+            member.pass_to_edit = new_pass_to_edit
             member.put()
         else:  # add new member
             leader = db.Query(Leader).filter('user =', user).get()
@@ -99,37 +100,43 @@ class AddToTeam(BaseHandler):
             new_member.put()
         self.redirect(webapp2.uri_for('team'))
 
-    # class ChangeTeamMember(webapp2.RequestHandler):
-    # @current_leader_user
-    # def get(self):
-    #     member_key = self.request.GET.get('key')
-    #     if member_key:
-    #         member = Member.get(member_key)
-    #         temp_values = {'member': member}
-    #         template = main.jinja_env.get_template('/tmmscw/leader/ChangeMember.html')
-    #         self.response.write(template.render(temp_values))
-    #     else:
-    #         webapp2.abort(404)
-    #
-    # @current_leader_user
-    # def post(self):
-    #     member_key = self.request.POST.get('key')
-    #     if member_key:
-    #         member = Member.get(member_key)
-    #         sex = self.request.POST.get('sexMemb')
-    #         surname = self.request.POST.get('surnameMemb')
-    #         birthdate = int(self.request.POST.get('birthdate'))
-    #         qualification = self.request.POST.get('qualMemb')
-    #         member.sex = sex
-    #         member.surname = surname
-    #         member.birthdate = birthdate
-    #         member.qualification = qualification
-    #         member.put()
-    #         temp_values = {'member': member}
-    #         template = main.jinja_env.get_template('/tmmscw/leader/ChangeMember.html')
-    #         self.response.write(template.render(temp_values))
-    #     else:
-    #         webapp2.abort(404)
+
+class GeneratePassToEdit(BaseHandler):
+    def get(self):
+        edit_pass = generate_passwd()
+        self.response.out.write(edit_pass)
+
+        # class ChangeTeamMember(webapp2.RequestHandler):
+        # @current_leader_user
+        # def get(self):
+        #     member_key = self.request.GET.get('key')
+        #     if member_key:
+        #         member = Member.get(member_key)
+        #         temp_values = {'member': member}
+        #         template = main.jinja_env.get_template('/tmmscw/leader/ChangeMember.html')
+        #         self.response.write(template.render(temp_values))
+        #     else:
+        #         webapp2.abort(404)
+        #
+        # @current_leader_user
+        # def post(self):
+        #     member_key = self.request.POST.get('key')
+        #     if member_key:
+        #         member = Member.get(member_key)
+        #         sex = self.request.POST.get('sexMemb')
+        #         surname = self.request.POST.get('surnameMemb')
+        #         birthdate = int(self.request.POST.get('birthdate'))
+        #         qualification = self.request.POST.get('qualMemb')
+        #         member.sex = sex
+        #         member.surname = surname
+        #         member.birthdate = birthdate
+        #         member.qualification = qualification
+        #         member.put()
+        #         temp_values = {'member': member}
+        #         template = main.jinja_env.get_template('/tmmscw/leader/ChangeMember.html')
+        #         self.response.write(template.render(temp_values))
+        #     else:
+        #         webapp2.abort(404)
 
 
 class DeleteMember(webapp2.RequestHandler):

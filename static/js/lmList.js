@@ -1,6 +1,6 @@
 //Member
 $('#addMember').on("click", function () {
-    $('#edit-pass').show();
+    $('#lmKey').val("");
     $('#hModal').text('Добавить участника');
     $('#addMemSubmit').text('Добавить');
     $('#formNewMem')[0].reset();
@@ -8,6 +8,12 @@ $('#addMember').on("click", function () {
     $('#lmGr').siblings().removeClass('active');
     $('#lmRazr').val("б/р");
     $('select').material_select();
+    $('#pass-to-edit-input').val("");
+    $('#passToEdit').val("");
+    $.get($('#inpt-url-edit-pass').val(), function (value) {
+        $('#pass-to-edit-input').val(value);
+        $('#passToEdit').val(value);
+    });
 });
 
 $('#addMemSubmit').on('click', function () {
@@ -24,7 +30,6 @@ $('#addMemSubmit').on('click', function () {
 
 $('.changeMem').click(function () {
     $('lmKey').val("");
-    $('#edit-pass').hide();
     $('#hModal').text('Изменить данные участника');
     $('#addMemSubmit').text('Изменить');
 
@@ -45,6 +50,10 @@ $('.changeMem').click(function () {
 
     var sex = $('#lmSex');
     sex.val(cols[3].innerHTML);
+
+    $('#pass-to-edit-input').val($(this).siblings()[2].value);
+    $('#passToEdit').val($(this).siblings()[2].value);
+
 
     $('#lmKey').val($(this).siblings()[1].value);
 });
