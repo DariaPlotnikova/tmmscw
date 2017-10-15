@@ -8,6 +8,7 @@ $('#addOrgan').on("click", function () {
 });
 
 $('#addOrgSubmit').on('click', function () {
+    $('ooKey').val("");
     var fio = $('#olFio');
     var cont = $('#olContact');
 

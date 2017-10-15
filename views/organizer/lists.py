@@ -73,8 +73,6 @@ class OrganizerAdd(BaseHandler):
             contact = self.request.POST.get('olContact')
             newOrg = Organizer(nickname=fio, contact=contact)
             newOrg.put()
-            global tooltip_message
-            global tooltip_show
             tooltip_message = u'Organizer %s added to database' % fio
         tooltip_show = 'block'
         time.sleep(0.2)
@@ -158,11 +156,6 @@ class LeaderAdd(BaseHandler):
             fio = self.request.POST.get('llFio')
             contact = self.request.POST.get('llContact')
             Leader(nickname=fio, contact=contact, command=command).put()
-            global tooltip_message
-            global tooltip_show
-            tooltip_message = u'Leader %s was added to database' % fio
-        tooltip_show = 'block'
-        time.sleep(0.1)
         self.redirect(webapp2.uri_for('list-leads'))
 
 
@@ -239,7 +232,7 @@ class MemberAdd(BaseHandler):
                 member.birthdate = int(new_birthdate)
                 member.qualification = new_qual
                 member.put()
-                tooltip_message = u'Member %s was changed' % new_fio
+                # tooltip_message = u'Member %s was changed' % new_fio
             else:  # add new member
                 comm_id = self.request.POST.get('omComand')
                 command = db.Query(Command).filter('__key__ =', db.Key(comm_id)).get()
@@ -248,11 +241,11 @@ class MemberAdd(BaseHandler):
                 qual = self.request.POST.get('omRazr')
                 new_member = Member(surname=fio, birthdate=bdate, qualification=qual, command=command)
                 new_member.put()
-                global tooltip_message
-                global tooltip_show
-                tooltip_message = u'Member %s was added to database' % fio
-            tooltip_show = 'block'
-            time.sleep(0.1)
+                # global tooltip_message
+                # global tooltip_show
+                # tooltip_message = u'Member %s was added to database' % fio
+            # tooltip_show = 'block'
+            # time.sleep(0.1)
             self.redirect(webapp2.uri_for('list-membs'))
         else:
             temp_values = dict(img_src='/static/img/er401.png', er_name='401',

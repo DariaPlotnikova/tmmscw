@@ -10,6 +10,7 @@ $('#addLeader').on("click", function () {
 });
 
 $('#addLeadSubmit').on('click', function () {
+    $('olKey').val("");
     var fio = $('#llFio');
     var cont = $('#llContact');
     var comm = $('#llComand');

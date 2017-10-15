@@ -108,6 +108,7 @@ class CleanUp(BaseHandler):
         orgs = Organizer.all()
         leads = Leader.all()
         comps = Competition.all()
+        comms = Command.all()
         for mem in mems:
             mem.delete()
         for org in orgs:
@@ -116,3 +117,5 @@ class CleanUp(BaseHandler):
             lead.delete()
         for comp in comps:
             comp.delete()
+        for comm in comms:
+            comm.delete()

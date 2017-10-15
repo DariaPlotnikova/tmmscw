@@ -1,11 +1,13 @@
 //Member
 $('#addMember').on("click", function () {
-    $('#edit-pass').hide();
+    $('#edit-pass').show();
     $('#hModal').text('Добавить участника');
     $('#addMemSubmit').text('Добавить');
     $('#formNewMem')[0].reset();
     $('#lmFio').siblings().removeClass('active');
     $('#lmGr').siblings().removeClass('active');
+    $('#lmRazr').val("б/р");
+    $('select').material_select();
 });
 
 $('#addMemSubmit').on('click', function () {
@@ -21,7 +23,8 @@ $('#addMemSubmit').on('click', function () {
 });
 
 $('.changeMem').click(function () {
-    $('#edit-pass').show();
+    $('lmKey').val("");
+    $('#edit-pass').hide();
     $('#hModal').text('Изменить данные участника');
     $('#addMemSubmit').text('Изменить');
 
@@ -38,9 +41,22 @@ $('.changeMem').click(function () {
 
     var qual = $('#lmRazr');
     qual.val(cols[2].innerHTML);
+    $('select').material_select();
 
     var sex = $('#lmSex');
     sex.val(cols[3].innerHTML);
 
     $('#lmKey').val($(this).siblings()[1].value);
+});
+
+$("#changeCommSubmit").click(function () {
+    var terr = $('#terryTeam');
+    var commName = $('#nameTeam');
+
+    if(terr.hasClass('valid') && commName.hasClass('valid')) {
+        $('#modalChangeComm').modal('close');
+        $('#formSaveTeam').submit();
+    } else {
+        Materialize.toast('Ошибка при заполнении полей!', 4000);
+    }
 });
