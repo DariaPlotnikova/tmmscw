@@ -97,7 +97,7 @@
 
 <main class="container">
     {% block main_content %}            {# Default content is competition list #}
-        <div class="row">
+        <div class="row white-text">
             {% for comp in comps %}
                 <div class="col s12 m6 l6 xl6">
                     <div class="card hoverable">
@@ -107,13 +107,13 @@
                                 {{ comp.name }}
                             </div>
                         </div>
-                        <div class="card-content light-blue lighten-3">
+                        <div class="card-content light-blue lighten-3 black-text">
                             {% if is_open_pz[loop.index0] %}
-                                <img src="/static/img/good.png" class="right">
-                                Предварительная заявка открыта
+{#                                <img src="/static/img/good.png" class="right">#}
+                                Предварительная заявка открыта<i class="material-icons green-text right">event_available</i>
                             {% else %}
-                                <img src="/static/img/bad.png" class="right">
-                                Предварительная заявка закрыта
+{#                                <img src="/static/img/bad.png" class="right">#}
+                                Предварительная заявка закрыта<i class="material-icons red-text right">event_busy</i>
                             {% endif %}
                         </div>
                     </div>
