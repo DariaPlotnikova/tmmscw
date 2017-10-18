@@ -11,9 +11,6 @@ $(document).ready(function () {
         }
     });
 
-    $('.modal').modal();
-    $('select').material_select();
-
     function success() {
         location.href = "/";
         //location.reload(true);

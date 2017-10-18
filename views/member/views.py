@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import webapp2
 import main
 
@@ -6,16 +7,29 @@ from google.appengine.ext import db
 
 from models.visitor import Member
 from models.competition import Competition, CompMemb
+import defaults
+from ..utils import create_roles_head, find_user
+from ..common.base_handlers import BaseHandler
 
 
-class EditMember(webapp2.RequestHandler):
+class EditMember(BaseHandler):
     """ Displays detailed info about member and edit it using his confirmation code """
+
     def get(self):
-        member_key = self.request.GET.get('key')
-        if member_key:
-            member = Member.get(member_key)
-            temp_values = {'member': member}
-            template = main.jinja_env.get_template('/tmmscw/member/MemberView.html')
+        user = users.get_current_user()
+        member = db.Query(Member).filter('user =', user).get()
+        if member:
+            email = user.email()
+            loc_role = self.session.get('role', 'anonim')
+            [is_org, is_lead, is_memb] = find_user(email)
+            roles = create_roles_head(is_org, is_lead, is_memb)
+            loc_role_rus = {'organizer': u'Организатор',
+                            'leader': u'Руководитель команды',
+                            'member': u'Участник',
+                            'anonim': u'Аноним'}[loc_role]
+            temp_values = {'user_email': email, 'member': member, 'quals': defaults.DEFAULT_QUALS,
+                           'roles': roles, 'cur_role_rus': loc_role_rus, 'cur_role': loc_role}
+            template = main.jinja_env.get_template('/tmmscw/member/MemberEdit.html')
             self.response.write(template.render(temp_values))
         else:
             webapp2.abort(404)
@@ -71,6 +85,7 @@ def post(self):
 
 class AddMemberByDays(webapp2.RequestHandler):
     """ Add member to competition for days """
+
     def get(self):
         comp_key = self.request.GET.get('competition')
         if comp_key:
@@ -89,6 +104,7 @@ class AddMemberByDays(webapp2.RequestHandler):
 
     def post(self):
         pass
+
 
 '''
 @current_leader_user
@@ -111,6 +127,7 @@ def post(self):
     else:
         webapp2.abort(404)
 '''
+
 
 class AddMemberByClasses(webapp2.RedirectHandler):
     """ Add member to competition's classes for each selected day """

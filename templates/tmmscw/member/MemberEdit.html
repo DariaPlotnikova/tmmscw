@@ -1,0 +1,120 @@
+{% extends 'tmmscw/member/CompetitionList.html' %}
+{% block title %}Участник {{ member.surname }}{% endblock %}
+{% block scripts %}
+    <script type="application/javascript" src="/static/js/mmList.js"></script>
+{% endblock %}
+{% block header %}
+    {{ super() }}
+{% endblock %}
+{% block main_content %}
+    <div class="row">
+        <div class="col s12 m12 l12 xl12">
+            <div class="card hoverable">
+                <div class="card-panel light-blue white-text">
+                    <span class="card-title">Редактрирование данных</span>
+                </div>
+                <div class="card-image light-blue white-text">
+                    {# TODO найти нормальное решение: заменить card-image на стили #}
+                    <a class="btn-floating btn-large halfway-fab waves-effect waves-light
+                        green lighten-2 hoverable tooltipped"
+                       data-position="bottom"
+                       type="submit"
+                       form="formSaveEditMember"
+                       data-delay="50" data-tooltip="Сохранить данные"
+                       id="editMem"
+                       style="bottom: -14px"><i class="material-icons">save</i></a>
+                </div>
+                <div class="card-content">
+                    <form action="{{ url('self-edit') }}" id="formSaveEditMember" name="formSaveEditMember">
+                        <div class="row">
+                            <div class="col s12 m6 input-field">
+                                <input required type="text" class="validate valid" id="surnameMemb" name="surnameMemb"
+                                       value="{{ member.surname }}">
+                                <label for="surnameMemb">Фамилия</label>
+                            </div>
+                            <div class="col s12 m6 input-field">
+                                <input required type="text" class="validate valid" id="nameMemb" name="nameMemb"
+                                       value="{{ member.surname }}">
+                                <label for="nameMemb">Имя</label>
+                            </div>
+                            <div class="col s12 m6 input-field">
+                                <input required type="text" class="validate valid" id="ageMemb" name="ageMemb"
+                                       value="{{ member.birthdate }}">
+                                <label for="ageMemb">Год рождения</label>
+                            </div>
+                            <div class="col s12 m6 input-field">
+                                <select id="qualMemb" name="qualMemb" class="validate valid">
+                                    {% for qual in quals %}
+                                        <option value="{{ qual }}">{{ qual }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="qualMemb">Разряд</label>
+                            </div>
+                            <div class="col s12 m6">
+                                <p><b><sup>*</sup>Команда: </b>{{ member.command.name }}</p>
+                            </div>
+                            <div class="col s12 m6">
+                                <p><b><sup>*</sup>Территория: </b>{{ member.command.territory }}</p>
+                            </div>
+                            <div class="col s12 m12">
+                                Пароль<sup>**</sup> подтверждения изменений:
+                                <div class="input-field inline">
+                                    <input class="validate" required type="password" id="changePass" name="changePass">
+{#                                    <label for="changePass">Введите шестизначный пароль</label>#}
+                                </div>
+                            </div>
+                            <div class="col s12 m6 offset-m3">
+                                <p class="center-align"><sup>*</sup> Для изменения команды и территории обратитесь к
+                                    вашему руководителю</p>
+                                <p class="center-align"><sup>**</sup> Для получения пароля обратитесь к вашему
+                                    руководителю</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Modal addMem ctructure #}
+{#    <div id="modalAddMem" class="modal modal-fixed-footer">#}
+{#        <div class="modal-content">#}
+{#            <h4 id="hModal">Добавить участника</h4>#}
+{#            <form action="{{ url('list-membs-add') }}" method="post" id="formNewMem" name="formNewMem">#}
+{#                <input type="hidden" id="omKey" name="omKey">#}
+{#                <div class="row">#}
+{#                    <div class="input-field col s12 m6">#}
+{#                        <i class="material-icons prefix">account_circle</i>#}
+{#                        <input class="validate" type="text" id="omFio" name="omFio">#}
+{#                        <label for="omFio">ФИО участника</label>#}
+{#                    </div>#}
+{#                    <div class="input-field col s12 m6">#}
+{#                        <i class="material-icons prefix">account_circle</i>#}
+{#                        <input class="validate" type="text" id="omGr" name="omGr">#}
+{#                        <label for="omGr">Год рождения</label>#}
+{#                    </div>#}
+{#                    <div class="input-field col s12 m6">#}
+{#                        <select id="omRazr" name="omRazr" class="validate">#}
+{#                            {% for qual in quals %}#}
+{#                                <option value="{{ qual }}">{{ qual }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                        <label for="omRazr">Разряд/Звание</label>#}
+{#                    </div>#}
+{#                    <div class="input-field col s12 m6">#}
+{#                        <select id="omComand" name="omComand" class="validate">#}
+{#                            {% for com in commands %}#}
+{#                                <option value="{{ com.key() }}">{{ com.name }} ({{ com.territory }})</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                        <label for="omComand">Команда</label>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </form>#}
+{#        </div>#}
+{#        <div class="modal-footer">#}
+{#            <button class="waves-effect waves-green btn-flat" id="addMemSubmit">Добавить</button>#}
+{#        </div>#}
+{#    </div>#}
+
+{% endblock %}

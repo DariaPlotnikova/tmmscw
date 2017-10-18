@@ -41,7 +41,7 @@ class Team(BaseHandler):
                         'leader': u'Руководитель команды',
                         'member': u'Участник',
                         'anonim': u'Аноним'}[loc_role]
-        temp_values = {'membs_count': members.count(), 'command': command, 'membs': members,
+        temp_values = {'user_email': email, 'membs_count': members.count(), 'command': command, 'membs': members,
                        'roles': roles, 'cur_role_rus': loc_role_rus, 'cur_role': loc_role,
                        'quals': defaults.DEFAULT_QUALS}
         template = main.jinja_env.get_template('/tmmscw/leader/Team.html')
