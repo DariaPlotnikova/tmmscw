@@ -17,6 +17,7 @@ class Db(webapp2.RequestHandler):
     """
     Fill in initial data in database
     """
+
     def get(self):
         """(for developing mode) Adds initial data to database"""
         user = users.get_current_user()
@@ -28,28 +29,42 @@ class Db(webapp2.RequestHandler):
         paswd = salt_pass(paswd)
         org1 = Organizer(user=users.User('anremonres@gmail.com'), nickname=u'Олишевская Анна',
                          contact='anremonres@gmail.com')
-        org5 = Organizer(user=users.User('olishevskayaa@gmail.com'), nickname=u'Олишевская Анна',
+        org6 = Organizer(user=users.User('olishevskayaa@gmail.com'), nickname=u'Олишевская Анна',
                          contact='olishevskayaa@gmail.com')
 
         org2 = Organizer(user=users.User('test@example.com'), nickname=u'Тест Тестович', contact='test@example.com')
+
         org3 = Organizer(user=users.User('plotnikovanstu@gmail.com'), nickname=u'Плотникова Дарья',
                          contact='plotnikovanstu@gmail.com')
+
         org4 = Organizer(user=users.User('fordima1995@gmail.com'), nickname=u'Потапейко Дмитрий',
                          contact='fordima1995@gmail.com')
-        org5 = Organizer(user=users.User('cyanat56@gmail.com'), nickname=u'Петров Никита', contact='cyanat56@gmail.com')
+
+        org5 = Organizer(user=users.User('cyanat56@gmail.com'), nickname=u'Петров Никита', contact='cyanat56@gmail.com',
+                         pass_to_edit='qwerty')
+
         lead1 = Leader(user=users.User('@gmail.com'), nickname=u'Олишевская Анна',
                        contact='anremonres@gmail.com', command=com2)
+
         lead2 = Leader(user=users.User('cyanat56@gmail.com'), nickname=u'Петров Никита',
                        contact='cyanat56@gmail.com', command=com1)
-        memb1 = Member(pass_to_edit=paswd, sex=u'Женский', nickname='plotnikovanstu@gmail.com',
+
+        memb1 = Member(user=users.User('plotnikovanstu@gmail.com'), pass_to_edit=paswd, sex=u'Женский',
+                       nickname='plotnikovanstu@gmail.com',
                        surname=u'Плотникова Дарья',
                        command=com1, birthdate=1994, qualification='I')
-        memb2 = Member(pass_to_edit=paswd, sex=u'Мужской', nickname='mar@h.n', surname=u'Хайруллин Марат', command=com1,
+
+        memb2 = Member(user=users.User('mar@h.n'), pass_to_edit=paswd, sex=u'Мужской', nickname='mar@h.n',
+                       surname=u'Хайруллин Марат', command=com1,
                        birthdate=1994, qualification='I')
-        memb3 = Member(pass_to_edit=paswd, sex=u'Мужской', nickname='fordima1995@gmail.com',
+
+        memb3 = Member(user=users.User('fordima1995@gmail.com'), pass_to_edit=paswd, sex=u'Мужской',
+                       nickname='fordima1995@gmail.com',
                        surname=u'Потапейко Дмитрий',
                        command=com2, birthdate=1995, qualification='I')
-        memb4 = Member(pass_to_edit=paswd, sex=u'Мужской', nickname='cyanat56@gmail.com',
+
+        memb4 = Member(user=users.User('cyanat56@gmail.com'), pass_to_edit=paswd, sex=u'Мужской',
+                       nickname='cyanat56@gmail.com',
                        surname=u'Петров Никита',
                        command=com2, birthdate=1998, qualification='I')
         memb1.put()
@@ -61,21 +76,23 @@ class Db(webapp2.RequestHandler):
         org3.put()
         org4.put()
         org5.put()
+        org6.put()
         lead1.put()
         lead2.put()
         temp_values = {"email_memb": [memb1.nickname, memb2.nickname, memb3.nickname, memb4.nickname],
                        "email_lead": [lead1.contact, lead2.contact],
-                       "email_org": [org1.contact, org2.contact, org3.contact, org4.contact, org5.contact]}
+                       "email_org": [org1.contact, org2.contact, org3.contact, org4.contact, org5.contact, org6.contact]}
         self.response.write(main.jinja_env.get_template('/tmmscw/test.html').render(temp_values))
 
     def post(self):
-        pass            # TODO create handler as kanban in Brama (if kind='')
+        pass  # TODO create handler as kanban in Brama (if kind='')
 
 
 class Test(webapp2.RequestHandler):
     """
     Test handler for different purposes
     """
+
     def get(self):
         cur_user = users.get_current_user()
         # cur_lead = db.Query(Leader).filter('user =', cur_user).get()
@@ -102,6 +119,7 @@ class CleanUp(BaseHandler):
     """
     Cleans up all session data
     """
+
     def get(self):
         self.session['role'] = 'anonim'
         mems = Member.all()

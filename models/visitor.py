@@ -32,6 +32,7 @@ class Leader(db.Model):
 
 
 class Member(db.Model):
+    user = db.UserProperty(auto_current_user_add=False)
     pass_to_edit = db.StringProperty(multiline=False)
     sex = db.StringProperty(multiline=False)
     nickname = db.StringProperty(multiline=False)
