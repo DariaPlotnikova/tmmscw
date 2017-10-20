@@ -60,6 +60,7 @@ app = webapp2.WSGIApplication([
     webapp2.Route('/reg/nullToRole', roles.BeforeSignOut, name='before-singout'),
     # member routes
     webapp2.Route('/member/edit', memb_views.EditMember, name='self-edit'),
+    webapp2.Route('/member/check', memb_views.CheckPassToChange, name='check-pass'),
     webapp2.Route('/member/delete', memb_views.DeleteMember, name='self-delete'),
     webapp2.Route('/member/add_day', memb_views.AddMemberByDays, name='add-self-by-day'),
     webapp2.Route('/member/add_class', memb_views.AddMemberByClasses, name='add-self-by-class'),

@@ -51,9 +51,6 @@ $('.changeMem').click(function () {
     var tempString = cols[3].innerHTML + ' (' + cols[4].innerHTML + ')';
     comm.val(tempString);
     $('select').material_select();
-    //comm.val(cols[3].innerHTML + ' (' + cols[4].innerHTML + ')');
-    // var comm = String(cols[3].innerHTML + ' (' + cols[4].innerHTML + ')');
-    // $('li:text("'+comm+'")').addClass('active selected');
 
     $('#omKey').val($(this).siblings()[2].value);
 });

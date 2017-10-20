@@ -35,12 +35,43 @@ class EditMember(BaseHandler):
             webapp2.abort(404)
 
     def post(self):
-        pass
+        user = users.get_current_user()
+        member = db.Query(Member).filter('user =', user).get()
+        if member:
+            new_surname = self.request.POST.get('surnameMemb')
+            new_birthday = int(self.request.POST.get('birthdayMemb'))
+            new_qual = self.request.POST.get('qualMemb')
+            member.surname = new_surname
+            member.birthdate = new_birthday
+            member.qualification = new_qual
+            member.put()
+            self.redirect(webapp2.uri_for('self-edit'))
+        else:
+            webapp2.abort(404)
 
 
 class DeleteMember(webapp2.RequestHandler):
     """ Delete one member using his confirmation code """
     pass
+
+
+class CheckPassToChange(BaseHandler):
+    def get(self):
+        pass
+
+    def post(self):
+        user = users.get_current_user()
+        member = db.Query(Member).filter('user =', user).get()
+        if member:
+            temp_pass = self.request.POST.get('pass')
+            print(str(member.pass_to_edit), str(temp_pass))
+            if str(member.pass_to_edit) == str(temp_pass):
+                self.response.out.write('true')
+            else:
+                self.response.out.write('false')
+
+        else:
+            webapp2.abort(404)
 
 
 '''
