@@ -5,23 +5,24 @@
     <title>Test html</title>
 </head>
 <body>
-This is test page of Tmmosc<br><br>
+This is test page of Tmmosc<br>
+На данный момент существуют следующие аккаунты:<br><br>
 Membs:
 <ul>
-    {% for nick in email_memb %}
-    <li>{{nick}}</li>
+    {% for memb in membs %}
+    <li>{{ memb.nickname }}</li>
     {% endfor %}
 </ul>
 Leads:
 <ul>
-    {% for nick in email_lead %}
-    <li>{{nick}}</li>
+    {% for lead in leads %}
+    <li>{{ lead.contact }}</li>
     {% endfor %}
 </ul>
 Orgs:
 <ul>
-    {% for nick in email_org %}
-    <li>{{nick}}</li>
+    {% for org in orgs %}
+    <li>{{ org.contact }}</li>
     {% endfor %}
 </ul>
  {{test}}

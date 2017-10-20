@@ -79,9 +79,9 @@ class Db(webapp2.RequestHandler):
         org6.put()
         lead1.put()
         lead2.put()
-        temp_values = {"email_memb": [memb1.nickname, memb2.nickname, memb3.nickname, memb4.nickname],
-                       "email_lead": [lead1.contact, lead2.contact],
-                       "email_org": [org1.contact, org2.contact, org3.contact, org4.contact, org5.contact, org6.contact]}
+        temp_values = {"membs": Member.all(),
+                       "leads": Leader.all(),
+                       "orgs": Organizer.all()}
         self.response.write(main.jinja_env.get_template('/tmmscw/test.html').render(temp_values))
 
     def post(self):
