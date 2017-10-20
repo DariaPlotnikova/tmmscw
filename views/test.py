@@ -137,3 +137,5 @@ class CleanUp(BaseHandler):
             comp.delete()
         for comm in comms:
             comm.delete()
+        temp_values = {}
+        self.response.write(main.jinja_env.get_template('/tmmscw/clean.html').render(temp_values))
