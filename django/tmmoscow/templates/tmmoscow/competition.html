@@ -1,0 +1,43 @@
+{% extends 'tmmoscow/base.html' %}
+
+{% block main_content %}
+    <h1 class="comp-title">{{ comp.title }}</h1>
+    <h3>{{ comp.start_date }} - {{ comp.end_date }}</h3>
+    <h3>{{ comp.place }}</h3>
+    <hr>
+    {% for day in comp.days.all %}
+    <h4>День {{ forloop.counter }} | {{ day.date }}</h4>
+    <h5>Подача технической заявки до {{ day.tech_end_date }} ({% if day.tech_is_open %}открыта{% else %}закрыта{% endif %})</h5>
+    <table>
+        <thead>
+            <tr>
+                <th>Дисциплина</th>
+                <th>Длина</th>
+                <th>Класс</th>
+                <th>Кол-во этапов</th>
+                <th>Кол-во КП</th>
+                <th>Допустимые группы</th>
+                <th>Допустимые разряды</th>
+                <th>Особые группы-разряды</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dist in day.distances.all %}
+            <tr>
+                <td>{{ dist.get_type_display }} - {{ dist.get_long }}</td>
+                <td>{{ dist.length|floatformat:0 }} м</td>
+                <td>{{ dist.dclass }}</td>
+                <td>{{ dist.stage_cnt }}</td>
+                <td>{{ dist.point_cnt }}</td>
+                <td>{{ dist.get_groups_str }}</td>
+                <td>{{ dist.get_quals_str }}</td>
+                <td>{{ dist.get_specials_str }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
+
+    <a href="{% url 'index' %}">К списку соревнований</a>
+
+{% endblock %}

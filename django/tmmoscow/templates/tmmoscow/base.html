@@ -1,0 +1,30 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    {% comment %}
+    <meta property="og:image" content=""/>
+    <meta property="og:title" content=""/>
+    <meta property="og:description" content=""/>
+    <meta property="og:url" content=""/>
+    {% endcomment %}
+
+    <title>{% block title %}Tmmoscow соревнования{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <script src="{% static 'js/jquery-3.2.1.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+    {% block extra_cs %}{% endblock %}
+    {% block extra_js %}{% endblock %}
+
+</head>
+<body>
+
+    {% block header %}{% endblock %}
+    {% block main_content %}{% endblock %}
+    {% block footer %}{% endblock %}
+
+</body>
+</html>
