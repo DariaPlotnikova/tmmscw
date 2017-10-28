@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta http-equiv="Content-Type" charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% block title %}{% endblock %}</title>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" media="screen,projection"/>
+    {% block styles %}
+
+    {% endblock %}
+</head>
+<body>
+
+<ul id="side-out" class="side-nav"> {# Side Nav #}
+    <li class="hide-on-large-only"><a href="#email">{{ user_email }}</a></li>
+    {% block side_bar %}
+    <li class="hide-on-large-only">
+        {% if roles|length > 1 %}
+            <ul class="collapsible collapsible-accordion">
+                <li>
+                    <a class="collapsible-header">{{ cur_role_rus }}<i class="material-icons">arrow_drop_down</i></a>
+                    <div class="collapsible-body">
+                        <ul>
+                            {% if 'is_org' in roles and cur_role != 'organizer' %}
+                                <li><a name="role" href="#" id="organizer">Организатор</a></li>
+                            {% endif %}
+                            {% if 'is_lead' in roles and cur_role != 'leader' %}
+                                <li><a name="role" href="#" id="leader">Руководитель команды</a>
+                                </li>
+                            {% endif %}
+                            {% if 'is_memb' in roles and cur_role != 'member' %}
+                                <li><a name="role" href="#" id="member">Участник</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+            <div class="divider"></div>
+        {% else %}
+            <a>{{ cur_role_rus }}</a>
+        {% endif %}
+{#    {% if cur_role == 'organizer' %}#}
+{#        {% include 'tmmscw/organizer/CompetitionList.html' %}#}
+{#    {% endif %}#}
+    </li>
+    {% endblock %}
+    <li class="hide-on-large-only"><a href="{{ logout }}" onclick="nullToCurRole();">Выход</a></li>
+</ul>
+
+{#<!-- Dropdown of roles -->#}
+<ul id="dropdown-role" class="dropdown-content">
+    {% if 'is_org' in roles and cur_role != 'organizer' %}
+        <li><a class="light-blue-text" name="role" href="#" id="organizer">Организатор</a></li>
+    {% endif %}
+    {% if 'is_lead' in roles and cur_role != 'leader' %}
+        <li><a class="light-blue-text" name="role" href="#" id="leader">Руководитель команды</a></li>
+    {% endif %}
+    {% if 'is_memb' in roles and cur_role != 'member' %}
+        <li><a class="light-blue-text" name="role" href="#" id="member">Участник</a></li>
+    {% endif %}
+    <input type="hidden" id="inpt-change-role-url" value="{{ url('change-role') }}">
+    <input type="hidden" id="inpt-change-role-cur" value="{{ cur_role }}">
+</ul>
+
+<header>
+    <nav class="light-blue navbar-fixed" role="navigation">
+        <div class="nav-wrapper">
+            {% block header %}
+            <ul class="left">
+                {# side nav trigger #}
+                <a data-activates="side-out" class="button-collapse show-on-large">
+                    <i class="material-icons">menu</i>
+                </a>
+                {% if roles|length > 1 %}
+                    <!-- Dropdown Trigger -->
+                    <li class="hide-on-med-and-down">
+                        <a class="dropdown-button" href="#" data-activates="dropdown-role" data-beloworigin="true">
+                            {{ cur_role_rus }}<i class="material-icons right">arrow_drop_down</i>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="hide-on-med-and-down"><span>{{ cur_role_rus }}</span></li>
+                {% endif %}
+            </ul>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="#email">{{ user_email }}</a></li>
+                <li><a href="{{ logout }}">Выход</a></li>
+            </ul>
+            {% endblock %}
+        </div>
+    </nav>
+</header>
+
+<div class="" style="margin-top: 3%;"></div>
+
+<main class="container">
+    {% block main_content %}            {# Default content is competition list #}
+        <div class="row white-text">
+            {% for comp in comps %}
+                <div class="col s12 m6 l6 xl6">
+                    <div class="card hoverable">
+                        <div class="card-title light-blue">
+                            <div class="container">
+                                {{ d_start[loop.index0] }} - {{ d_finish[loop.index0] }}<br>
+                                {{ comp.name }}
+                            </div>
+                        </div>
+                        <div class="card-content light-blue lighten-3 black-text">
+                            {% if is_open_pz[loop.index0] %}
+{#                                <img src="/static/img/good.png" class="right">#}
+                                Предварительная заявка открыта<i class="material-icons green-text right">event_available</i>
+                            {% else %}
+{#                                <img src="/static/img/bad.png" class="right">#}
+                                Предварительная заявка закрыта<i class="material-icons red-text right">event_busy</i>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col s12 m8 l8 xl8 offset-m2 offset-l2 offset-xl2">
+                    <div class="card-panel hoverable black-text">
+                        <p class="flow-text">В настоящий момент нет соревнований для заявки.
+                            Зайдите через некоторое время...</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endblock %}
+</main>
+
+{% block addition %}
+
+{% endblock %}
+
+<script src="/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/materialize.min.js"></script>
+<script type="text/javascript" src="/static/js/ajax.js"></script>
+<script type="text/javascript" src="/static/js/main.js"></script>
+{% block scripts %}
+
+{% endblock %}
+</body>
+</html>

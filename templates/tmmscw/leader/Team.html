@@ -1,0 +1,160 @@
+{% extends 'tmmscw/leader/CompetitionList.html' %}
+{% block title %}{{ command.name }} ({{ command.territory }}){% endblock %}
+{% block scripts %}
+    <script type="application/javascript" src="/static/js/lmList.js"></script>
+{% endblock %}
+{% block header %}
+    {{ super() }}
+{% endblock %}
+{% block main_content %}
+    <div class="row">
+        <div class="col s12 m12 l12 xl12">
+            <div class="card hoverable">
+                <div class="card-panel light-blue white-text">
+                    <span class="card-title">Моя команда</span>
+                </div>
+                <div class="card-image light-blue white-text">
+                    {# TODO найти нормальное решение: заменить card-image на стили #}
+
+                    <div class="fixed-action-btn horizontal click-to-toggle" style="position: absolute; right: 24px;">
+                        <a class="btn-floating btn-large red waves-effect waves-light hoverable">
+                            <i class="material-icons">menu</i>
+                        </a>
+                        <ul>
+                            <li>
+                                <a class="btn-floating green darken-2 waves-effect waves-light hoverable tooltipped modal-trigger"
+                                   data-delay="50" data-tooltip="Добавить участника"
+                                   id="addMember"
+                                   href="#modalAddMem">
+                                    <i class="material-icons">add</i>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="btn-floating yellow darken-2  waves-effect waves-light hoverable tooltipped modal-trigger"
+                                   data-delay="50" data-tooltip="Изменить команду"
+                                   id="changeComm"
+                                   href="#modalChangeComm">
+                                    <i class="material-icons">create</i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <table class="striped centered light-blue-text responsive-table">
+                        {# TODO нормально доделать для мобильных телефонов #}
+                        <thead>
+                        <tr>
+                            <th>ФИО</th>
+                            <th>Год рождения</th>
+                            <th>Разряд</th>
+                            <th>Пол</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for memb in membs %}
+                            <tr>
+                                <td>{{ memb.surname }}</td>
+                                <td>{{ memb.birthdate }}</td>
+                                <td>{{ memb.qualification }}</td>
+                                <td>{{ memb.sex }}</td>
+                                <td class="horizontal">
+                                    <form action="{{ url('delete-member') }}" method="post">
+                                        <button class="btn-floating light-blue modal-trigger changeMem"
+                                                type="button" href="#modalAddMem">
+                                            <i class="material-icons">mode_edit</i>
+                                        </button>
+                                        <button class="btn-floating light-blue" type="submit">
+                                            <i class="material-icons">delete</i>
+                                        </button>
+                                        <input name="idMembKeyToDel" type="hidden" value="{{ memb.key() }}">
+                                        <input type="hidden" id="pass" value="{{ memb.pass_to_edit }}">
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Modal addMem ctructure #}
+    <div id="modalAddMem" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4 id="hModal">Добавить участника</h4>
+            <form action="{{ url('add-to-team') }}" method="post" id="formNewMem" name="formNewMem">
+                <input type="hidden" id="lmKey" name="lmKey">
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input required class="validate" type="text" id="lmFio" name="lmFio">
+                        <label for="lmFio">ФИО участника</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input required class="validate" type="text" id="lmGr" name="lmGr">
+                        <label for="lmGr">Год рождения</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <select id="lmRazr" name="lmRazr" class="validate">
+                            {% for qual in quals %}
+                                <option value="{{ qual }}">{{ qual }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="lmRazr">Разряд/Звание</label>
+                    </div>
+                    <div class="col s12 m6">
+                        <input class="with-gap" name="lmSexMemb" type="radio" id="sexM" value="Мужской" checked>
+                        <label for="sexM">Мужской пол</label>
+                        <input class="with-gap" name="lmSexMemb" type="radio" id="sexW" value="Женский">
+                        <label for="sexW">Женский пол</label>
+                    </div>
+                    <input type="hidden" id="passToEdit" name="passToEdit" value="">
+                </div>
+            </form>
+            <div class="container" id="edit-pass">
+                <input type="hidden" id="inpt-url-edit-pass" value="{{ url('generate-pass-to-edit') }}">
+                Пароль редактирования участника:
+                <div class="input-field inline">
+                    <input id="pass-to-edit-input" value="">
+                </div>
+                <p class="center-align">
+                    <sup>*</sup>Передайте этот пароль участнику. С его помощью он сможет редактировать личные данные
+                    и самостоятельно заявляться на соревнования.
+                </p>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn-flat" id="addMemSubmit">Добавить</button>
+        </div>
+    </div>
+
+    {# Modal changeComm structure #}
+    <div id="modalChangeComm" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4>Изменить команду</h4>
+            <form action="{{ url('team') }}" method="post" id="formSaveTeam" name="formSaveTeam">
+                <div class="row">
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">directions_run</i>
+                        <input required class="validate valid" type="text" id="nameTeam" name="nameTeam"
+                               value="{{ command.name }}">
+                        <label for="nameTeam">Комада</label>
+                    </div>
+                    <div class="input-field col s12 m6">
+                        <i class="material-icons prefix">map</i>
+                        <input required class="validate valid" type="text" id="terryTeam" name="terryTeam"
+                               value="{{ command.territory }}">
+                        <label for="terryTeam">Территория</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn-flat" id="changeCommSubmit">Изменить</button>
+        </div>
+    </div>
+{% endblock %}
