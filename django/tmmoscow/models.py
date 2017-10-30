@@ -17,7 +17,7 @@ import uuid
 from datetime import datetime
 from django.db import models
 from . import defaults
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, AbstractUser
 
 
 class Competition(models.Model):
@@ -28,6 +28,10 @@ class Competition(models.Model):
     place = models.CharField(u'Центр соревнований', max_length=512, null=True, blank=True)
     place_x = models.FloatField(u'X координата центра соревнований', null=True, blank=True)
     place_y = models.FloatField(u'Y координата центра соревнований', null=True, blank=True)
+
+    def is_open_entry(self):
+        tz_info = self.entry_end_date.tzinfo
+        return self.entry_end_date > datetime.now(tz=tz_info)
 
     def __unicode__(self):
         return u'%s  |  с %s по %s  |  %s ' % (self.title, self.start_date, self.end_date, self.place)
@@ -138,14 +142,21 @@ class Qualification(models.Model):
 
 class TmUser(AbstractUser):
     uniq_id = models.UUIDField(u'Уникальный ID', default=uuid.uuid4, editable=False)
-    birth = models.IntegerField(u'Год рождения')
-    qual = models.ForeignKey(Qualification, verbose_name=u'Разряд', related_name='users')
+    birth = models.IntegerField(u'Год рождения', blank=True, null=True)
+    qual = models.ForeignKey(Qualification, verbose_name=u'Разряд', related_name='users', blank=True, null=True)
     edit_pass = models.CharField(u'Пароль редактирования', max_length=16, blank=True, default='123456')
     is_leader = models.BooleanField(u'Руководитель', default=True, blank=True)
-    is_org = models.BooleanField(u'Руководитель', default=False, blank=True)
+    is_org = models.BooleanField(u'Организатор', default=False, blank=True)
     is_active = models.BooleanField(u'Активный', default=False, blank=True)
 
-    class Meta:
+    #def create_superuser(self):
+    #    pass
+
+    #def create_user(self):
+    #   pass
+
+    class Meta(AbstractUser.Meta):
+        abstract = False
         db_table = 'tm_user'
         verbose_name = u'Пользователь'
         verbose_name_plural = u'Пользователи'

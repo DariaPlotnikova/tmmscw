@@ -97,7 +97,6 @@
 <div class="" style="margin-top: 3%;"></div>
 
 <main class="container">
-
     {% block main_content %}            {# Default content is competition list #}
         <div class="row white-text">
             {% for comp in comps %}
@@ -105,14 +104,16 @@
                     <div class="card hoverable">
                         <div class="card-title light-blue">
                             <div class="container">
-                                {{ comp.start_date }} - {{ comp.finish_date }}<br>
-                                {{ comp.title }}
+                                {{ d_start[loop.index0] }} - {{ d_finish[loop.index0] }}<br>
+                                {{ comp.name }}
                             </div>
                         </div>
                         <div class="card-content light-blue lighten-3 black-text">
-                            {% if comp.is_open_entry %}
+                            {% if is_open_pz[loop.index0] %}
+{#                                <img src="/static/img/good.png" class="right">#}
                                 Предварительная заявка открыта<i class="material-icons green-text right">event_available</i>
                             {% else %}
+{#                                <img src="/static/img/bad.png" class="right">#}
                                 Предварительная заявка закрыта<i class="material-icons red-text right">event_busy</i>
                             {% endif %}
                         </div>
@@ -128,17 +129,18 @@
             {% endfor %}
         </div>
     {% endblock %}
-
 </main>
 
-{% block addition %}{% endblock %}
+{% block addition %}
+
+{% endblock %}
 
 <script src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/js/materialize.min.js"></script>
 <script type="text/javascript" src="/static/js/ajax.js"></script>
 <script type="text/javascript" src="/static/js/main.js"></script>
+{% block scripts %}
 
-{% block scripts %}{% endblock %}
-
+{% endblock %}
 </body>
 </html>
