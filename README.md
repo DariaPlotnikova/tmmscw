@@ -2,29 +2,37 @@
 
 1) 
 установить cloud_sql_proxy
-chmod +x cloud_sql_proxy
+выставить права на выполнение файла - ``chmod +x cloud_sql_proxy``
 
 2)
+Вывести информацию о инстансе БД (``tmmosc-1383:asia-northeast1:tmdb`` - имя в моем случае)
+```
 gcloud sql instances describe tmdb
 ./cloud_sql_proxy --instance="tmmosc-1383:asia-northeast1:tmdb"=tcp:3306
+```
 
 3)
-запустить proxy локально: ./cloud_sql_proxy -instances=tmmosc-1383:asia-northeast1:tmdb=tcp:3306
-(потребует credentials, тогда делаем - gcloud beta auth application-default login, выбираем свой гугл-аккаунт; повторяем запуск proxy)
+запустить proxy локально: ``./cloud_sql_proxy -instances=tmmosc-1383:asia-northeast1:tmdb=tcp:3306`` - это делать каждый раз при запуске проекта (= запускать сервер БД)
+(потребует credentials, тогда делаем - ``gcloud beta auth application-default login``, выбираем свой гугл-аккаунт; повторяем запуск proxy)
 (источник, подключение к sql - https://cloud.google.com/sql/docs/postgres/connect-external-app#proxy)
 
 должны увидеть:
+```
 (env) daria@dariaplotnikova:~/tmmosc$ ./cloud_sql_proxy -instances=tmmosc-1383:asia-northeast1:tmdb=tcp:3306
 2017/10/19 11:44:14 Listening on 127.0.0.1:3306 for tmmosc-1383:asia-northeast1:tmdb
 2017/10/19 11:44:14 Ready for new connections
+```
 
 4)
+```
 ./manage.py makemigrations
 ./manage.py migrate
+```
 
 5) 
+```
 ./manage.py runserver 0.0.0.0:55
-
+```
 
 ## Подключение к psql-клиенту локально
 
