@@ -78,6 +78,9 @@ class Distance(models.Model):
     groups = models.ManyToManyField('tmmoscow.Group', verbose_name=u'Допустимые группы', related_name='distances')
     quals = models.ManyToManyField('tmmoscow.Qualification', verbose_name=u'Допустимые разряды', related_name='distances')
 
+    def __unicode__(self):
+        return u'%s - %s (%s км)' % (self.dclass, self.get_long(), self.length)
+
     def get_long(self):
         return u'длинная' if self.is_long else u'короткая'
 
@@ -149,14 +152,34 @@ class TmUser(AbstractUser):
     is_org = models.BooleanField(u'Организатор', default=False, blank=True)
     is_active = models.BooleanField(u'Активный', default=False, blank=True)
 
-    #def create_superuser(self):
-    #    pass
-
-    #def create_user(self):
-    #   pass
+    def get_members(self):
+        return 0
 
     class Meta(AbstractUser.Meta):
         abstract = False
         db_table = 'tm_user'
         verbose_name = u'Пользователь'
         verbose_name_plural = u'Пользователи'
+
+
+class Team(models.Model):
+    title = models.CharField(u'Название', max_length=256)
+    location = models.CharField(u'Территория', max_length=512)
+    geo_x = models.CharField(u'X-координата', max_length=16, blank=True, null=True)
+    geo_y = models.CharField(u'Y-координата', max_length=16, blank=True, null=True)
+
+    class Meta:
+        db_table = 'tm_team'
+        verbose_name = u'Команда'
+        verbose_name_plural = u'Команды'
+
+
+class UserCommand(models.Model):
+    user = models.ForeignKey(TmUser, u'Пользователь', related_name='teams'),
+    team = models.ForeignKey(Team, verbose_name=u'Команда')
+    is_leader = models.BooleanField(u'Является руководителем', blank=True, default=False)
+
+    class Meta:
+        db_table = 'tm_user_team'
+        verbose_name = u'Команда-Участник'
+        verbose_name_plural = u'Команда-участники'

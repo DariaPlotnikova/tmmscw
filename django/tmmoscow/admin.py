@@ -62,6 +62,7 @@ class DistanceAdmin(admin.ModelAdmin):
         return ', '.join(unicode(sp) for sp in obj.special_groups.all()) if obj.special_groups else '-'
     specials_display.short_description = u'Особые группы-разряды'
 
+
 class GroupAdmin(admin.ModelAdmin):
     list_display = ('title', 'year_from', 'year_to', 'sex')
 

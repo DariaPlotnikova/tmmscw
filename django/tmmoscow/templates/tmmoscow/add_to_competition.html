@@ -1,0 +1,16 @@
+{% extends 'tmmoscow/base.html' %}
+
+{% block content %}
+    <p>Добавление участников к {{ comp }}</p>
+    <p>Выберите участников, которые будут участвовать в соревновании:</p>
+
+    <ul>
+    {% for mem in user.get_members %}
+        <li><p>{{ mem }}</p>
+            {% for day in comp.days %}
+                <input type="checkbox" value="{{ day.date }}">
+            {% endfor %}
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

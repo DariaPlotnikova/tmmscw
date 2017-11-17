@@ -1,13 +1,9 @@
-{% extends 'tmmoscow/base/UnauthUserHeader.html' %}
-
-{% comment %}
 {% extends 'tmmoscow/base.html' %}
 
-{% block main_content %}
+{% block content %}
     <div>
         {% for comp in comps %}
             <p>{{ comp }}<a href="{% url 'competition' comp.pk %}">Посмотреть соревнование</a></p>
         {% endfor %}
     </div>
 {% endblock %}
-{% endcomment %}

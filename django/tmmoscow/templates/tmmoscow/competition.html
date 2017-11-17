@@ -1,6 +1,6 @@
 {% extends 'tmmoscow/base.html' %}
 
-{% block main_content %}
+{% block content %}
     <h1 class="comp-title">{{ comp.title }}</h1>
     <h3>{{ comp.start_date }} - {{ comp.end_date }}</h3>
     <h3>{{ comp.place }}</h3>
@@ -38,6 +38,11 @@
     </table>
     {% endfor %}
 
-    <a href="{% url 'index' %}">К списку соревнований</a>
+    <ul>
+        <li><a href="{% url 'index' %}">К списку соревнований</a></li>
+        {#{% if user.is_authenticated %}#}
+            <li><a href="{% url 'competition-add-to' comp.pk %}">Заявить участников</a></li>
+        {#{% endif %}#}
+    </ul>
 
 {% endblock %}

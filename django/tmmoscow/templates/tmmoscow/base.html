@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
+    {% block extra_meta %}{% endblock %}
     {% comment %}
     <meta property="og:image" content=""/>
     <meta property="og:title" content=""/>
@@ -13,18 +13,27 @@
 
     <title>{% block title %}Tmmoscow соревнования{% endblock %}</title>
 
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'css/materialize.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+
     <script src="{% static 'js/jquery-3.2.1.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
-    {% block styles %}{% endblock %}
-    {% block scripts %}{% endblock %}
+    <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/ajax.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    {# <script src="{% static 'js/jquery.min.js' %}"></script> #}
+
+    {% block extra_css %}{% endblock %}
+    {% block extra_js %}{% endblock %}
 
 </head>
 <body>
 
-    {% block header %}{% endblock %}
-    {% block main_content %}{% endblock %}
-    {% block footer %}{% endblock %}
+    {% include 'tmmoscow/parts/header.html' %}
+    {% include 'tmmoscow/parts/sidebar.html' %}
+    {% block content %}{% endblock %}
+    {% include 'tmmoscow/parts/footer.html' %}
 
 </body>
 </html>
