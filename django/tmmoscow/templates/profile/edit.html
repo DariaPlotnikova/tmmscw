@@ -1,0 +1,25 @@
+{% extends 'tmmoscow/base.html' %}
+
+{% block breadcrumbs %}
+    <ul>
+        <li><a href="{% url 'profile-edit' user.pk %}">Личный кабинет</a></li>
+    </ul>
+{% endblock %}
+
+
+{% block content %}
+
+    <h3>Редактирование личных данных</h3>
+    <ul>
+        <li><a href="{% url 'my-team' user.pk %}">Моя команда</a></li>
+        <li><a href="{% url 'select-team' user.pk %}">Выбрать мою команду</a></li>
+        <li><a href="{% url 'roles' user.pk %}">Мои роли</a></li>
+    </ul>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Сохранить">
+    </form>
+
+{% endblock %}

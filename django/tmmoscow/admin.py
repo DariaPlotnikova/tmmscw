@@ -14,8 +14,11 @@
 # limitations under the License.
 
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 
-from .models import Competition, Day, Distance, Group, Qualification, SpecialGroup
+from .models import Competition, Day, Distance, Group, Qualification, SpecialGroup, Team, UserCommand
+
+Profile = get_user_model()
 
 
 class CompetitionAdmin(admin.ModelAdmin):
@@ -30,6 +33,12 @@ class SpecialInline(admin.StackedInline):
     model = SpecialGroup
     extra = 2
     verbose_name = u'Особые группы-разряды'
+
+
+class LeaderInline(admin.TabularInline):
+    model = UserCommand
+    extra = 1
+    verbose_name = u'Участники команды'
 
 
 class DistanceAdmin(admin.ModelAdmin):
@@ -71,8 +80,35 @@ class QualificationAdmin(admin.ModelAdmin):
     list_display = ('title',)
 
 
+class TeamAdmin(admin.ModelAdmin):
+    list_display = ('title', 'location', 'leaders')
+    inlines = [LeaderInline]
+
+    def leaders(self, obj):
+        return ', '.join([uc.member.name() for uc in obj.leads.all()])
+    leaders.short_description = u'Руководители'
+
+
+class TmUserAdmin(admin.ModelAdmin):
+    model = Profile
+    list_display = ('email', 'name', 'birth', 'qual', 'role', 'is_active')
+
+    def name(self, obj):
+        return '%s %s' % (obj.first_name, obj.last_name)
+    name.short_description = u'ФИО'
+
+    def role(self, obj):
+        return ', '.join([
+            u'Руководитель' if obj.is_leader else '',
+            u'Организаторв' if obj.is_org else ''
+        ])
+    role.short_description = u'Роли'
+
+
 admin.site.register(Competition, CompetitionAdmin)
 admin.site.register(Day, DayAdmin)
 admin.site.register(Distance, DistanceAdmin)
 admin.site.register(Group, GroupAdmin)
 admin.site.register(Qualification, QualificationAdmin)
+admin.site.register(Team, TeamAdmin)
+admin.site.register(Profile, TmUserAdmin)

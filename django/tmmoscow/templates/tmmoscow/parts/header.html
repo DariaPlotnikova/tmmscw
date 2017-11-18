@@ -1,2 +1,5 @@
-
-<p>header</p>
+{% if user.is_authenticated %}
+    <p>Hello, {{ user }}!</p>
+{% else %}
+    <p>header</p>
+{% endif %}

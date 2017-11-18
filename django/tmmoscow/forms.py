@@ -17,3 +17,17 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = Profile
         fields = ('first_name', 'last_name', 'email', 'password1', 'password2', 'qual', 'birth')
+
+
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ('first_name', 'last_name', 'email', 'qual', 'birth')
+
+
+class TeamForm(forms.ModelForm):
+
+    class Meta:
+        model = models.Team
+        fields = ('title', 'location')

@@ -152,6 +152,12 @@ class TmUser(AbstractUser):
     is_org = models.BooleanField(u'Организатор', default=False, blank=True)
     is_active = models.BooleanField(u'Активный', default=False, blank=True)
 
+    def name(self):
+        return '%s %sgi' % (self.first_name, self.last_name)
+
+    def is_member(self):
+        return not self.is_leader and not self.is_org
+
     def get_members(self):
         return 0
 
@@ -168,6 +174,12 @@ class Team(models.Model):
     geo_x = models.CharField(u'X-координата', max_length=16, blank=True, null=True)
     geo_y = models.CharField(u'Y-координата', max_length=16, blank=True, null=True)
 
+    def is_leader(self, user):
+        return user in self.leads.all()
+
+    def __unicode__(self):
+        return '%s (%s)' % (self.title, self.location)
+
     class Meta:
         db_table = 'tm_team'
         verbose_name = u'Команда'
@@ -175,9 +187,9 @@ class Team(models.Model):
 
 
 class UserCommand(models.Model):
-    user = models.ForeignKey(TmUser, u'Пользователь', related_name='teams'),
-    team = models.ForeignKey(Team, verbose_name=u'Команда')
+    team = models.ForeignKey(Team, verbose_name=u'Команда', related_name='leads')
     is_leader = models.BooleanField(u'Является руководителем', blank=True, default=False)
+    member = models.ForeignKey(TmUser, verbose_name=u'Участик', related_name='teams', null=True)
 
     class Meta:
         db_table = 'tm_user_team'
