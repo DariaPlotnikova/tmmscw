@@ -3,11 +3,31 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Войти</button>
-    Нет аккаунта? <a href="{% url 'signup' %}">Зарегистрироваться</a>
-  </form>
+    <div class="row">
+        <div class="card col s12 m6 offset-m3">
+            <div class="card-title">Login</div>
+            <div class="card-content">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="input-field">
+                        <label for="{{ form.username.html_name }}">Логин</label>
+                        <input type="text" name="{{ form.username.html_name }}" id="{{ form.username.html_name }}"
+                               value="{{ form.username.value|default:'' }}"/>
+                        {{ form.errors.username }}
+                    </div>
+
+                    <div class="input-field">
+                        <label for="{{ form.password.html_name }}">Пароль (не менее 6 символов)</label>
+                        <input type="password" name="{{ form.password.html_name }}" id="{{ form.password.html_name }}"
+                               value=""/>
+                        <input type="hidden" name="{{ form.password.html_name }}2" value=""/>
+                        {{ form.errors.password }}
+                    </div>
+
+                    <button class="btn" type="submit">Войти</button>
+                    Нет аккаунта? <a href="{% url 'signup' %}">Зарегистрироваться</a>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}

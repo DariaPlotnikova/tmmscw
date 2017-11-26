@@ -1,42 +1,44 @@
 {% extends 'tmmoscow/base.html' %}
 
+{% block title %}Регистрация в Tmmoscow{% endblock %}
+
 {% block content %}
-  <h2>Регистрация в Tmmoscow</h2>
-  <form method="post">
-    {% csrf_token %}
-      <p>
-        <label for="id_first_name">Имя</label><br>
-        <input type="text" name="first_name" required="" id="id_first_name" maxlength="50">
-      </p>
-      <p>
-        <label for="id_last_name">Фамилия</label><br>
-        <input type="text" name="last_name" id="id_last_name" maxlength="50">
-      </p>
-      <p>
-        <label for="id_email">Email:</label><br>
-        <input type="email" name="email" required="" id="id_email" maxlength="254">
-      </p>
-      <p>
-        <label for="id_password1">Пароль</label><br>
-        <input type="password" name="password1" required="" id="id_password1">
-      </p>
-      <p>
-        <label for="id_password2">Подтверждение пароля</label><br>
-        <input type="password" name="password2" required="" id="id_password2">
-        <small style="color: grey">Для подтверждения введите, пожалуйста, пароль ещё раз.</small>
-      </p>
-      <p>
-        <select name="qual" required="" id="id_qual">
-            {% for opt in form.fields.qual.queryset %}
-                <option value="{{ opt }}" {% if not forloop %}selected="selected"{% endif %}>{{ opt }}</option>
-            {% endfor %}
-        </select>
-        <small style="color: grey">Квалификация</small>
-      </p>
-      <p>
-        <label for="id_birth">Год рождения</label><br>
-        <input type="number" name="birth" required="" id="id_birth">
-      </p>
-    <button type="submit">Зарегистрироваться</button>
-  </form>
+    <h2>Регистрация в Tmmoscow</h2>
+    <form method="post" class="row">
+        {% csrf_token %}
+        <div class="input-field col s12 m6">
+            <label for="id_first_name">Имя</label>
+            <input type="text" name="first_name" required id="id_first_name" maxlength="50">
+        </div>
+        <div class="input-field col s12 m6">
+            <label for="id_last_name">Фамилия</label>
+            <input type="text" name="last_name" id="id_last_name" maxlength="50">
+        </div>
+        <div class="input-field col s12 m6">
+            <label for="id_email">Email</label>
+            <input type="email" name="email" required id="id_email" maxlength="254">
+        </div>
+        <div class="input-field col s12 m6">
+            <label for="id_password1">Пароль</label>
+            <input type="password" name="password1" required id="id_password1">
+        </div>
+        <div class="input-field col s12 m6">
+            <label for="id_password2">Подтверждение пароля</label>
+            <input type="password" name="password2" required id="id_password2">
+            <span>Для подтверждения введите, пожалуйста, пароль ещё раз.</span>
+        </div>
+        <div class="input-field col s12 m6">
+            <select name="qual" id="id_qual" required>
+                {% for opt in form.fields.qual.queryset %}
+                    <option value="{{ opt }}" {% if not forloop %}selected{% endif %}>{{ opt }}</option>
+                {% endfor %}
+            </select>
+            <label for="id_qual">Квалификация</label>
+        </div>
+        <div class="input-field col s12 m6">
+            <label for="id_birth">Год рождения</label>
+            <input type="number" name="birth" required id="id_birth">
+        </div>
+        <button class="btn" type="submit">Зарегистрироваться</button>
+    </form>
 {% endblock %}
