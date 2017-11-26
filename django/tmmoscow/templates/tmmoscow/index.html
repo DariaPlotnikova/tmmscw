@@ -1,4 +1,9 @@
 {% extends 'tmmoscow/base.html' %}
+{% load staticfiles %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
 
 {% block content %}
     <div class="row">
@@ -28,8 +33,4 @@
             </div>
         {% endif %}
     </div>
-{% endblock %}
-
-{% block extra_css %}
-    <link rel="stylesheet" href="css/index.css">
 {% endblock %}

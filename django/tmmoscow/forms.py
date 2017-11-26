@@ -8,6 +8,7 @@ Profile = get_user_model()
 
 
 class SignUpForm(UserCreationForm):
+    username = forms.CharField(max_length=50, help_text=u'Логин')
     first_name = forms.CharField(max_length=50, help_text=u'Имя')
     last_name = forms.CharField(max_length=50, required=False, help_text=u'Фамилия')
     email = forms.EmailField(max_length=254,)

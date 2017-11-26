@@ -1,2 +1,49 @@
-
-<p>sidebar</p>
+<ul id="slide-out" class="sidenav"> {# Side Nav #}
+    {% if user.is_authenticated %}
+        <li class="hide-on-large-only"><a href="{% url 'profile' %}">{{ user.email }}</a></li>
+        {#    <li class="hide-on-large-only">#}
+        {#        {% if roles|length > 1 %}#}
+        {#            <ul class="collapsible collapsible-accordion">#}
+        {#                <li>#}
+        {#                    <a class="collapsible-header">{{ cur_role_rus }}<i class="material-icons">arrow_drop_down</i></a>#}
+        {#                    <div class="collapsible-body">#}
+        {#                        <ul>#}
+        {#                            {% if 'is_org' in roles and cur_role != 'organizer' %}#}
+        {#                                <li><a name="role" href="#" id="organizer">Организатор</a></li>#}
+        {#                            {% endif %}#}
+        {#                            {% if 'is_lead' in roles and cur_role != 'leader' %}#}
+        {#                                <li><a name="role" href="#" id="leader">Руководитель команды</a>#}
+        {#                                </li>#}
+        {#                            {% endif %}#}
+        {#                            {% if 'is_memb' in roles and cur_role != 'member' %}#}
+        {#                                < li><a name="role" href="#" id="member">Участник</a></li>#}
+        {#                            {% endif %}#}
+        {#                        </ul>#}
+        {#                    </div>#}
+        {#                </li>#}
+        {#            </ul>#}
+        {#            <div class="divider"></div>#}
+        {#        {% else %}#}
+        {#            <a>{{ cur_role_rus }}</a>#}
+        {#        {% endif %}#}
+        {#    </li>#}
+        <li><a href="{% url 'index' %}">Список соревнований</a></li>
+        {#    <li><a href="{% url 'profile-edit' user.pk %}">Редактировать профиль</a></li>#}
+        <li><div class="divider"></div></li>
+        {% if user.is_org %}
+            {#        <li><a href="{% url 'fillin-comp' %}">Новое соревнование</a></li>#}
+            {#        <li><a href="{% url 'list-membs' %}">Список участников</a></li>#}
+            {#        <li><a href="{% url 'list-leads' %}">Список руководителей</a></li>#}
+            {#        <li><a href="{% url 'list-orgs' %}">Список организаторов</a></li>#}
+            <li><div class="divider"></div></li>
+        {% endif %}
+        {% if user.is_leader %}
+            {#        <li><a href="{% url 'my-team' team.pk %}">Моя команда</a></li>#}
+            <li><div class="divider"></div></li>
+        {% endif %}
+        <li class="hide-on-large-only"><a href="{% url 'logout' %}">Выход</a></li>
+    {% else %}
+        <li><a href="{% url 'login' %}">Вход</a></li>
+        <li><a href="{% url 'signup' %}">Регистрация</a></li>
+    {% endif %}
+</ul>

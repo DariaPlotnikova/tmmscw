@@ -20,7 +20,6 @@ from django.contrib.auth.decorators import login_required
 from .models import Competition, Team
 from .forms import SignUpForm, ProfileForm, TeamForm
 
-
 Profile = get_user_model()
 
 
@@ -48,6 +47,7 @@ def signup(request):
             login(request, user)
             return redirect('index')
         message = form.errors
+        print message
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', dict(form=form, message=message))
@@ -128,5 +128,15 @@ def select_team(request, user_pk):
                 message = form.errors
         form = ProfileForm(instance=user)
         return render(request, template_name, dict(form=form, user=form.instance, message=message))
+    else:
+        raise Http404
+
+
+@login_required
+def profile(request):
+    template_name = 'profile/profile.html'
+    user = request.user
+    if user is not None:
+        return render(request, template_name, dict(user=user))
     else:
         raise Http404

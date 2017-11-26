@@ -19,9 +19,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 from tmmoscow.views import index, competition, add_to_competition, signup, edit_profile, \
-    my_team, select_team, user_roles
-
-
+    my_team, select_team, user_roles, profile
 
 urlpatterns = [
     url(r'^$', index, name='index'),
@@ -31,13 +29,11 @@ urlpatterns = [
     url(r'^accounts/login/$', auth_views.login, name='login'),
     url(r'^accounts/logout/$', auth_views.logout, name='logout'),
     url(r'^accounts/signup/$', signup, name='signup'),
+    url(r'^accounts/profile/$', profile, name='profile'),
     url(r'^accounts/edit/(?P<user_pk>\d+)/$', edit_profile, name='profile-edit'),
     url(r'^accounts/edit/team/(?P<team_pk>\d+)/$', my_team, name='my-team'),
     url(r'^accounts/edit/(?P<user_pk>\d+)/roles/$', user_roles, name='roles'),
     url(r'^accounts/edit/(?P<user_pk>\d+)/selectteam/$', select_team, name='select-team'),
 
-
     url(r'^admin/', include(admin.site.urls)),
 ]
-
-
