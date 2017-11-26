@@ -1,9 +1,35 @@
 {% extends 'tmmoscow/base.html' %}
 
 {% block content %}
-    <div>
-        {% for comp in comps %}
-            <p>{{ comp }}<a href="{% url 'competition' comp.pk %}">Посмотреть соревнование</a></p>
-        {% endfor %}
+    <div class="row">
+        {% if comps %}
+            {% for comp in comps %}
+                <a href="{% url 'competition' comp.pk %}" class="col s12 m6 l6 xl6">
+                    <div class="card hoverable">
+                        <div class="card-content light-blue lighten-2 white-text">
+                            <span class="card-title">{{ comp.start_date }} - {{ comp.end_date }}<br>
+                                {{ comp.title }}</span>
+                            {% if comp.is_open_entry %}
+                                Предварительная заявка открыта
+                                <i class="material-icons green-text right">event_available</i>
+                            {% else %}
+                                Предварительная заявка закрыта<i class="material-icons red-text right">event_busy</i>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        {% else %}
+            <div class="col s12 m8 offset-m2">
+                <div class="card-panel hoverable black-text">
+                    <p class="flow-text">В настоящий момент нет соревнований для заявки.
+                        Зайдите через некоторое время...</p>
+                </div>
+            </div>
+        {% endif %}
     </div>
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="css/index.css">
 {% endblock %}
