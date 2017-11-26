@@ -1,5 +1,10 @@
 {% extends 'tmmoscow/base.html' %}
 
+{% block breadcrumbs %}
+    <a class="breadcrumb" href="{% url 'profile' %}">Личный кабинет</a>
+    <a class="breadcrumb" href="{% url 'my-team' user.pk %}">Моя команда</a>
+{% endblock %}
+
 {% block content %}
 
     <h3>Ваша команда</h3>

@@ -5,11 +5,14 @@
 {% endblock %}
 
 {% block content %}
-    <p>{{ user.first_name }}</p>
-    <p>{{ user.last_name }}</p>
-    <p>{{ user }}</p>
-    <p>{{ user.email }}</p>
-    <p>{{ user.qual }}</p>
-    <p>{{ user.birth }}</p>
-    <a class="btn" href="{% url 'index' %}">На главную страницу</a>
+    <p>Имя: {{ user.first_name }}</p>
+    <p>Фамилия: {{ user.last_name }}</p>
+    <p>Логин: {{ user.username }}</p>
+    <p>Почта: {{ user.email }}</p>
+    <p>Квалификация: {{ user.qual }}</p>
+    <p>Год рождения: {{ user.birth }}</p>
+    <a class="btn" href="{% url 'profile-edit' user.pk %}">Редактирование данных</a>
+    <a class="btn" href="{% url 'my-team' user.pk %}">Моя команда</a>
+    <a class="btn" href="{% url 'select-team' user.pk %}">Выбрать мою команду</a>
+    <a class="btn" href="{% url 'roles' user.pk %}">Мои роли</a>
 {% endblock %}

@@ -1,5 +1,10 @@
 {% extends 'tmmoscow/base.html' %}
 
+{% block breadcrumbs %}
+    <a class="breadcrumb" href="{% url 'competition' comp.pk %}">Соревнование</a>
+    <a class="breadcrumb" href="{% url 'competition-add-to' comp.pk %}">Добавление к соревнованию</a>
+{% endblock %}
+
 {% block content %}
     <p>Добавление участников к {{ comp }}</p>
     <p>Выберите участников, которые будут участвовать в соревновании:</p>

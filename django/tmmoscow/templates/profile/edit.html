@@ -8,16 +8,11 @@
 {% block title %}Редактирование личных данных{% endblock %}
 
 {% block breadcrumbs %}
+    <a class="breadcrumb" href="{% url 'profile' %}">Личный кабинет</a>
     <a class="breadcrumb" href="{% url 'profile-edit' user.pk %}">Редактирование данных</a>
 {% endblock %}
 
 {% block content %}
-    <ul>
-        <li><a href="{% url 'my-team' user.pk %}">Моя команда</a></li>
-        <li><a href="{% url 'select-team' user.pk %}">Выбрать мою команду</a></li>
-        <li><a href="{% url 'roles' user.pk %}">Мои роли</a></li>
-    </ul>
-
     <form method="post" class="row">
         {% csrf_token %}
         <div class="input-field col m6 s12">
