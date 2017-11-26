@@ -150,7 +150,7 @@ class TmUser(AbstractUser):
     edit_pass = models.CharField(u'Пароль редактирования', max_length=16, blank=True, default='123456')
     is_leader = models.BooleanField(u'Руководитель', default=True, blank=True)
     is_org = models.BooleanField(u'Организатор', default=False, blank=True)
-    is_active = models.BooleanField(u'Активный', default=False, blank=True)
+    is_active = models.BooleanField(u'Активный', default=True, blank=True)
 
     def name(self):
         return '%s %sgi' % (self.first_name, self.last_name)
