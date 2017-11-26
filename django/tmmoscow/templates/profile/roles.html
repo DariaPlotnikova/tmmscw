@@ -13,8 +13,8 @@
     <ul>
         <li>
             <label>
-                <input type="checkbox" name="is_leader" id="checkbox-lead" {% if user.is_leader %}checked{% endif %}
-                       readonly>
+                <input class="filled-in" disabled type="checkbox" name="is_leader" id="checkbox-lead"
+                       {% if user.is_leader %}checked{% endif %}>
                 <span>Руководитель команды</span>
             </label>
             <p>Руководитель может создавать команду, регистрировать новых участников в системе и добавлять их в свою
@@ -27,7 +27,8 @@
         </li>
         <li>
             <label>
-                <input type="checkbox" name="is_org" id="checkbox-org" {% if user.is_org %}checked{% endif %}>
+                <input class="filled-in" disabled type="checkbox" name="is_org" id="checkbox-org"
+                       {% if user.is_org %}checked{% endif %}>
                 <span>Организатор соревнований</span>
             </label>
             <p>Организатор может создавать соревнования, редактировать их, просматривать и редактировать данные о

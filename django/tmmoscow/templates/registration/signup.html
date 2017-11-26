@@ -13,19 +13,23 @@
         {% csrf_token %}
         <div class="input-field col s12 m6">
             <label for="id_username">Логин</label>
-            <input type="text" name="username" required id="id_username" maxlength="50">
+            <input type="text" name="username" required id="id_username" maxlength="50"
+            value="{{ form.username.value|default:'' }}">
         </div>
         <div class="input-field col s12 m6">
             <label for="id_first_name">Имя</label>
-            <input type="text" name="first_name" required id="id_first_name" maxlength="50">
+            <input type="text" name="first_name" required id="id_first_name" maxlength="50"
+            value="{{ form.first_name.value|default:'' }}">
         </div>
         <div class="input-field col s12 m6">
             <label for="id_last_name">Фамилия</label>
-            <input type="text" name="last_name" required id="id_last_name" maxlength="50">
+            <input type="text" name="last_name" required id="id_last_name" maxlength="50"
+            value="{{ form.last_name.value|default:'' }}">
         </div>
         <div class="input-field col s12 m6">
             <label for="id_email">Email</label>
-            <input type="email" name="email" required id="id_email" maxlength="254">
+            <input type="email" name="email" required id="id_email" maxlength="254"
+            value="{{ form.email.value|default:'' }}">
         </div>
         <div class="input-field col s12 m6">
             <label for="id_password1">Пароль</label>
@@ -46,7 +50,8 @@
         </div>
         <div class="input-field col s12 m6">
             <label for="id_birth">Год рождения</label>
-            <input type="number" name="birth" required id="id_birth">
+            <input type="number" name="birth" required id="id_birth"
+            value="{{ form.birth.value|default:'' }}">
         </div>
         <div class="col s12">{{ message }}</div>
         <button class="btn" type="submit">Зарегистрироваться</button>

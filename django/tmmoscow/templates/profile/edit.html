@@ -16,19 +16,24 @@
     <form method="post" class="row">
         {% csrf_token %}
         <div class="input-field col m6 s12">
-            <label for="{{ form.first_name.html_name }}">Имя</label>
+            <label class="active" for="{{ form.first_name.html_name }}">Имя</label>
             <input value="{{ form.first_name.value }}" required type="text" name="{{ form.first_name.html_name }}"
                    id="{{ form.first_name.html_name }}">
         </div>
         <div class="input-field col m6 s12">
-            <label for="{{ form.last_name.html_name }}">Фамилия</label>
+            <label class="active" for="{{ form.last_name.html_name }}">Фамилия</label>
             <input value="{{ form.last_name.value }}" required type="text" name="{{ form.last_name.html_name }}"
                    id="{{ form.last_name.html_name }}">
         </div>
         <div class="input-field col m6 s12">
-            <label for="{{ form.email.html_name }}">Email</label>
+            <label class="active" for="{{ form.email.html_name }}">Email</label>
             <input value="{{ form.email.value }}" required type="text" name="{{ form.email.html_name }}"
                    id="{{ form.email.html_name }}">
+        </div>
+        <div class="input-field col m6 s12">
+            <label class="active" for="{{ form.birth.html_name }}">Дата рождения</label>
+            <input value="{{ form.birth.value }}" type="number" required name="{{ form.birth.html_name }}"
+                   id="{{ form.birth.html_name }}">
         </div>
         <div class="input-field col m6 s12">
             <select name="{{ form.qual.html_name }}" id="{{ form.qual.html_name }}">
@@ -37,11 +42,6 @@
                 {% endfor %}
             </select>
             <label for="{{ form.qual.html_name }}">Квалификация</label>
-        </div>
-        <div class="input-field col m6 s12">
-            <label for="{{ form.birth.html_name }}">Дата рождения</label>
-            <input value="{{ form.birth.value }}" type="number" required name="{{ form.birth.html_name }}"
-                   id="{{ form.birth.html_name }}">
         </div>
         <div class="col s12">
             <button class="btn" type="submit" onclick="location = '/'">Сохранить</button>

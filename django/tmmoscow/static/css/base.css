@@ -7,3 +7,16 @@ body {
 main {
     flex: 1 0 auto;
 }
+
+.btn {
+    background-color: #03a9f4 !important;
+}
+
+.input-field input:focus + label {
+   color: #03a9f4 !important;
+ }
+ /* label underline focus color */
+ .row .input-field input:focus {
+   border-bottom: 1px solid #03a9f4 !important;
+   box-shadow: 0 1px 0 0 #03a9f4 !important
+ }
