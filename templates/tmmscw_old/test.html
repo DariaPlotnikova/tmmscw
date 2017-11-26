@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test html</title>
+    <link type="text/css" rel="stylesheet" href="/static/css/materialize.min.css" media="screen,projection"/>
+</head>
+<body>
+This is test page of Tmmosc<br>
+На данный момент существуют следующие аккаунты:<br><br>
+Membs:
+<ul>
+    {% for memb in membs %}
+    <li>. {{ memb.nickname }}</li>
+    {% endfor %}
+</ul>
+Leads:
+<ul>
+    {% for lead in leads %}
+    <li>. {{ lead.contact }}</li>
+    {% endfor %}
+</ul>
+Orgs:
+<ul>
+    {% for org in orgs %}
+    <li>. {{ org.contact }}</li>
+    {% endfor %}
+</ul>
+<p>
+    Очистка всех аккаунтов:
+    <a class="waves-effect waves-light btn" href="{{ url('clean') }}">Очистить</a>
+</p>
+<p>
+    Страница с соревнованиями:
+    <a class="waves-effect waves-light btn" href="{{ url('comps') }}">Click me!</a>
+</p>
+<script src="/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/materialize.min.js"></script>
+<script type="text/javascript" src="/static/js/ajax.js"></script>
+</body>
+</html>
