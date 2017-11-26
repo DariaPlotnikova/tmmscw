@@ -28,18 +28,25 @@
         {#        {% endif %}#}
         {#    </li>#}
         <li><a href="{% url 'index' %}">Список соревнований</a></li>
-        {#    <li><a href="{% url 'profile-edit' user.pk %}">Редактировать профиль</a></li>#}
+        <li><a href="{% url 'profile' %}">Профиль</a></li>
+        <li><a href="{% url 'profile-edit' user.pk %}">Редактировать профиль</a></li>
         <li><div class="divider"></div></li>
         {% if user.is_org %}
+            <li><a href="#">ПРИМЕР ДЛЯ ОРГАНИЗАТОРА</a></li>
             {#        <li><a href="{% url 'fillin-comp' %}">Новое соревнование</a></li>#}
             {#        <li><a href="{% url 'list-membs' %}">Список участников</a></li>#}
             {#        <li><a href="{% url 'list-leads' %}">Список руководителей</a></li>#}
             {#        <li><a href="{% url 'list-orgs' %}">Список организаторов</a></li>#}
-            <li><div class="divider"></div></li>
+            <li>
+                <div class="divider"></div>
+            </li>
         {% endif %}
         {% if user.is_leader %}
+            <li><a href="#">ПРИМЕР ДЛЯ РУКОВОДИТЕЛЯ</a></li>
             {#        <li><a href="{% url 'my-team' team.pk %}">Моя команда</a></li>#}
-            <li><div class="divider"></div></li>
+            <li>
+                <div class="divider"></div>
+            </li>
         {% endif %}
         <li class="hide-on-large-only"><a href="{% url 'logout' %}">Выход</a></li>
     {% else %}

@@ -40,9 +40,9 @@
 
     <ul>
         <li><a href="{% url 'index' %}">К списку соревнований</a></li>
-        {#{% if user.is_authenticated %}#}
+        {% if user.is_authenticated and user.is_leader or user.is_org %}
             <li><a href="{% url 'competition-add-to' comp.pk %}">Заявить участников</a></li>
-        {#{% endif %}#}
+        {% endif %}
     </ul>
 
 {% endblock %}

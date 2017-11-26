@@ -1,6 +1,10 @@
 {% extends 'tmmoscow/base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Авторизация{% endblock %}
+
+{% block breadcrumbs %}
+    <a class="breadcrumb" href="{% url 'signup' %}">Авторизация</a>
+{% endblock %}
 
 {% block content %}
     <div class="row">

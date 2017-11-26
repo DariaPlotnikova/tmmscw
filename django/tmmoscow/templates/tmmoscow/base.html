@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     {% block extra_meta %}{% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     {% comment %}
     <meta property="og:image" content=""/>
     <meta property="og:title" content=""/>
@@ -15,27 +16,32 @@
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="{% static 'css/materialize.min.css' %}" rel="stylesheet"/>
-    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+    <link href="{% static 'css/base.css' %}" rel="stylesheet">
 
     {% block extra_css %}{% endblock %}
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body>
 
 {% include 'tmmoscow/parts/header.html' %}
 {% include 'tmmoscow/parts/sidebar.html' %}
 
-{% block breadcrumbs %}{% endblock %}
 
-<div style="margin-top: 3%;"></div>
+<nav class="light-blue lighten-2">
+    <div class="nav-wrapper container">
+        <div class="col s12">
+            <a class="breadcrumb" href="{% url 'index' %}">Tmmoscow</a>
+            {% block breadcrumbs %}{% endblock %}
+        </div>
+    </div>
+</nav>
+
 <main class="container">{% block content %}{% endblock %}</main>
 
 {% include 'tmmoscow/parts/footer.html' %}
 
 <script src="{% static 'js/jquery-3.2.1.js' %}"></script>
 <script src="{% static 'js/materialize.min.js' %}"></script>
-<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/base.js' %}"></script>
 {% block extra_js %}{% endblock %}
 
 </body>

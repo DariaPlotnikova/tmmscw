@@ -3,6 +3,10 @@
 
 {% block title %}Регистрация в Tmmoscow{% endblock %}
 
+{% block breadcrumbs %}
+    <a class="breadcrumb" href="{% url 'signup' %}">Регистрация</a>
+{% endblock %}
+
 {% block content %}
     <h2>Регистрация в Tmmoscow</h2>
     <form method="post" class="row">

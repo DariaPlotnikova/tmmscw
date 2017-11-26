@@ -1,25 +1,55 @@
 {% extends 'tmmoscow/base.html' %}
+{% load staticfiles %}
 
-{% block breadcrumbs %}
-    <ul>
-        <li><a href="{% url 'profile-edit' user.pk %}">Личный кабинет</a></li>
-    </ul>
+{% block extra_js %}
+    <script src="{% static 'js/registration.js' %}"></script>
 {% endblock %}
 
+{% block title %}Редактирование личных данных{% endblock %}
+
+{% block breadcrumbs %}
+    <a class="breadcrumb" href="{% url 'profile-edit' user.pk %}">Редактирование данных</a>
+{% endblock %}
 
 {% block content %}
-
-    <h3>Редактирование личных данных</h3>
     <ul>
         <li><a href="{% url 'my-team' user.pk %}">Моя команда</a></li>
         <li><a href="{% url 'select-team' user.pk %}">Выбрать мою команду</a></li>
         <li><a href="{% url 'roles' user.pk %}">Мои роли</a></li>
     </ul>
 
-    <form method="post">
+    <form method="post" class="row">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Сохранить">
+        <div class="input-field col m6 s12">
+            <label for="{{ form.first_name.html_name }}">Имя</label>
+            <input value="{{ form.first_name.value }}" required type="text" name="{{ form.first_name.html_name }}"
+                   id="{{ form.first_name.html_name }}">
+        </div>
+        <div class="input-field col m6 s12">
+            <label for="{{ form.last_name.html_name }}">Фамилия</label>
+            <input value="{{ form.last_name.value }}" required type="text" name="{{ form.last_name.html_name }}"
+                   id="{{ form.last_name.html_name }}">
+        </div>
+        <div class="input-field col m6 s12">
+            <label for="{{ form.email.html_name }}">Email</label>
+            <input value="{{ form.email.value }}" required type="text" name="{{ form.email.html_name }}"
+                   id="{{ form.email.html_name }}">
+        </div>
+        <div class="input-field col m6 s12">
+            <select name="{{ form.qual.html_name }}" id="{{ form.qual.html_name }}">
+                {% for opt in form.fields.qual.queryset %}
+                    <option value="{{ opt }}">{{ opt }}</option>
+                {% endfor %}
+            </select>
+            <label for="{{ form.qual.html_name }}">Квалификация</label>
+        </div>
+        <div class="input-field col m6 s12">
+            <label for="{{ form.birth.html_name }}">Дата рождения</label>
+            <input value="{{ form.birth.value }}" type="number" required name="{{ form.birth.html_name }}"
+                   id="{{ form.birth.html_name }}">
+        </div>
+        <div class="col s12">
+            <button class="btn" type="submit" onclick="location = '/'">Сохранить</button>
+        </div>
     </form>
-
 {% endblock %}
