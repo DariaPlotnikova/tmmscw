@@ -153,13 +153,21 @@ class TmUser(AbstractUser):
     is_active = models.BooleanField(u'Активный', default=True, blank=True)
 
     def name(self):
-        return '%s %sgi' % (self.first_name, self.last_name)
+        return '%s %s' % (self.first_name, self.last_name)
 
     def is_member(self):
         return not self.is_leader and not self.is_org
 
     def get_members(self):
         return 0
+
+    def create_team(self):
+        team = Team.objects.create(title=u'Лично (%s)' % self.name(),)
+        UserCommand.objects.create(team=team, member=self, is_leader=True)
+        return team
+
+    def get_my_team(self):
+        return self.teams.filter(is_leader=True)[0].team if self.teams.count() else None
 
     class Meta(AbstractUser.Meta):
         abstract = False
@@ -170,12 +178,12 @@ class TmUser(AbstractUser):
 
 class Team(models.Model):
     title = models.CharField(u'Название', max_length=256)
-    location = models.CharField(u'Территория', max_length=512)
+    location = models.CharField(u'Территория', max_length=512, blank=True, null=True)
     geo_x = models.CharField(u'X-координата', max_length=16, blank=True, null=True)
     geo_y = models.CharField(u'Y-координата', max_length=16, blank=True, null=True)
 
     def is_leader(self, user):
-        return user in self.leads.all()
+        return user in [lead.member for lead in self.members.filter(is_leader=True)]
 
     def __unicode__(self):
         return '%s (%s)' % (self.title, self.location)
@@ -187,9 +195,12 @@ class Team(models.Model):
 
 
 class UserCommand(models.Model):
-    team = models.ForeignKey(Team, verbose_name=u'Команда', related_name='leads')
+    team = models.ForeignKey(Team, verbose_name=u'Команда', related_name='members')
     is_leader = models.BooleanField(u'Является руководителем', blank=True, default=False)
     member = models.ForeignKey(TmUser, verbose_name=u'Участик', related_name='teams', null=True)
+
+    def __unicode__(self):
+        return ' '.join([self.team.title, self.member.name()])
 
     class Meta:
         db_table = 'tm_user_team'

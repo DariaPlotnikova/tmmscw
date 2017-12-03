@@ -12,7 +12,7 @@
     <p>Квалификация: {{ user.qual }}</p>
     <p>Год рождения: {{ user.birth }}</p>
     <a class="btn" href="{% url 'profile-edit' user.pk %}">Редактирование данных</a>
-    <a class="btn" href="{% url 'my-team' user.pk %}">Моя команда</a>
+    <a class="btn" href="{% url 'my-team' user.get_my_team.pk %}">Моя команда</a>
     <a class="btn" href="{% url 'select-team' user.pk %}">Выбрать мою команду</a>
     <a class="btn" href="{% url 'roles' user.pk %}">Мои роли</a>
 {% endblock %}

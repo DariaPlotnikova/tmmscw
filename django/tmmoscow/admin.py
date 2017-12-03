@@ -85,7 +85,7 @@ class TeamAdmin(admin.ModelAdmin):
     inlines = [LeaderInline]
 
     def leaders(self, obj):
-        return ', '.join([uc.member.name() for uc in obj.leads.all()])
+        return ', '.join([uc.member.name() for uc in obj.members.filter(is_leader=True)])
     leaders.short_description = u'Руководители'
 
 
@@ -112,3 +112,4 @@ admin.site.register(Group, GroupAdmin)
 admin.site.register(Qualification, QualificationAdmin)
 admin.site.register(Team, TeamAdmin)
 admin.site.register(Profile, TmUserAdmin)
+admin.site.register(UserCommand)

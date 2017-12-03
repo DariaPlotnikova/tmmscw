@@ -45,6 +45,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
+            user.create_team()
             return redirect('index')
         message = form.errors
         print message
@@ -66,10 +67,10 @@ def edit_profile(request, user_pk):
     message = ''
     user = get_object_or_404(Profile, pk=user_pk)
     if user == request.user:
-        if request.method == 'POST':
-            form = ProfileForm(request.POST, instance=user)
+        form = ProfileForm(request.POST, instance=user)
+        if request.POST:
             if form.is_valid():
-                form.save()
+                user = form.save()
             else:
                 message = form.errors
         form = ProfileForm(instance=user)
