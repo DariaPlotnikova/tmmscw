@@ -43,7 +43,7 @@
         <div class="input-field col s12 m6">
             <select name="qual" id="id_qual" required>
                 {% for opt in form.fields.qual.queryset %}
-                    <option value="{{ opt }}" {% if not forloop %}selected{% endif %}>{{ opt }}</option>
+                    <option value="{{ opt.pk }}" {% if not forloop %}selected{% endif %}>{{ opt }}</option>
                 {% endfor %}
             </select>
             <label for="id_qual">Квалификация</label>
