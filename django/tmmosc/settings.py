@@ -95,6 +95,19 @@ WSGI_APPLICATION = 'tmmosc.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 # [START db_setup]
+
+DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            'PASSWORD': 'postgres',
+        }
+    }
+
+'''
 if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
     # Running on production App Engine, so connect to Google Cloud SQL using
     # the unix socket at /cloudsql/<your-cloudsql-connection string>
@@ -124,6 +137,7 @@ else:
             'PASSWORD': 'postgres',
         }
     }
+'''
 # [END db_setup]
 
 # Internationalization
