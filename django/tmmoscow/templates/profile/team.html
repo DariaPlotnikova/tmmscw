@@ -6,11 +6,55 @@
 {% endblock %}
 
 {% block content %}
+        <h3>Ваша команда</h3>
+        <p>По умолчанию для каждого участника создается его команда, чтобы каждый мог заявляться от себя, лично, без участия в каком-либо клубе.</p>
+        <p>Участник может одновременно состоять в нескольких командах. Вы можете <a href="{% url 'select-team' user.pk %}">подать заявку на добавление в другие команды</a>. При этом каждый из руководителей этих команд сможет заявлять вас на соревнования.</p>
 
-    <h3>Ваша команда</h3>
-    <p>По умолчанию для каждого участника создается его команда, чтобы каждый мог заявляться от себя, лично, без участия в каком-либо клубе.</p>
-    <p>Участник может одновременно состоять в нескольких командах. Вы можете <a href="{% url 'select-team' user.pk %}">подать заявку на добавление в другие команды</a>. При этом каждый из руководителей этих команд сможет заявлять вас на соревнования.</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="input-field">
+                <label for="{{ form.title.html_name }}">Название</label>
+                <input type="text" name="{{ form.title.html_name }}" id="{{ form.title.html_name }}"
+                       value="{{ form.title.value|default:'' }}"/>
+                {{ form.errors.title }}
+            </div>
+            <div class="input-field">
+                <label for="{{ form.location.html_name }}">Территория</label>
+                <input type="text" name="{{ form.location.html_name }}" id="{{ form.location.html_name }}" value="{{ form.location.value|default:'' }}"/>
+                {{ form.errors.location }}
+            </div>
+            <button class="btn" type="submit">Сохранить изменения</button>
+        </form>
 
-    <h4>TODO - редактирование данных личной команды</h4>
+        <p>Список участников команды</p>
+        <table>
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>ФИО</th>
+                <th>Год рождения</th>
+                <th>Разряд</th>
+                <th>Номер чипа</th>
+                <th>UID</th>
+                <th>Принят в команду</th>
+                <th>Подал заявку</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for memb in team.get_members %}
+                <tr>
+                    <th>{{ forloop.counter }}</th>
+                    <th>{{ memb.name }}</th>
+                    <th>{{ memb.birth }}</th>
+                    <th>{{ memb.qual.title }}</th>
+                    <th>{{ memb.chip }}</th>
+                    <th>{{ memb.uniq_id }}</th>
+                    <th>{% if memb in team.get_members %}Да{% else %}<a href="javascript:void(0);">Принять в команду</a>{% endif %}</th>
+                    <th>-</th>
+                </tr>
+              {% endfor %}
+            </tbody>
+
+        </table>
 
 {% endblock %}

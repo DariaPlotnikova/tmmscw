@@ -161,6 +161,12 @@ class TmUser(AbstractUser):
     def get_members(self):
         return 0
 
+    def chip(self):
+        return '-'
+
+    def get_teams(self):
+        return [uc.team for uc in self.teams.order_by('is_leader')]
+
     def create_team(self):
         team = Team.objects.create(title=u'Лично (%s)' % self.name(),)
         UserCommand.objects.create(team=team, member=self, is_leader=True)
@@ -187,6 +193,20 @@ class Team(models.Model):
 
     def __unicode__(self):
         return '%s (%s)' % (self.title, self.location)
+
+    def get_members(self):
+        return [uc.member for uc in self.members.all()]
+
+    def get_leaders(self):
+        return [lead.member for lead in self.members.filter(is_leader=True)]
+
+    def to_json(self):
+        return {
+            'id': self.pk,
+            'title': self.title,
+            'lead': ', '.join([l.name() for l in self.get_leaders()]),
+            'location': self.location
+        }
 
     class Meta:
         db_table = 'tm_team'

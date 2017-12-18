@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import json
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.contrib.auth import login, authenticate, get_user_model
@@ -141,3 +142,13 @@ def profile(request):
         return render(request, template_name, dict(user=user))
     else:
         raise Http404
+
+
+@login_required
+def check_team_exist(request):
+    team_name = request.GET.get('title', '').strip()
+    team_location = request.GET.get('location', '').strip()
+    teams = Team.objects.filter(title=team_name, location=team_location)
+    return HttpResponse(json.dumps(
+        {'status': 'success', 'teams_cnt': teams.count(), 'teams': [t.to_json() for t in teams]}),
+        content_type='application/json')

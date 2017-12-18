@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 from tmmoscow.views import index, competition, add_to_competition, signup, edit_profile, \
-    my_team, select_team, user_roles, profile
+    my_team, select_team, user_roles, profile, check_team_exist
 
 urlpatterns = [
     url(r'^$', index, name='index'),
@@ -34,6 +34,8 @@ urlpatterns = [
     url(r'^accounts/edit/team/(?P<team_pk>\d+)/$', my_team, name='my-team'),
     url(r'^accounts/edit/(?P<user_pk>\d+)/roles/$', user_roles, name='roles'),
     url(r'^accounts/edit/(?P<user_pk>\d+)/selectteam/$', select_team, name='select-team'),
+
+    url(r'^api/check_team_exist/$', check_team_exist, name='check-team'),
 
     url(r'^admin/', include(admin.site.urls)),
 ]

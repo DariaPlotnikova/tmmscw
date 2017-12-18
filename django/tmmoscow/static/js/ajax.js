@@ -17,4 +17,34 @@ $(document).ready(function () {
         // $(this).setTextContent = curRole;
         // $($("a[name='role']").children("b")).detach("b");
     }
+
+    // Поиск команды для подачи заявки
+    $(document).on('change', '.js-toteam', function(){
+        var form = $('#js-toteam-form');
+        form.find('.to-team-message p').addClass('hidden');
+        var empty = false;
+        $('.js-toteam').each(function(){
+            if (!$(this).val()) { empty = true; }
+        });
+        if (!empty) {
+            var url = form.attr('action');
+            var data = form.serializeArray();
+            $.get(url, data, function(json){
+                console.log(json);
+                if (json.teams_cnt) {
+                    var t = json.teams[0];
+                    var text = 'Найдена команда: ' + t.title + ' (' + t.location + '). Руководитель: ' + t.lead + '. Вы можете подать заявку!';
+                    form.find('.to-team-message p.success').removeClass('hidden');
+                    form.find('.to-team-message p.info').removeClass('hidden').text(text);
+                    $('.to-team-btn').removeAttr('disabled');
+                }
+                else {
+                    form.find('.to-team-message p.error').removeClass('hidden');
+                }
+            });
+        }
+        else {
+            form.find('.to-team-message p.error').removeClass('hidden');
+        }
+    });
 });
