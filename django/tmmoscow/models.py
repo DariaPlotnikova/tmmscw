@@ -191,14 +191,14 @@ class Team(models.Model):
     def is_leader(self, user):
         return user in [lead.member for lead in self.members.filter(is_leader=True)]
 
-    def __unicode__(self):
-        return '%s (%s)' % (self.title, self.location)
-
     def get_members(self):
-        return [uc.member for uc in self.members.all()]
+        return [uc.member for uc in self.members.filter(is_in_team=True, is_leader=False)]
 
     def get_leaders(self):
         return [lead.member for lead in self.members.filter(is_leader=True)]
+
+    def get_users_requests(self):
+        return [uc.member for uc in self.members.filter(is_in_team=False, is_leader=False)]
 
     def to_json(self):
         return {
@@ -207,6 +207,9 @@ class Team(models.Model):
             'lead': ', '.join([l.name() for l in self.get_leaders()]),
             'location': self.location
         }
+
+    def __unicode__(self):
+        return '%s (%s)' % (self.title, self.location)
 
     class Meta:
         db_table = 'tm_team'
@@ -217,6 +220,7 @@ class Team(models.Model):
 class UserCommand(models.Model):
     team = models.ForeignKey(Team, verbose_name=u'Команда', related_name='members')
     is_leader = models.BooleanField(u'Является руководителем', blank=True, default=False)
+    is_in_team = models.BooleanField(u'В команде', blank=True, default=False)
     member = models.ForeignKey(TmUser, verbose_name=u'Участик', related_name='teams', null=True)
 
     def __unicode__(self):

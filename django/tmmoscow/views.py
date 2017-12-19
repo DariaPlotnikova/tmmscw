@@ -18,7 +18,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
-from .models import Competition, Team
+from .models import Competition, Team, UserCommand
 from .forms import SignUpForm, ProfileForm, TeamForm
 
 Profile = get_user_model()
@@ -129,7 +129,7 @@ def select_team(request, user_pk):
             else:
                 message = form.errors
         form = ProfileForm(instance=user)
-        return render(request, template_name, dict(form=form, user=form.instance, message=message))
+        return render(request, template_name, dict(user=form.instance, message=message))
     else:
         raise Http404
 
@@ -152,3 +152,13 @@ def check_team_exist(request):
     return HttpResponse(json.dumps(
         {'status': 'success', 'teams_cnt': teams.count(), 'teams': [t.to_json() for t in teams]}),
         content_type='application/json')
+
+
+@login_required
+def to_team(request):
+    team = get_object_or_404(Team, pk=request.POST.get('team'))
+    if request.user not in team.get_members() and request.user not in team.get_users_requests():
+        uc = UserCommand.objects.create(team=team, member=request.user, is_in_team=False)
+    else:
+        uc = UserCommand.objects.get(team=team, member=request.user)
+    return redirect(resolve_url('select-team', request.user.pk))

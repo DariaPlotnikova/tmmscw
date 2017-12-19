@@ -16,8 +16,10 @@
     <p>Вы можете выбрать несколько команд, тогда каждый из представителей сможет заявлять вас на соревнования от своей команды.</p>
     <p>Также по умолчанию для вас создана <a href="{% url 'my-team' user.get_my_team.pk %}">ваша собственная команда</a>, это сделано для того, чтобы вы могли заявляться самостоятельно, без участия других представителей (в этом случае для протоколов будут использованы название и территория вашей команды)</p>
 
-    <form method="post" id="js-toteam-form" action="{% url 'check-team' %}">
+    <form method="post" id="js-toteam-form" action="{% url 'to-team' %}">
         {% csrf_token %}
+        <input type="hidden" name="team">
+        <input type="hidden" id="checkTeamUrl" value="{% url 'check-team' %}">
         <div class="input-field">
             <label for="title">Название</label>
             <input type="text" name="title" id="title" class="js-toteam"/>
@@ -52,8 +54,8 @@
                 <th>{{ tm.title }}</th>
                 <th>{{ tm.location }}</th>
                 <th>{% for lead in tm.get_leaders %}{{ lead.name }}{% if not forloop.last %},{% endif %}{% endfor %}</th>
-                <th>{% if user in tm.get_members %}Да{% else %}Нет{% endif %}</th>
-                <th>-</th>
+                <th>{% if user in tm.get_members or user in tm.get_leaders %}Да{% else %}Нет{% endif %}</th>
+                <th>{% if user in tm.get_users_requests %}Да{% else %}Заявка принята{% endif %}</th>
             </tr>
           {% endfor %}
         </tbody>
