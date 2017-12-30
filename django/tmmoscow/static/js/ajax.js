@@ -48,4 +48,19 @@ $(document).ready(function () {
             form.find('.to-team-message p.error').removeClass('hidden');
         }
     });
+
+    // Потверждение заявки участника на добавление в команду
+    $('.add-member-to-team').on('click', function(){
+        var form = $(this).parents('form');
+        var url = form.attr('action');
+        var data = form.serializeArray();
+        $.post(url, data, function(json){
+            var thisTh = form.parents('.request-th');
+            var inTeamTh = thisTh.prev('.in-team-th');
+            thisTh.empty();
+            thisTh.text('Принят');
+            inTeamTh.empty();
+            inTeamTh.text('Да');
+        });
+    });
 });

@@ -1,4 +1,8 @@
-{% extends 'tmmoscow/base.html' %}
+{% extends 'tmmoscow/base.html' %}{% load staticfiles %}
+
+{% block extra_js %}
+    <script src="{% static 'js/ajax.js' %}"></script>
+{% endblock %}
 
 {% block breadcrumbs %}
     <a class="breadcrumb" href="{% url 'profile' %}">Личный кабинет</a>
@@ -41,7 +45,7 @@
               </tr>
             </thead>
             <tbody>
-              {% for memb in team.get_members %}
+              {% for memb in team.get_leaders|add:team.get_members|add:team.get_users_requests %}
                 <tr>
                     <th>{{ forloop.counter }}</th>
                     <th>{{ memb.name }}</th>
@@ -49,8 +53,19 @@
                     <th>{{ memb.qual.title }}</th>
                     <th>{{ memb.chip }}</th>
                     <th>{{ memb.uniq_id }}</th>
-                    <th>{% if memb in team.get_members %}Да{% else %}<a href="javascript:void(0);">Принять в команду</a>{% endif %}</th>
-                    <th>-</th>
+                    <th class="in-team-th">
+                        {% if memb in team.get_members %}Да{% elif memb in team.get_leaders %}Да (руководитель){% else %}Нет{% endif %}
+                    </th>
+                    <th class="request-th">
+                        {% if memb in team.get_users_requests %}
+                        <form action="{% url 'to-team' %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="team" value="{{team.pk}}">
+                            <input type="hidden" name="member" value="{{memb.pk}}">
+                            <a href="javascript:void(0);" class="add-member-to-team">Принять в команду</a>
+                        </form>
+                        {% else %} - {% endif %}
+                    </th>
                 </tr>
               {% endfor %}
             </tbody>

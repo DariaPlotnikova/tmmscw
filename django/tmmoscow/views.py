@@ -157,8 +157,12 @@ def check_team_exist(request):
 @login_required
 def to_team(request):
     team = get_object_or_404(Team, pk=request.POST.get('team'))
-    if request.user not in team.get_members() and request.user not in team.get_users_requests():
-        uc = UserCommand.objects.create(team=team, member=request.user, is_in_team=False)
+    member = get_object_or_404(Profile, pk=request.POST.get('member'))
+    if member not in team.get_members() and member not in team.get_users_requests():
+        uc = UserCommand.objects.create(team=team, member=member, is_in_team=False)
+        return redirect(resolve_url('select-team', request.user.pk))
     else:
-        uc = UserCommand.objects.get(team=team, member=request.user)
-    return redirect(resolve_url('select-team', request.user.pk))
+        uc = UserCommand.objects.get(team=team, member=member)
+        uc.is_in_team = True
+        uc.save()
+        return HttpResponse(json.dumps({'status': 'success', 'message': u'Пользователь включен в команду'}))

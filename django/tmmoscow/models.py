@@ -169,7 +169,7 @@ class TmUser(AbstractUser):
 
     def create_team(self):
         team = Team.objects.create(title=u'Лично (%s)' % self.name(),)
-        UserCommand.objects.create(team=team, member=self, is_leader=True)
+        UserCommand.objects.create(team=team, member=self, is_leader=True, is_in_team=True)
         return team
 
     def get_my_team(self):

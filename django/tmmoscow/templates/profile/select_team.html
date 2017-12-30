@@ -19,6 +19,7 @@
     <form method="post" id="js-toteam-form" action="{% url 'to-team' %}">
         {% csrf_token %}
         <input type="hidden" name="team">
+        <input type="hidden" name="member" value="{{user.pk}}">
         <input type="hidden" id="checkTeamUrl" value="{% url 'check-team' %}">
         <div class="input-field">
             <label for="title">Название</label>
