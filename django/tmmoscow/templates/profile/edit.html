@@ -43,6 +43,14 @@
             </select>
             <label for="{{ form.qual.html_name }}">Квалификация</label>
         </div>
+        <div class="input-field col m6 s12">
+            <select name="gender" id="id_gender" required>
+                {% for key, val in form.fields.gender.choices %}
+                    <option value="{{ key }}" {% if key == form.instance.gender %}selected{% endif %}>{{ val }}</option>
+                {% endfor %}
+            </select>
+            <label for="id_gender">Пол</label>
+        </div>
 
         <div class="col s12">
             <div class="col s12">{{ message }}</div>

@@ -49,6 +49,14 @@
             <label for="id_qual">Квалификация</label>
         </div>
         <div class="input-field col s12 m6">
+            <select name="gender" id="id_gender" required>
+                {% for key, val in form.fields.gender.choices %}
+                    <option value="{{ key }}"}>{{ val }}</option>
+                {% endfor %}
+            </select>
+            <label for="id_gender">Пол</label>
+        </div>
+        <div class="input-field col s12 m6">
             <label for="id_birth">Год рождения</label>
             <input type="number" name="birth" required id="id_birth"
             value="{{ form.birth.value|default:'' }}">

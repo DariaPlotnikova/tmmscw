@@ -146,6 +146,7 @@ class Qualification(models.Model):
 class TmUser(AbstractUser):
     uniq_id = models.UUIDField(u'Уникальный ID', default=uuid.uuid4, editable=False)
     birth = models.IntegerField(u'Год рождения', blank=True, null=True)
+    gender = models.PositiveSmallIntegerField(u'Пол', choices=defaults.MEMBER_SEXES, default=defaults.MS_MEN)
     qual = models.ForeignKey(Qualification, verbose_name=u'Разряд', related_name='users', blank=True, null=True)
     edit_pass = models.CharField(u'Пароль редактирования', max_length=16, blank=True, default='123456')
     is_leader = models.BooleanField(u'Руководитель', default=True, blank=True)
@@ -157,9 +158,6 @@ class TmUser(AbstractUser):
 
     def is_member(self):
         return not self.is_leader and not self.is_org
-
-    def get_members(self):
-        return 0
 
     def chip(self):
         return '-'
@@ -230,3 +228,16 @@ class UserCommand(models.Model):
         db_table = 'tm_user_team'
         verbose_name = u'Команда-Участник'
         verbose_name_plural = u'Команда-участники'
+
+
+class UserDistance(models.Model):
+    user = models.ForeignKey(TmUser, verbose_name=u'Участик', related_name='distances', null=True)
+    distance = models.ForeignKey(Distance, verbose_name=u'Дистанция', related_name='distances', null=True)
+
+    def __unicode__(self):
+        return ' '.join([self.user, self.distance, '(%s)' % self.distance.day.competition])
+
+    class Meta:
+        db_table = 'tm_user_distance'
+        verbose_name = u'Заявка участника на дистанцию'
+        verbose_name_plural = u'Заявки участника на дистанцию'

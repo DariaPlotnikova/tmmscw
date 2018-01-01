@@ -45,8 +45,10 @@
 
     <ul>
         <li><a href="{% url 'index' %}">К списку соревнований</a></li>
-        {% if user.is_leader and comp.is_open_entry %}
+        {% if user.is_authenticated and user.is_leader and comp.is_open_entry %}
             <li><a href="{% url 'competition-add-to' comp.pk %}">Заявить участников</a></li>
+        {% elif comp.is_open_entry %}
+            <li>Для того, чтобы заявлять участников вам необходимо <a href="{% url 'login' %}">войти</a> или <a href="{% url 'signup' %}">зарегистрироваться</a></li>
         {% else %}
             <li>Заявка закрыта</li>
         {% endif %}
