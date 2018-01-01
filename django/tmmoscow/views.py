@@ -60,6 +60,8 @@ def add_to_competition(request, comp_pk):
     if request.user.is_authenticated():
         template_name = 'tmmoscow/add_to_competition.html'
         competition = Competition.objects.get(pk=comp_pk)
+        if request.method == 'POST':
+            pass
         return render(request, template_name, dict(comp=competition, user=request.user))
     else:
         raise Http404

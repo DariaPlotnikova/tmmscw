@@ -79,7 +79,7 @@ class Distance(models.Model):
     quals = models.ManyToManyField('tmmoscow.Qualification', verbose_name=u'Допустимые разряды', related_name='distances')
 
     def __unicode__(self):
-        return u'%s - %s (%s км)' % (self.dclass, self.get_long(), self.length)
+        return u'%s класс - %s (%s км)' % (self.dclass, self.get_long(), self.length)
 
     def get_long(self):
         return u'длинная' if self.is_long else u'короткая'
@@ -170,8 +170,8 @@ class TmUser(AbstractUser):
         UserCommand.objects.create(team=team, member=self, is_leader=True, is_in_team=True)
         return team
 
-    def get_my_team(self):
-        return self.teams.filter(is_leader=True)[0].team if self.teams.count() else None
+    def get_my_teams(self):
+        return [tm.team for tm in UserCommand.objects.filter(member=self, is_leader=True)] if self.teams.count() else None
 
     class Meta(AbstractUser.Meta):
         abstract = False
