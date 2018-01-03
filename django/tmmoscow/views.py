@@ -57,14 +57,22 @@ def signup(request):
 
 @login_required
 def add_to_competition(request, comp_pk):
-    if request.user.is_authenticated():
-        template_name = 'tmmoscow/add_to_competition.html'
-        competition = Competition.objects.get(pk=comp_pk)
-        if request.method == 'POST':
-            pass
-        return render(request, template_name, dict(comp=competition, user=request.user))
+    template_name = 'tmmoscow/add_to_competition.html'
+    competition = Competition.objects.get(pk=comp_pk)
+    return render(request, template_name, dict(comp=competition, user=request.user))
+
+
+def add_to_distances(request, comp_pk):
+    template_name = 'tmmoscow/add_to_distances.html'
+    competition = Competition.objects.get(pk=comp_pk)
+    if request.method == 'GET':
+        members = request.GET.getlist('members')
+        members = Profile.objects.filter(pk__in=members)
+        return render(request, template_name, dict(comp=competition, user=request.user, members=members))
     else:
-        raise Http404
+        print 'add members to distances !!!!!!!!!!!!!!'
+        print request.POST
+        return redirect('/')
 
 
 @login_required

@@ -1,4 +1,8 @@
-{% extends 'tmmoscow/base.html' %}
+{% extends 'tmmoscow/base.html' %}{% load comp_tags staticfiles %}
+
+{% block extra_js %}
+    <script src="{% static 'js/custom.js' %}"></script>
+{% endblock %}
 
 {% block breadcrumbs %}
     <a class="breadcrumb" href="{% url 'competition' comp.pk %}">Соревнование</a>
@@ -6,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    <p>Добавление участников к {{ comp }}</p>
+    <p>Добавление участников к "{{ comp.title }}"</p>
 
     {% if members|length %}
         <p>Распределите участников по дням и дистанциям:</p>
@@ -18,61 +22,51 @@
                 <th>ФИО</th>
                 <th>Год рождения</th>
                 <th>Разряд</th>
-                <th>Номер чипа</th>
-                <th>UID</th>
+                {#<th>Номер чипа</th>#}
+                {#<th>UID</th>#}
                 <th>Доступные дистанции</th>
               </tr>
             </thead>
             <tbody>
-                {% for memb in members %}
-                    <tr>
-                        <th>{{ forloop.counter }}</th>
-                        <th>{{ memb.name }}</th>
-                        <th>{{ memb.birth }}</th>
-                        <th>{{ memb.qual.title }}</th>
-                        <th>{{ memb.chip }}</th>
-                        <th>{{ memb.uniq_id }}</th>
-                        <th class="">
-                            <label for="memb_{{forloop.counter}}">
-                                <input type="checkbox" id="memb_{{forloop.counter}}" value="{{ memb.pk }}">
-                                <span>Заявить</span>
-                            </label>
-                        </th>
-                    </tr>
-                {% endfor %}
-              {% endfor %}
+                <form id="addToDistsForm" action="{% url 'distances-add-to' comp.pk %}" method="post">
+                    {% csrf_token %}
+                    {% for memb in members %}
+                        <tr>
+                            <th>{{ forloop.counter }}</th>
+                            <th>{{ memb.name }}</th>
+                            <th>{{ memb.birth }}</th>
+                            <th>{{ memb.qual.title }}</th>
+                            {#<th>{{ memb.chip }}</th>#}
+                            {#<th>{{ memb.uniq_id }}</th>#}
+                            <th class="js-can-apply">
+                                {% for day in comp.days.all %}
+                                    {% with outer_loop=forloop.counter %}
+                                        <div>{{day.date}}</div>
+                                        <div>
+                                            {% for dist in day.distances.all %}
+                                                {% can_go_to_dist memb dist as can_add %}
+                                                {% if can_add %}
+                                                    <label for="dist_{{ memb.pk }}{{ outer_loop }}{{ dist.pk }}">
+                                                        <input type="checkbox" id="dist_{{ memb.pk }}{{ outer_loop }}{{ dist.pk }}" name="member_{{memb.pk}}" value="{{ dist.pk }}">
+                                                        <span>{{dist}}</span>
+                                                    </label>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endwith %}
+                                {% endfor %}
+                            </th>
+                        </tr>
+                    {% endfor %}
+                </form>
             </tbody>
-
         </table>
 
-        {% comment %}
-        {% for team in user.get_my_teams %}
-            <ul>
-            {% for mem in team.get_members %}
-                <div>
-                    <label for="memb_{{forloop.counter}}">
-                        <input type="checkbox" id="memb_{{forloop.counter}}" value="{{ mem.pk }}">
-                        <span>{{mem}}</span>
-                    </label>
-                </div>
-                <li><p>{{ mem }}</p>
-                    {% for day in comp.days.all %}
-                        <div>{{day.date}}</div>
-                        <div>
-                            {% for dist in day.distances.all %}
-                                <label for="dist_{{forloop.counter}}">
-                                    <input type="checkbox" id="dist_{{forloop.counter}}" value="{{ dist }}">
-                                    <span>{{dist}}</span>
-                                </label>
-                            {% endfor %}
-                        </div>
-                    {% endfor %}
-                </li>
-            {% endfor %}
-            </ul>
-        {% endfor %}
-        {% endcomment %}
+        <p class="hidden error-message">Выберите дистанции для участников</p>
+        <a class="btn js-to-distances">Заявить на соревнования</a>
+
     {% else %}
         <p><a href="{% url 'competition-add-to' comp.pk %}">Выберите</a> участников команды для участия в соревновании</p>
     {% endif %}
+
 {% endblock %}

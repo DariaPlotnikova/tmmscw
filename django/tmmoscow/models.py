@@ -16,6 +16,7 @@
 import uuid
 from datetime import datetime
 from django.db import models
+from django.utils.functional import cached_property
 from . import defaults
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, AbstractUser
 
@@ -28,6 +29,12 @@ class Competition(models.Model):
     place = models.CharField(u'Центр соревнований', max_length=512, null=True, blank=True)
     place_x = models.FloatField(u'X координата центра соревнований', null=True, blank=True)
     place_y = models.FloatField(u'Y координата центра соревнований', null=True, blank=True)
+
+    def get_distances(self):
+        dists = []
+        for day in self.days.all():
+            dists.extend(day.distances.all())
+        return dists
 
     def is_open_entry(self):
         tz_info = self.entry_end_date.tzinfo
@@ -79,7 +86,7 @@ class Distance(models.Model):
     quals = models.ManyToManyField('tmmoscow.Qualification', verbose_name=u'Допустимые разряды', related_name='distances')
 
     def __unicode__(self):
-        return u'%s класс - %s (%s км)' % (self.dclass, self.get_long(), self.length)
+        return u'%s класс - %s (%s км)' % (self.get_dclass_display(), self.get_long(), self.length)
 
     def get_long(self):
         return u'длинная' if self.is_long else u'короткая'
@@ -92,6 +99,18 @@ class Distance(models.Model):
 
     def get_specials_str(self):
         return ', '.join(['%s - %s' % (sg.group.title, sg.qual.title) for sg in self.special_groups.all()])
+
+    @cached_property
+    def min_year(self):
+        return self.groups.aggregate(models.Min('year_from')).get('year_from__min', 1975)
+
+    @cached_property
+    def max_year(self):
+        return self.groups.aggregate(models.Max('year_to')).get('year_to__max', 2000)
+
+    @cached_property
+    def get_genders(self):
+        return list(set([gr.sex for gr in self.groups.all()]))
 
     class Meta:
         db_table = 'tm_distance'
@@ -106,6 +125,22 @@ class SpecialGroup(models.Model):
     group = models.ForeignKey('tmmoscow.Group', verbose_name=u'Группа', related_name='specials')
     qual = models.ForeignKey('tmmoscow.Qualification', verbose_name=u'Разряд', related_name='specials')
     distance = models.ForeignKey('tmmoscow.Distance', verbose_name=u'Дистанция', related_name='special_groups')
+
+    def can_member_apply(self, member):
+        return member.qual == self.qual and member.birth >= self.min_year \
+               and member.birth <= self.max_year and member.gender == self.group.sex
+
+    @cached_property
+    def min_year(self):
+        return self.group.year_from
+
+    @cached_property
+    def max_year(self):
+        return self.group.year_to
+
+    @cached_property
+    def get_gender(self):
+        return self.group.sex
 
     def __unicode__(self):
         return '%s - %s' % (self.group.title, self.qual.title)
@@ -172,6 +207,17 @@ class TmUser(AbstractUser):
 
     def get_my_teams(self):
         return [tm.team for tm in UserCommand.objects.filter(member=self, is_leader=True)] if self.teams.count() else None
+
+    def can_participate_in_dist(self, dist):
+        simple_qbg = self.qual in dist.quals.all() and self.birth >= dist.min_year \
+                     and self.birth <= dist.max_year and self.gender in dist.get_genders
+        special_groups = dist.special_groups.all()
+        if special_groups:
+            simple_qbg = simple_qbg or any([sg.can_member_apply(self) for sg in special_groups])
+        return simple_qbg
+
+    def can_participate_in(self, comp):
+        return any([self.can_participate_in_dist(d) for d in comp.get_distances()])
 
     class Meta(AbstractUser.Meta):
         abstract = False

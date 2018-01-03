@@ -1,4 +1,8 @@
-{% extends 'tmmoscow/base.html' %}
+{% extends 'tmmoscow/base.html' %}{% load comp_tags staticfiles %}
+
+{% block extra_js %}
+    <script src="{% static 'js/custom.js' %}"></script>
+{% endblock %}
 
 {% block breadcrumbs %}
     <a class="breadcrumb" href="{% url 'competition' comp.pk %}">Соревнование</a>
@@ -24,8 +28,7 @@
               </tr>
             </thead>
             <tbody>
-                <form action="{% url 'competition-add-to' comp.pk %}" method="post" id="addToCompetitionForm">
-                    {% csrf_token %}
+                <form action="{% url 'distances-add-to' comp.pk %}" method="get" id="addToCompetitionForm">
                     {% for team in user.get_my_teams %}
                         <tr><th colspan="7">Команда - {{ team }}</th></tr>
                         {% for memb in team.get_leaders|add:team.get_members %}
@@ -36,11 +39,14 @@
                                 <th>{{ memb.qual.title }}</th>
                                 <th>{{ memb.chip }}</th>
                                 <th>{{ memb.uniq_id }}</th>
-                                <th class="">
-                                    <label for="memb_{{forloop.counter}}">
-                                        <input type="checkbox" id="memb_{{forloop.counter}}" name="members" value="{{ memb.pk }}">
-                                        <span>Заявить</span>
-                                    </label>
+                                <th class="js-can-apply">
+                                    {% can_go_to_competition memb comp as can_add %}
+                                    {% if can_add %}
+                                        <label for="memb_{{forloop.counter}}">
+                                            <input type="checkbox" class="member-to-comp-chkb" id="memb_{{forloop.counter}}" name="members" value="{{ memb.pk }}">
+                                            <span>Заявить</span>
+                                        </label>
+                                    {% endif %}
                                 </th>
                             </tr>
                         {% endfor %}
@@ -49,8 +55,8 @@
             </tbody>
         </table>
 
-
-        <a class="btn" onclick="$('#addToCompetitionForm').submit();">Заявить на соревнования</a>
+        <p class="hidden error-message">Выберите хотя бы одного участника</p>
+        <a class="btn js-to-competition">Заявить на соревнования</a>
 
         {% comment %}
         {% for team in user.get_my_teams %}
