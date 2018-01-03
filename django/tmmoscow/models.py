@@ -219,6 +219,12 @@ class TmUser(AbstractUser):
     def can_participate_in(self, comp):
         return any([self.can_participate_in_dist(d) for d in comp.get_distances()])
 
+    def is_applied_to_dist(self, dist):
+        return UserDistance.objects.filter(user=self, distance=dist).count()
+
+    def is_applied(self, comp):
+        return any([self.is_applied_to_dist(d) for d in comp.get_distances()])
+
     class Meta(AbstractUser.Meta):
         abstract = False
         db_table = 'tm_user'
@@ -279,6 +285,7 @@ class UserCommand(models.Model):
 class UserDistance(models.Model):
     user = models.ForeignKey(TmUser, verbose_name=u'Участик', related_name='distances', null=True)
     distance = models.ForeignKey(Distance, verbose_name=u'Дистанция', related_name='distances', null=True)
+    date_joined = models.DateTimeField(u'Дата заявки', auto_now_add=True, blank=True, null=True)
 
     def __unicode__(self):
         return ' '.join([self.user, self.distance, '(%s)' % self.distance.day.competition])

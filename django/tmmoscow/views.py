@@ -18,7 +18,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
-from .models import Competition, Team, UserCommand
+from .models import Competition, Team, UserCommand, Distance, UserDistance
 from .forms import SignUpForm, ProfileForm, TeamForm
 
 Profile = get_user_model()
@@ -70,8 +70,14 @@ def add_to_distances(request, comp_pk):
         members = Profile.objects.filter(pk__in=members)
         return render(request, template_name, dict(comp=competition, user=request.user, members=members))
     else:
-        print 'add members to distances !!!!!!!!!!!!!!'
-        print request.POST
+        members = request.POST.get('members').split(',')
+        for memb_pk in members:
+            distances = request.POST.getlist('member_%s' % memb_pk)
+            if distances:
+                member = Profile.objects.get(pk=memb_pk)
+                distances = Distance.objects.filter(pk__in=distances)
+                for dist in distances:
+                    UserDistance.objects.create(user=member, distance=dist)
         return redirect('/')
 
 

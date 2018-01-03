@@ -30,6 +30,7 @@
             <tbody>
                 <form id="addToDistsForm" action="{% url 'distances-add-to' comp.pk %}" method="post">
                     {% csrf_token %}
+                    <input type="hidden" name="members" value="{% for m in members %}{{ m.pk }}{% if not forloop.last %},{% endif %}{% endfor %}">
                     {% for memb in members %}
                         <tr>
                             <th>{{ forloop.counter }}</th>
@@ -45,9 +46,10 @@
                                         <div>
                                             {% for dist in day.distances.all %}
                                                 {% can_go_to_dist memb dist as can_add %}
+                                                {% is_applied_to_dist memb dist as is_applied %}
                                                 {% if can_add %}
-                                                    <label for="dist_{{ memb.pk }}{{ outer_loop }}{{ dist.pk }}">
-                                                        <input type="checkbox" id="dist_{{ memb.pk }}{{ outer_loop }}{{ dist.pk }}" name="member_{{memb.pk}}" value="{{ dist.pk }}">
+                                                    <label for="dist_{{ memb.pk }}{{ outer_loop }}{{ dist.pk }}" {% if is_applied %}class="is-checked"{% endif %}>
+                                                        <input type="checkbox" {% if is_applied %}checked{% endif %} id="dist_{{ memb.pk }}{{ outer_loop }}{{ dist.pk }}" name="member_{{memb.pk}}" value="{{ dist.pk }}">
                                                         <span>{{dist}}</span>
                                                     </label>
                                                 {% endif %}

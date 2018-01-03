@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('.js-can-apply').each(function(){
         console.log($(this).find('label').length);
-        if (!$(this).find('label').length){
+        if (!$(this).find('.js-applied').length){
             $(this).empty();
             $(this).text('Не подходит по группам');
         }
@@ -23,7 +23,7 @@ $(document).ready(function(){
     $('.js-to-distances').on('click', function(){
         $(this).closest('p.error-message').addClass('hidden');
         var form = $('#addToDistsForm');
-        if (form.serializeArray().length > 1){
+        if (form.serializeArray().length > 2){
             form.submit();
         }
         else {

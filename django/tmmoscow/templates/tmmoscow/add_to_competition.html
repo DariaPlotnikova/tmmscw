@@ -41,11 +41,16 @@
                                 <th>{{ memb.uniq_id }}</th>
                                 <th class="js-can-apply">
                                     {% can_go_to_competition memb comp as can_add %}
+                                    {% is_applied_to_competition memb comp as is_applied %}
                                     {% if can_add %}
-                                        <label for="memb_{{forloop.counter}}">
-                                            <input type="checkbox" class="member-to-comp-chkb" id="memb_{{forloop.counter}}" name="members" value="{{ memb.pk }}">
-                                            <span>Заявить</span>
-                                        </label>
+                                        {% if is_applied %}
+                                            <p class="js-applied">Уже заявлен</p>
+                                        {% else %}
+                                            <label for="memb_{{forloop.counter}}" class="js-applied">
+                                                <input type="checkbox" class="member-to-comp-chkb" id="memb_{{forloop.counter}}" name="members" value="{{ memb.pk }}">
+                                                <span>Заявить</span>
+                                            </label>
+                                        {% endif %}
                                     {% endif %}
                                 </th>
                             </tr>

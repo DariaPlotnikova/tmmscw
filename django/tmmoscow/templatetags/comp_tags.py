@@ -17,3 +17,15 @@ def can_go_to_dist(memb, dist):
 def can_go_to_competition(memb, comp):
     """ Проверяет, может ли участник принимать участие во всём соревновании """
     return memb.can_participate_in(comp)
+
+
+@register.simple_tag
+def is_applied_to_dist(memb, dist):
+    """ Проверяет, заявлен ли участник на дистанцию """
+    return memb.is_applied_to_dist(dist)
+
+
+@register.simple_tag
+def is_applied_to_competition(memb, comp):
+    """ Проверяет, заявлен ли участник на соревнование """
+    return memb.is_applied(comp)
