@@ -62,9 +62,11 @@ def add_to_competition(request, comp_pk):
     return render(request, template_name, dict(comp=competition, user=request.user))
 
 
+@login_required
 def add_to_distances(request, comp_pk):
     template_name = 'tmmoscow/add_to_distances.html'
     competition = Competition.objects.get(pk=comp_pk)
+    team = request.user.get_my_teams[0]
     if request.method == 'GET':
         members = request.GET.getlist('members')
         members = Profile.objects.filter(pk__in=members)
@@ -77,8 +79,14 @@ def add_to_distances(request, comp_pk):
                 member = Profile.objects.get(pk=memb_pk)
                 distances = Distance.objects.filter(pk__in=distances)
                 for dist in distances:
-                    UserDistance.objects.create(user=member, distance=dist)
+                    UserDistance.objects.create(user=member, distance=dist, team=team)
         return redirect('/')
+
+
+def member_list(request, comp_pk):
+    template_name = 'tmmoscow/member_list.html'
+    competition = Competition.objects.prefetch_related().get(pk=comp_pk)
+    return render(request, template_name, dict(comp=competition))
 
 
 @login_required

@@ -59,6 +59,15 @@ class Day(models.Model):
     place_y = models.FloatField(u'Y координата старта дисциплин', null=True, blank=True)
     tech_end_date = models.DateTimeField(u'Дата и время окончания подачи тенической заявки', null=True, blank=True)
 
+    def get_members(self):
+        members = []
+        for dist in self.distances.all():
+            for ud in dist.members.all():
+                ud.user.dist_team = ud.team
+                ud.user.distance = ud.distance
+                members.append(ud.user)
+        return members
+
     def tech_is_open(self):
         tz_info = self.tech_end_date.tzinfo
         return self.tech_end_date > datetime.now(tz_info)
@@ -284,11 +293,9 @@ class UserCommand(models.Model):
 
 class UserDistance(models.Model):
     user = models.ForeignKey(TmUser, verbose_name=u'Участик', related_name='distances', null=True)
-    distance = models.ForeignKey(Distance, verbose_name=u'Дистанция', related_name='distances', null=True)
+    team = models.ForeignKey(Team, verbose_name=u'Команда', related_name='members_on_distance', null=True, blank=True)
+    distance = models.ForeignKey(Distance, verbose_name=u'Дистанция', related_name='members', null=True)
     date_joined = models.DateTimeField(u'Дата заявки', auto_now_add=True, blank=True, null=True)
-
-    def __unicode__(self):
-        return ' '.join([self.user, self.distance, '(%s)' % self.distance.day.competition])
 
     class Meta:
         db_table = 'tm_user_distance'

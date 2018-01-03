@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="comp-title">{{ comp.title }}</h1>
+    <h1 class="comp-title">{{ comp.title }}</h1><a href="{% url 'member-list' comp.pk %}" target="_blank">Список участников</a>
     <h3>{{ comp.start_date }} - {{ comp.end_date }}</h3>
     <h3>{{ comp.place }}</h3>
     <hr>

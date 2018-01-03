@@ -1,0 +1,84 @@
+{% extends 'tmmoscow/base.html' %}{% load comp_tags staticfiles %}
+
+{% block extra_js %}
+    <script src="{% static 'js/custom.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <a class="breadcrumb" href="{% url 'competition' comp.pk %}">Соревнование</a>
+    <a class="breadcrumb" href="{% url 'member-list' comp.pk %}">Список участников</a>
+{% endblock %}
+
+{% block content %}
+    <p>Список участников "{{ comp.title }}"</p>
+
+    {% for day in comp.days.all %}
+        {% with membs_count=day.get_members|length|stringformat:"i" %}
+            <p><a href="#day{{forloop.counter}}">День {{ forloop.counter }} | {{ day.date }} {#{% if membs_count|last == '1' %}Заявлен {{ membs_count }} участник{% elif membs_count|last in '234' %}Заявлено {{ membs_count }} участника{% else %}Заявлено {{ membs_count }} участников{% endif %} #}</a></p>
+        {% endwith %}
+    {% endfor %}
+
+    {% for day in comp.days.all %}
+    <p id="day{{forloop.counter}}">День {{ forloop.counter }} | {{ day.date }}</p>
+    <table>
+        <thead>
+          <tr>
+            <th>№</th>
+            <th>ФИО</th>
+            <th>Год рождения</th>
+            <th>Разряд</th>
+            <th>Команда</th>
+            <th>Группа</th>
+            <th>Дистанции</th>
+          </tr>
+        </thead>
+        <tbody>
+            <form>
+                {% for memb in day.get_members %}
+                    <tr>
+                        <th>{{ forloop.counter }}</th>
+                        <th>{{ memb.name }}</th>
+                        <th>{{ memb.birth }}</th>
+                        <th>{{ memb.qual.title }}</th>
+                        <th>{{ memb.dist_team }}</th>
+                        <th>TODO сделать выбор группы! при заявке в соревы!</th>
+                        <th>{{ memb.distance }}</th>
+                    </tr>
+                {% endfor %}
+
+
+                {% comment %}
+                {% for team in user.get_my_teams %}
+                    <tr><th colspan="7">Команда - {{ team }}</th></tr>
+                    {% for memb in team.get_leaders|add:team.get_members %}
+                        <tr>
+                            <th>{{ forloop.counter }}</th>
+                            <th>{{ memb.name }}</th>
+                            <th>{{ memb.birth }}</th>
+                            <th>{{ memb.qual.title }}</th>
+                            <th>{{ memb.chip }}</th>
+                            <th>{{ memb.uniq_id }}</th>
+                            <th class="js-can-apply">
+                                {% can_go_to_competition memb comp as can_add %}
+                                {% is_applied_to_competition memb comp as is_applied %}
+                                {% if can_add %}
+                                    {% if is_applied %}
+                                        <p class="js-applied">Уже заявлен</p>
+                                    {% else %}
+                                        <label for="memb_{{forloop.counter}}" class="js-applied">
+                                            <input type="checkbox" class="member-to-comp-chkb" id="memb_{{forloop.counter}}" name="members" value="{{ memb.pk }}">
+                                            <span>Заявить</span>
+                                        </label>
+                                    {% endif %}
+                                {% endif %}
+                            </th>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                {% endcomment %}
+            </form>
+        </tbody>
+    </table>
+    {% endfor %}
+
+{% endblock %}
