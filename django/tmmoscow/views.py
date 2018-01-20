@@ -13,11 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import json
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
-from .models import Competition, Team
+from .models import Competition, Team, UserCommand, Distance, UserDistance
 from .forms import SignUpForm, ProfileForm, TeamForm
 
 Profile = get_user_model()
@@ -58,6 +59,33 @@ def signup(request):
 def add_to_competition(request, comp_pk):
     template_name = 'tmmoscow/add_to_competition.html'
     competition = Competition.objects.get(pk=comp_pk)
+    return render(request, template_name, dict(comp=competition, user=request.user))
+
+
+@login_required
+def add_to_distances(request, comp_pk):
+    template_name = 'tmmoscow/add_to_distances.html'
+    competition = Competition.objects.get(pk=comp_pk)
+    team = request.user.get_my_teams()[0]
+    if request.method == 'GET':
+        members = request.GET.getlist('members')
+        members = Profile.objects.filter(pk__in=members)
+        return render(request, template_name, dict(comp=competition, user=request.user, members=members))
+    else:
+        members = request.POST.get('members').split(',')
+        for memb_pk in members:
+            distances = request.POST.getlist('member_%s' % memb_pk)
+            if distances:
+                member = Profile.objects.get(pk=memb_pk)
+                distances = Distance.objects.filter(pk__in=distances)
+                for dist in distances:
+                    UserDistance.objects.create(user=member, distance=dist, team=team)
+        return redirect('/')
+
+
+def member_list(request, comp_pk):
+    template_name = 'tmmoscow/member_list.html'
+    competition = Competition.objects.prefetch_related().get(pk=comp_pk)
     return render(request, template_name, dict(comp=competition))
 
 
@@ -128,7 +156,7 @@ def select_team(request, user_pk):
             else:
                 message = form.errors
         form = ProfileForm(instance=user)
-        return render(request, template_name, dict(form=form, user=form.instance, message=message))
+        return render(request, template_name, dict(user=form.instance, message=message))
     else:
         raise Http404
 
@@ -141,3 +169,27 @@ def profile(request):
         return render(request, template_name, dict(user=user))
     else:
         raise Http404
+
+
+@login_required
+def check_team_exist(request):
+    team_name = request.GET.get('title', '').strip()
+    team_location = request.GET.get('location', '').strip()
+    teams = Team.objects.filter(title=team_name, location=team_location)
+    return HttpResponse(json.dumps(
+        {'status': 'success', 'teams_cnt': teams.count(), 'teams': [t.to_json() for t in teams]}),
+        content_type='application/json')
+
+
+@login_required
+def to_team(request):
+    team = get_object_or_404(Team, pk=request.POST.get('team'))
+    member = get_object_or_404(Profile, pk=request.POST.get('member'))
+    if member not in team.get_members() and member not in team.get_users_requests():
+        uc = UserCommand.objects.create(team=team, member=member, is_in_team=False)
+        return redirect(resolve_url('select-team', request.user.pk))
+    else:
+        uc = UserCommand.objects.get(team=team, member=member)
+        uc.is_in_team = True
+        uc.save()
+        return HttpResponse(json.dumps({'status': 'success', 'message': u'Пользователь включен в команду'}))

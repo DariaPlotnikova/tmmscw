@@ -11,7 +11,7 @@
             {% if user.is_authenticated %}
                 <ul class="right hide-on-med-and-down">
                     <li><a href="{% url 'profile' %}">{{ user.email }}</a></li>
-                    <li><a href="{% url 'logout' %}">Выход</a></li>
+                    <li><a href="{% url 'logout' %}?next=/">Выход</a></li>
                 </ul>
             {% else %}
                 <ul class="right hide-on-med-and-down">

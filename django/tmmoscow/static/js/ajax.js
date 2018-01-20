@@ -17,4 +17,50 @@ $(document).ready(function () {
         // $(this).setTextContent = curRole;
         // $($("a[name='role']").children("b")).detach("b");
     }
+
+    // Поиск команды для подачи заявки
+    $('.js-toteam').on('change', function(){
+        var form = $('#js-toteam-form');
+        form.find('.to-team-message p').addClass('hidden');
+        var empty = false;
+        $('.js-toteam').each(function(){
+            if (!$(this).val()) { empty = true; }
+        });
+        if (!empty) {
+            var url = form.find('#checkTeamUrl').val();
+            var data = form.serializeArray();
+            $.get(url, data, function(json){
+                console.log(json);
+                if (json.teams_cnt) {
+                    var t = json.teams[0];
+                    var text = 'Найдена команда: ' + t.title + ' (' + t.location + '). Руководитель: ' + t.lead + '. Вы можете подать заявку!';
+                    form.find('input[name=team]').val(t.id);
+                    form.find('.to-team-message p.success').removeClass('hidden');
+                    form.find('.to-team-message p.info').removeClass('hidden').text(text);
+                    $('.to-team-btn').removeAttr('disabled');
+                }
+                else {
+                    form.find('.to-team-message p.error').removeClass('hidden');
+                }
+            });
+        }
+        else {
+            form.find('.to-team-message p.error').removeClass('hidden');
+        }
+    });
+
+    // Потверждение заявки участника на добавление в команду
+    $('.add-member-to-team').on('click', function(){
+        var form = $(this).parents('form');
+        var url = form.attr('action');
+        var data = form.serializeArray();
+        $.post(url, data, function(json){
+            var thisTh = form.parents('.request-th');
+            var inTeamTh = thisTh.prev('.in-team-th');
+            thisTh.empty();
+            thisTh.text('Принят');
+            inTeamTh.empty();
+            inTeamTh.text('Да');
+        });
+    });
 });

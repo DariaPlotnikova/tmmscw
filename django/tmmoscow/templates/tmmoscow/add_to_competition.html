@@ -1,4 +1,8 @@
-{% extends 'tmmoscow/base.html' %}
+{% extends 'tmmoscow/base.html' %}{% load comp_tags staticfiles %}
+
+{% block extra_js %}
+    <script src="{% static 'js/custom.js' %}"></script>
+{% endblock %}
 
 {% block breadcrumbs %}
     <a class="breadcrumb" href="{% url 'competition' comp.pk %}">Соревнование</a>
@@ -7,15 +11,86 @@
 
 {% block content %}
     <p>Добавление участников к {{ comp }}</p>
-    <p>Выберите участников, которые будут участвовать в соревновании:</p>
 
-    <ul>
-    {% for mem in user.get_members %}
-        <li><p>{{ mem }}</p>
-            {% for day in comp.days %}
-                <input type="checkbox" value="{{ day.date }}">
+    {% if user.get_my_teams|length %}
+        <p>Выберите участников, которые будут участвовать в соревновании:</p>
+
+        <table>
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>ФИО</th>
+                <th>Год рождения</th>
+                <th>Разряд</th>
+                <th>Номер чипа</th>
+                <th>UID</th>
+                <th>Участвует</th>
+              </tr>
+            </thead>
+            <tbody>
+                <form action="{% url 'distances-add-to' comp.pk %}" method="get" id="addToCompetitionForm">
+                    {% for team in user.get_my_teams %}
+                        <tr><th colspan="7">Команда - {{ team }}</th></tr>
+                        {% for memb in team.get_leaders|add:team.get_members %}
+                            <tr>
+                                <th>{{ forloop.counter }}</th>
+                                <th>{{ memb.name }}</th>
+                                <th>{{ memb.birth }}</th>
+                                <th>{{ memb.qual.title }}</th>
+                                <th>{{ memb.chip }}</th>
+                                <th>{{ memb.uniq_id }}</th>
+                                <th class="js-can-apply">
+                                    {% can_go_to_competition memb comp as can_add %}
+                                    {% is_applied_to_competition memb comp as is_applied %}
+                                    {% if can_add %}
+                                        {% if is_applied %}
+                                            <p class="js-applied">Уже заявлен</p>
+                                        {% else %}
+                                            <label for="memb_{{forloop.counter}}" class="js-applied">
+                                                <input type="checkbox" class="member-to-comp-chkb" id="memb_{{forloop.counter}}" name="members" value="{{ memb.pk }}">
+                                                <span>Заявить</span>
+                                            </label>
+                                        {% endif %}
+                                    {% endif %}
+                                </th>
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                </form>
+            </tbody>
+        </table>
+
+        <p class="hidden error-message">Выберите хотя бы одного участника</p>
+        <a class="btn js-to-competition">Заявить на соревнования</a>
+
+        {% comment %}
+        {% for team in user.get_my_teams %}
+            <ul>
+            {% for mem in team.get_members %}
+                <div>
+                    <label for="memb_{{forloop.counter}}">
+                        <input type="checkbox" id="memb_{{forloop.counter}}" value="{{ mem.pk }}">
+                        <span>{{mem}}</span>
+                    </label>
+                </div>
+                <li><p>{{ mem }}</p>
+                    {% for day in comp.days.all %}
+                        <div>{{day.date}}</div>
+                        <div>
+                            {% for dist in day.distances.all %}
+                                <label for="dist_{{forloop.counter}}">
+                                    <input type="checkbox" id="dist_{{forloop.counter}}" value="{{ dist }}">
+                                    <span>{{dist}}</span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </li>
             {% endfor %}
-        </li>
-    {% endfor %}
-    </ul>
+            </ul>
+        {% endfor %}
+        {% endcomment %}
+    {% else %}
+        <p>К сожалению, ваша команда не имеет участников. Обратитесь к администратору, для добавления вашей команды и участников.</p>
+    {% endif %}
 {% endblock %}

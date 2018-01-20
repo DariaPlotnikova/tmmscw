@@ -1,9 +1,3 @@
-.comp-title{
-    color: red;
-}
-
-td {
-    border: 1px solid red!important;
-    border-collapse: collapse;
-    border-spacing: 0;
+.hidden{
+    display: none!important;
 }

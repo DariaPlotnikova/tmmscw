@@ -1,0 +1,75 @@
+{% extends 'tmmoscow/base.html' %}{% load comp_tags staticfiles %}
+
+{% block extra_js %}
+    <script src="{% static 'js/custom.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <a class="breadcrumb" href="{% url 'competition' comp.pk %}">Соревнование</a>
+    <a class="breadcrumb" href="{% url 'distances-add-to' comp.pk %}">Заявить на дистанции</a>
+{% endblock %}
+
+{% block content %}
+    <p>Добавление участников к "{{ comp.title }}"</p>
+
+    {% if members|length %}
+        <p>Распределите участников по дням и дистанциям:</p>
+
+        <table>
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>ФИО</th>
+                <th>Год рождения</th>
+                <th>Разряд</th>
+                {#<th>Номер чипа</th>#}
+                {#<th>UID</th>#}
+                <th>Доступные дистанции</th>
+              </tr>
+            </thead>
+            <tbody>
+                <form id="addToDistsForm" action="{% url 'distances-add-to' comp.pk %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="members" value="{% for m in members %}{{ m.pk }}{% if not forloop.last %},{% endif %}{% endfor %}">
+                    {% for memb in members %}
+                        <tr>
+                            <th>{{ forloop.counter }}</th>
+                            <th>{{ memb.name }}</th>
+                            <th>{{ memb.birth }}</th>
+                            <th>{{ memb.qual.title }}</th>
+                            {#<th>{{ memb.chip }}</th>#}
+                            {#<th>{{ memb.uniq_id }}</th>#}
+                            <th class="js-can-apply">
+                                {% for day in comp.days.all %}
+                                    {% with outer_loop=forloop.counter %}
+                                        <div class="js-day-can-apply">{{day.date}}</div>
+                                        <div class="js-day">
+                                            {% for dist in day.distances.all %}
+                                                {% can_go_to_dist memb dist as can_add %}
+                                                {% is_applied_to_dist memb dist as is_applied %}
+
+                                                {% if can_add %}
+                                                    <label for="dist_{{ memb.pk }}{{ outer_loop }}{{ dist.pk }}" class="js-applied">
+                                                        <input type="checkbox" {% if is_applied %}checked{% endif %} id="dist_{{ memb.pk }}{{ outer_loop }}{{ dist.pk }}" name="member_{{memb.pk}}" value="{{ dist.pk }}">
+                                                        <span>{{dist}}</span>
+                                                    </label>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    {% endwith %}
+                                {% endfor %}
+                            </th>
+                        </tr>
+                    {% endfor %}
+                </form>
+            </tbody>
+        </table>
+
+        <p class="hidden error-message">Выберите дистанции для участников</p>
+        <a class="btn js-to-distances">Заявить на соревнования</a>
+
+    {% else %}
+        <p><a href="{% url 'competition-add-to' comp.pk %}">Выберите</a> участников команды для участия в соревновании</p>
+    {% endif %}
+
+{% endblock %}
