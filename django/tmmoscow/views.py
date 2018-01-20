@@ -20,6 +20,7 @@ from django.contrib.auth import login, authenticate, get_user_model
 from django.contrib.auth.decorators import login_required
 from .models import Competition, Team, UserCommand, Distance, UserDistance
 from .forms import SignUpForm, ProfileForm, TeamForm
+from . import utils
 
 Profile = get_user_model()
 
@@ -93,7 +94,7 @@ def add_to_distances(request, comp_pk):
 def member_list(request, comp_pk):
     """ Список участников, заявленный на соревнование """
     template_name = 'tmmoscow/member_list.html'
-    competition = Competition.objects.prefetch_related().get(pk=comp_pk)
+    competition = Competition.objects.select_related().get(pk=comp_pk)
     return render(request, template_name, dict(comp=competition))
 
 
@@ -102,9 +103,13 @@ def get_csv_member_list(request, comp_pk):
     """ Возвращает csv-файл для отображения в Excel
     списка участников, заявленных на соревнования. Экспорт
     доступен только пользователям с ролью организатор """
-    if request.user.is_org:
+    if request.user.is_org or request.user.is_superuser:
         # открываем доступ к экспорту организатору соревнований
-        pass
+        competition = Competition.objects.select_related().get(pk=comp_pk)
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="member_list%s.csv"' % competition.title
+        utils.generate_competition_csv(response, competition)
+        return response
     else:
         raise Http404
 
