@@ -24,20 +24,6 @@ from .forms import SignUpForm, ProfileForm, TeamForm
 Profile = get_user_model()
 
 
-def index(request):
-    """ Главная страница, список соревнований """
-    template_name = 'tmmoscow/index.html'
-    comps = Competition.objects.all()
-    return render(request, template_name, dict(comps=comps))
-
-
-def competition(request, comp_pk):
-    """ Подробности о соревновании """
-    template_name = 'tmmoscow/competition.html'
-    competition = Competition.objects.get(pk=comp_pk)
-    return render(request, template_name, dict(comp=competition))
-
-
 def signup(request):
     """ Регистрирует участника и создает его команду """
     message = ''
@@ -56,6 +42,22 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', dict(form=form, message=message))
+
+
+# Вьюхи соревнований, заявок участников, просмотра данных по стартам
+
+def index(request):
+    """ Главная страница, список соревнований """
+    template_name = 'tmmoscow/index.html'
+    comps = Competition.objects.all()
+    return render(request, template_name, dict(comps=comps))
+
+
+def competition(request, comp_pk):
+    """ Подробности о соревновании """
+    template_name = 'tmmoscow/competition.html'
+    competition = Competition.objects.get(pk=comp_pk)
+    return render(request, template_name, dict(comp=competition))
 
 
 @login_required
@@ -94,6 +96,8 @@ def member_list(request, comp_pk):
     competition = Competition.objects.prefetch_related().get(pk=comp_pk)
     return render(request, template_name, dict(comp=competition))
 
+
+# Вьюхи личного кабинета, добавления в команду
 
 @login_required
 def edit_profile(request, user_pk):
@@ -197,10 +201,12 @@ def to_team(request):
     """ Отправляет заявку участника на добавление в команду и подтверждает ее со стороны руководителя """
     team = get_object_or_404(Team, pk=request.POST.get('team'))
     member = get_object_or_404(Profile, pk=request.POST.get('member'))
-    if member not in team.get_members() and member not in team.get_users_requests():    # отправка заявки
+    if member not in team.get_members() and member not in team.get_users_requests():
+        # пользователь еще не находится в записи команды, отправляем заявку
         uc = UserCommand.objects.create(team=team, member=member, is_in_team=False)
         return redirect(resolve_url('select-team', request.user.pk))
-    else:   # подтверждение заявки
+    else:
+        # пользователь подал заявку в команду, подтверждаем ее
         uc = UserCommand.objects.get(team=team, member=member)
         uc.is_in_team = True
         uc.save()

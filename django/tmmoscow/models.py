@@ -22,6 +22,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, Abstr
 
 
 class Competition(models.Model):
+    """ Модель для соревнования """
     title = models.CharField(u'Название', max_length=511)
     start_date = models.DateField(u'Дата начала')
     end_date = models.DateField(u'Дата окончания')
@@ -51,6 +52,7 @@ class Competition(models.Model):
 
 
 class Day(models.Model):
+    """ Модель дня соревнования, нужна для разделения дистанций по дням """
     competition = models.ForeignKey('tmmoscow.Competition', verbose_name=u'Соревнование', related_name='days')
     info = models.FileField(u'Техническая информация', blank=True, null=True)
     date = models.DateField(u'Дата')
@@ -83,6 +85,7 @@ class Day(models.Model):
 
 
 class Distance(models.Model):
+    """ Модель для дистанции. Привязана к соревнованию через день """
     day = models.ForeignKey('tmmoscow.Day', verbose_name=u'День соревнования', related_name='distances')
     type = models.PositiveIntegerField(u'Тип дистанции', choices=defaults.DISCIPLINE_TYPES)
     is_long = models.BooleanField(u'Длинная', default=False, blank=True)
@@ -161,6 +164,7 @@ class SpecialGroup(models.Model):
 
 
 class Group(models.Model):
+    """ Поло-возрастная группа (М18, Ж16, ...) """
     title = models.CharField(u'Название группы', max_length=127)
     year_from = models.IntegerField(u'Год с')
     year_to = models.IntegerField(u'Год по')
@@ -176,6 +180,7 @@ class Group(models.Model):
 
 
 class Qualification(models.Model):
+    """ Модель для задания через админку допустимых разрядов """
     title = models.CharField(u'Название', max_length=127)
 
     def __unicode__(self):
@@ -188,6 +193,7 @@ class Qualification(models.Model):
 
 
 class TmUser(AbstractUser):
+    """ Модель пользователя """
     uniq_id = models.UUIDField(u'Уникальный ID', default=uuid.uuid4, editable=False)
     birth = models.IntegerField(u'Год рождения', blank=True, null=True)
     gender = models.PositiveSmallIntegerField(u'Пол', choices=defaults.MEMBER_SEXES, default=defaults.MS_MEN)
@@ -214,12 +220,10 @@ class TmUser(AbstractUser):
         """ Возвращает список команд, в которых пользователь является руководителем """
         return [tm.team for tm in UserCommand.objects.filter(member=self, is_leader=True)]
 
-
     def create_team(self):
         team = Team.objects.create(title=u'Лично (%s)' % self.name(),)
         UserCommand.objects.create(team=team, member=self, is_leader=True, is_in_team=True)
         return team
-
 
     def can_participate_in_dist(self, dist):
         """
@@ -260,6 +264,7 @@ class TmUser(AbstractUser):
 
 
 class Team(models.Model):
+    """ Модель команды """
     title = models.CharField(u'Название', max_length=256)
     location = models.CharField(u'Территория', max_length=512, blank=True, null=True)
     geo_x = models.CharField(u'X-координата', max_length=16, blank=True, null=True)
@@ -295,6 +300,9 @@ class Team(models.Model):
 
 
 class UserCommand(models.Model):
+    """ Модель для связи пользователя и команды.
+    Учитывает все виды участия - руководитель, действующий участник,
+    участник, подавший заявку для вступления в команду """
     team = models.ForeignKey(Team, verbose_name=u'Команда', related_name='members')
     is_leader = models.BooleanField(u'Является руководителем', blank=True, default=False)
     is_in_team = models.BooleanField(u'В команде', blank=True, default=False)
@@ -310,6 +318,8 @@ class UserCommand(models.Model):
 
 
 class UserDistance(models.Model):
+    """ Модель для заявки участника на дистанцию.
+    Учитывает, от какой команды был заявлен участник"""
     user = models.ForeignKey(TmUser, verbose_name=u'Участик', related_name='distances', null=True)
     team = models.ForeignKey(Team, verbose_name=u'Команда', related_name='members_on_distance', null=True, blank=True)
     distance = models.ForeignKey(Distance, verbose_name=u'Дистанция', related_name='members', null=True)
