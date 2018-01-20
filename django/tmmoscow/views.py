@@ -97,6 +97,18 @@ def member_list(request, comp_pk):
     return render(request, template_name, dict(comp=competition))
 
 
+@login_required
+def get_csv_member_list(request, comp_pk):
+    """ Возвращает csv-файл для отображения в Excel
+    списка участников, заявленных на соревнования. Экспорт
+    доступен только пользователям с ролью организатор """
+    if request.user.is_org:
+        # открываем доступ к экспорту организатору соревнований
+        pass
+    else:
+        raise Http404
+
+
 # Вьюхи личного кабинета, добавления в команду
 
 @login_required
