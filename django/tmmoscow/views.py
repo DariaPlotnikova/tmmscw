@@ -25,18 +25,21 @@ Profile = get_user_model()
 
 
 def index(request):
+    """ Главная страница, список соревнований """
     template_name = 'tmmoscow/index.html'
     comps = Competition.objects.all()
     return render(request, template_name, dict(comps=comps))
 
 
 def competition(request, comp_pk):
+    """ Подробности о соревновании """
     template_name = 'tmmoscow/competition.html'
     competition = Competition.objects.get(pk=comp_pk)
     return render(request, template_name, dict(comp=competition))
 
 
 def signup(request):
+    """ Регистрирует участника и создает его команду """
     message = ''
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -57,6 +60,7 @@ def signup(request):
 
 @login_required
 def add_to_competition(request, comp_pk):
+    """ Открывает страницу выбора участников для регистрации на соревновании """
     template_name = 'tmmoscow/add_to_competition.html'
     competition = Competition.objects.get(pk=comp_pk)
     return render(request, template_name, dict(comp=competition, user=request.user))
@@ -64,6 +68,7 @@ def add_to_competition(request, comp_pk):
 
 @login_required
 def add_to_distances(request, comp_pk):
+    """ Открывает страницу выбора участников для распределения по дистанциям """
     template_name = 'tmmoscow/add_to_distances.html'
     competition = Competition.objects.get(pk=comp_pk)
     team = request.user.get_my_teams()[0]
@@ -84,6 +89,7 @@ def add_to_distances(request, comp_pk):
 
 
 def member_list(request, comp_pk):
+    """ Список участников, заявленный на соревнование """
     template_name = 'tmmoscow/member_list.html'
     competition = Competition.objects.prefetch_related().get(pk=comp_pk)
     return render(request, template_name, dict(comp=competition))
@@ -91,6 +97,7 @@ def member_list(request, comp_pk):
 
 @login_required
 def edit_profile(request, user_pk):
+    """ Редактирование профиля пользователя """
     template_name = 'profile/edit.html'
     message = ''
     user = get_object_or_404(Profile, pk=user_pk)
@@ -109,6 +116,7 @@ def edit_profile(request, user_pk):
 
 @login_required
 def my_team(request, team_pk):
+    """ Редактирование команды ее руководителем """
     template_name = 'profile/team.html'
     message = ''
     team = get_object_or_404(Team, pk=team_pk)
@@ -127,6 +135,7 @@ def my_team(request, team_pk):
 
 @login_required
 def user_roles(request, user_pk):
+    """ Список ролей пользователя в системе """
     template_name = 'profile/roles.html'
     message = ''
     user = get_object_or_404(Profile, pk=user_pk)
@@ -163,6 +172,7 @@ def select_team(request, user_pk):
 
 @login_required
 def profile(request):
+    """ Страница пользователя, Личный кабинет """
     template_name = 'profile/profile.html'
     user = request.user
     if user is not None:
@@ -173,6 +183,7 @@ def profile(request):
 
 @login_required
 def check_team_exist(request):
+    """ Проверяет, существует ли команда по названию и территории """
     team_name = request.GET.get('title', '').strip()
     team_location = request.GET.get('location', '').strip()
     teams = Team.objects.filter(title=team_name, location=team_location)
@@ -183,12 +194,13 @@ def check_team_exist(request):
 
 @login_required
 def to_team(request):
+    """ Отправляет заявку участника на добавление в команду и подтверждает ее со стороны руководителя """
     team = get_object_or_404(Team, pk=request.POST.get('team'))
     member = get_object_or_404(Profile, pk=request.POST.get('member'))
-    if member not in team.get_members() and member not in team.get_users_requests():
+    if member not in team.get_members() and member not in team.get_users_requests():    # отправка заявки
         uc = UserCommand.objects.create(team=team, member=member, is_in_team=False)
         return redirect(resolve_url('select-team', request.user.pk))
-    else:
+    else:   # подтверждение заявки
         uc = UserCommand.objects.get(team=team, member=member)
         uc.is_in_team = True
         uc.save()
