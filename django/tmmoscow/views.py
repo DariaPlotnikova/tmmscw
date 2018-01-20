@@ -66,7 +66,7 @@ def add_to_competition(request, comp_pk):
 def add_to_distances(request, comp_pk):
     template_name = 'tmmoscow/add_to_distances.html'
     competition = Competition.objects.get(pk=comp_pk)
-    team = request.user.get_my_teams[0]
+    team = request.user.get_my_teams()[0]
     if request.method == 'GET':
         members = request.GET.getlist('members')
         members = Profile.objects.filter(pk__in=members)

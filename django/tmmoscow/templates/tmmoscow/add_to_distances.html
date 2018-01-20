@@ -42,13 +42,14 @@
                             <th class="js-can-apply">
                                 {% for day in comp.days.all %}
                                     {% with outer_loop=forloop.counter %}
-                                        <div>{{day.date}}</div>
-                                        <div>
+                                        <div class="js-day-can-apply">{{day.date}}</div>
+                                        <div class="js-day">
                                             {% for dist in day.distances.all %}
                                                 {% can_go_to_dist memb dist as can_add %}
                                                 {% is_applied_to_dist memb dist as is_applied %}
+
                                                 {% if can_add %}
-                                                    <label for="dist_{{ memb.pk }}{{ outer_loop }}{{ dist.pk }}" {% if is_applied %}class="is-checked"{% endif %}>
+                                                    <label for="dist_{{ memb.pk }}{{ outer_loop }}{{ dist.pk }}" class="js-applied">
                                                         <input type="checkbox" {% if is_applied %}checked{% endif %} id="dist_{{ memb.pk }}{{ outer_loop }}{{ dist.pk }}" name="member_{{memb.pk}}" value="{{ dist.pk }}">
                                                         <span>{{dist}}</span>
                                                     </label>

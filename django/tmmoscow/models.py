@@ -200,24 +200,32 @@ class TmUser(AbstractUser):
     def name(self):
         return '%s %s' % (self.first_name, self.last_name)
 
-    def is_member(self):
-        return not self.is_leader and not self.is_org
-
     def chip(self):
         return '-'
 
     def get_teams(self):
+        """
+        Возвращает список всех команд, в которых состоит участник,
+        как участником, так и руководителем
+        """
         return [uc.team for uc in self.teams.order_by('is_leader')]
+
+    def get_my_teams(self):
+        """ Возвращает список команд, в которых пользователь является руководителем """
+        return [tm.team for tm in UserCommand.objects.filter(member=self, is_leader=True)]
+
 
     def create_team(self):
         team = Team.objects.create(title=u'Лично (%s)' % self.name(),)
         UserCommand.objects.create(team=team, member=self, is_leader=True, is_in_team=True)
         return team
 
-    def get_my_teams(self):
-        return [tm.team for tm in UserCommand.objects.filter(member=self, is_leader=True)] if self.teams.count() else None
 
     def can_participate_in_dist(self, dist):
+        """
+        Проверяет, может ли участник принять участие в дистанции.
+        Учитывает параметры дистанции и специальные разряды-группы
+        """
         simple_qbg = self.qual in dist.quals.all() and self.birth >= dist.min_year \
                      and self.birth <= dist.max_year and self.gender in dist.get_genders
         special_groups = dist.special_groups.all()
@@ -226,13 +234,23 @@ class TmUser(AbstractUser):
         return simple_qbg
 
     def can_participate_in(self, comp):
+        """
+        Проверяет, может ли участник принять участие в соревновании.
+        Учитывает параметры дистанций и специальные разряды-группы
+        """
         return any([self.can_participate_in_dist(d) for d in comp.get_distances()])
 
     def is_applied_to_dist(self, dist):
+        """ Проверяет, заявлен ли участник на дистанцию """
         return UserDistance.objects.filter(user=self, distance=dist).count()
 
     def is_applied(self, comp):
+        """ Проверяет, заявлен ли участник на соревнование """
         return any([self.is_applied_to_dist(d) for d in comp.get_distances()])
+
+    def is_member(self):
+        """ deprecated """
+        return not self.is_leader and not self.is_org
 
     class Meta(AbstractUser.Meta):
         abstract = False

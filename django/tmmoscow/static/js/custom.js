@@ -1,9 +1,20 @@
 $(document).ready(function(){
+    // Проход по всем участникам и выставление
+    // текста-подсказки для тех, кто не подходит на соревнование
     $('.js-can-apply').each(function(){
-        console.log($(this).find('label').length);
         if (!$(this).find('.js-applied').length){
             $(this).empty();
             $(this).text('Не подходит по группам');
+        }
+    });
+
+    // Проход по всем участникам и выставление
+    // текста-подсказки для тех, кто не подходит на дистанцию
+    $('.js-day-can-apply').each(function(){
+        var dayBlock = $(this).next('.js-day');
+        if (!dayBlock.find('.js-applied').length){
+            dayBlock.empty();
+            dayBlock.text('Не подходит по группам');
         }
     });
 
