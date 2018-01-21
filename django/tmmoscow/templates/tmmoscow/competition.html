@@ -5,53 +5,72 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="comp-title">{{ comp.title }}</h1><a href="{% url 'member-list' comp.pk %}" target="_blank">Список участников</a>
-    <h3>{{ comp.start_date }} - {{ comp.end_date }}</h3>
-    <h3>{{ comp.place }}</h3>
-    <hr>
-    {% for day in comp.days.all %}
-        <h4>День {{ forloop.counter }} | {{ day.date }}</h4>
-        <h5>Подача технической заявки до {{ day.tech_end_date }} ({% if day.tech_is_open %}открыта{% else %}
-            закрыта{% endif %})</h5>
-        <table>
-            <thead>
-            <tr>
-                <th>Дисциплина</th>
-                <th>Длина</th>
-                <th>Класс</th>
-                <th>Кол-во этапов</th>
-                <th>Кол-во КП</th>
-                <th>Допустимые группы</th>
-                <th>Допустимые разряды</th>
-                <th>Особые группы-разряды</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for dist in day.distances.all %}
-                <tr>
-                    <td>{{ dist.get_type_display }} - {{ dist.get_long }}</td>
-                    <td>{{ dist.length|floatformat:0 }} м</td>
-                    <td>{{ dist.dclass }}</td>
-                    <td>{{ dist.stage_cnt }}</td>
-                    <td>{{ dist.point_cnt }}</td>
-                    <td>{{ dist.get_groups_str }}</td>
-                    <td>{{ dist.get_quals_str }}</td>
-                    <td>{{ dist.get_specials_str }}</td>
-                </tr>
+    <div class="card light-blue">
+        <div class="card-content">
+            <div class="card light-blue lighten-5 hoverable">
+                <div class="card-content">
+                    <span class="card-title">{{ comp.title }}<br>
+                        {{ comp.start_date }} - {{ comp.end_date }}<br>
+                        {{ comp.place }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+            {% for day in comp.days.all %}
+                <div class="card light-blue lighten-5 hoverable">
+                    <div class="card-content">
+                        <span class="card-title">
+                            День {{ forloop.counter }} | {{ day.date }}
+                        </span>
+                        <blockquote>Подача технической заявки до {{ day.tech_end_date }} ({% if day.tech_is_open %}
+                            открыта{% else %}
+                            закрыта{% endif %})
+                        </blockquote>
+                        <table class="highlight responsive-table">
+                            <thead>
+                            <tr>
+                                <th>Дисциплина</th>
+                                <th>Длина</th>
+                                <th>Класс</th>
+                                <th>Кол-во этапов</th>
+                                <th>Кол-во КП</th>
+                                <th>Допустимые группы</th>
+                                <th>Допустимые разряды</th>
+                                <th>Особые группы-разряды</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for dist in day.distances.all %}
+                                <tr>
+                                    <td>{{ dist.get_type_display }} - {{ dist.get_long }}</td>
+                                    <td>{{ dist.length|floatformat:0 }} м</td>
+                                    <td>{{ dist.dclass }}</td>
+                                    <td>{{ dist.stage_cnt }}</td>
+                                    <td>{{ dist.point_cnt }}</td>
+                                    <td>{{ dist.get_groups_str }}</td>
+                                    <td>{{ dist.get_quals_str }}</td>
+                                    <td>{{ dist.get_specials_str }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             {% endfor %}
-            </tbody>
-        </table>
-    {% endfor %}
+        </div>
+        <div class="card-panel light-blue lighten-5">
+            <a class="btn" href="{% url 'index' %}">К списку соревнований</a>
+            <a class="btn" href="{% url 'member-list' comp.pk %}" target="_blank">Список участников</a>
 
-    <ul>
-        <li><a href="{% url 'index' %}">К списку соревнований</a></li>
-        {% if user.is_authenticated and user.is_leader and comp.is_open_entry %}
-            <li><a href="{% url 'competition-add-to' comp.pk %}">Заявить участников</a></li>
-        {% elif comp.is_open_entry %}
-            <li>Для того, чтобы заявлять участников вам необходимо <a href="{% url 'login' %}">войти</a> или <a href="{% url 'signup' %}">зарегистрироваться</a></li>
-        {% else %}
-            <li>Заявка закрыта</li>
-        {% endif %}
-    </ul>
-
+            {% if user.is_authenticated and user.is_leader and comp.is_open_entry %}
+                <a class="btn" href="{% url 'competition-add-to' comp.pk %}">Заявить участников</a>
+            {% elif comp.is_open_entry %}
+                Для того, чтобы заявлять участников Вам необходимо <a href="{% url 'login' %}">войти</a> или
+                <a href="{% url 'signup' %}">зарегистрироваться</a>
+            {% else %}
+                Заявка закрыта
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
